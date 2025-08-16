@@ -1,0 +1,7 @@
+# Force HTTPS redirects
+http://bonkeez.com/* https://www.bonkeez.com/:splat 301!
+http://www.bonkeez.com/* https://www.bonkeez.com/:splat 301!
+https://bonkeez.com/* https://www.bonkeez.com/:splat 301!
+
+# SPA fallback for client-side routing
+/*    /index.html   200
