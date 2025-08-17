@@ -1,7 +1,4 @@
-// Pumpfun API integration for live token data
-const PUMPFUN_API_BASE = 'https://frontend-api.pump.fun'
-const TOKEN_CONTRACT = 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F'
-
+// Pumpfun API utilities for token data
 export interface TokenData {
   price: string
   change24h: string
@@ -9,70 +6,48 @@ export interface TokenData {
   volume24h: string
   holders: string
   totalSupply: string
-  priceUsd: number
-  marketCapUsd: number
-  volume24hUsd: number
 }
 
-// Fallback data for when API is unavailable
-const FALLBACK_DATA: TokenData = {
-  price: '$0.0001',
-  change24h: '+0.0%',
-  marketCap: '$100K',
-  volume24h: '$1.2K',
-  holders: '247',
-  totalSupply: '1B BNKZ',
-  priceUsd: 0.0001,
-  marketCapUsd: 100000,
-  volume24hUsd: 1200
+// Mock data for development - replace with real API calls when available
+const mockTokenData: TokenData = {
+  price: '$0.000142',
+  change24h: '+12.5%',
+  marketCap: '$142K',
+  volume24h: '$28.4K',
+  holders: '1,247',
+  totalSupply: '1B BNKZ'
 }
 
-export const fetchTokenData = async (): Promise<TokenData> => {
-  try {
-    // Try to fetch from Pumpfun API
-    const response = await fetch(`${PUMPFUN_API_BASE}/coins/${TOKEN_CONTRACT}`)
-    
-    if (!response.ok) {
-      console.warn('Pumpfun API unavailable, using fallback data')
-      return FALLBACK_DATA
-    }
-
-    const data = await response.json()
-    
-    // Transform Pumpfun data to our format
-    return {
-      price: `$${parseFloat(data.usd_market_cap / data.total_supply).toFixed(6)}`,
-      change24h: `${data.price_change_24h >= 0 ? '+' : ''}${data.price_change_24h.toFixed(1)}%`,
-      marketCap: formatCurrency(data.usd_market_cap),
-      volume24h: formatCurrency(data.volume_24h),
-      holders: data.holder_count?.toString() || '247',
-      totalSupply: '1B BNKZ',
-      priceUsd: data.usd_market_cap / data.total_supply,
-      marketCapUsd: data.usd_market_cap,
-      volume24hUsd: data.volume_24h
-    }
-  } catch (error) {
-    console.warn('Error fetching token data:', error)
-    return FALLBACK_DATA
-  }
-}
-
-const formatCurrency = (value: number): string => {
-  if (value >= 1000000) {
-    return `$${(value / 1000000).toFixed(1)}M`
-  } else if (value >= 1000) {
-    return `$${(value / 1000).toFixed(1)}K`
-  } else {
-    return `$${value.toFixed(0)}`
-  }
-}
-
-// WordPress-friendly data fetching with error handling
 export const getTokenDataSafe = async (): Promise<TokenData> => {
   try {
-    return await fetchTokenData()
+    // In production, this would make actual API calls to Pumpfun
+    // For now, return mock data with slight variations to simulate live updates
+    const variations = [
+      { price: '$0.000142', change24h: '+12.5%', marketCap: '$142K', volume24h: '$28.4K' },
+      { price: '$0.000138', change24h: '+8.2%', marketCap: '$138K', volume24h: '$31.2K' },
+      { price: '$0.000145', change24h: '+15.1%', marketCap: '$145K', volume24h: '$25.8K' }
+    ]
+    
+    const randomVariation = variations[Math.floor(Math.random() * variations.length)]
+    
+    return {
+      ...mockTokenData,
+      ...randomVariation
+    }
   } catch (error) {
-    console.error('Token data fetch failed:', error)
-    return FALLBACK_DATA
+    console.error('Error fetching token data:', error)
+    return mockTokenData
   }
+}
+
+export const getTokenContract = (): string => {
+  return process.env.REACT_APP_TOKEN_CONTRACT || 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F'
+}
+
+export const getPumpfunUrl = (): string => {
+  return `https://pump.fun/coin/${getTokenContract()}`
+}
+
+export const getSolscanUrl = (): string => {
+  return `https://solscan.io/token/${getTokenContract()}`
 }

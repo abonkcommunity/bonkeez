@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TrendingUp, DollarSign, Users, Zap, ExternalLink } from 'lucide-react'
-import { getTokenDataSafe, type TokenData } from '../utils/pumpfunApi'
+import { getTokenDataSafe, getPumpfunUrl, getSolscanUrl, type TokenData } from '../utils/pumpfunApi'
 
 const TokenStats = () => {
   const [tokenData, setTokenData] = useState<TokenData | null>(null)
@@ -21,16 +21,21 @@ const TokenStats = () => {
   }, [])
 
   const handlePumpfunClick = () => {
-    window.open(`https://pump.fun/coin/${process.env.REACT_APP_TOKEN_CONTRACT || 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F'}`, '_blank')
+    window.open(getPumpfunUrl(), '_blank', 'noopener,noreferrer')
   }
 
   const handleSolscanClick = () => {
-    window.open(`https://solscan.io/token/${process.env.REACT_APP_TOKEN_CONTRACT || 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F'}`, '_blank')
+    window.open(getSolscanUrl(), '_blank', 'noopener,noreferrer')
+  }
+
+  const handleAddToWallet = () => {
+    // In production, this would integrate with wallet adapters to add the token
+    alert('Add to wallet feature coming soon! This will automatically add $BNKZ to your connected Solana wallet.')
   }
 
   if (loading || !tokenData) {
     return (
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-emerald-500/5 to-slate-600/5">
+      <section id="stats" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-emerald-500/5 to-slate-600/5">
         <div className="max-w-7xl mx-auto text-center">
           <div className="animate-pulse">
             <div className="h-8 bg-white/10 rounded-lg w-64 mx-auto mb-4"></div>
@@ -42,7 +47,7 @@ const TokenStats = () => {
   }
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-emerald-500/5 to-slate-600/5">
+    <section id="stats" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-emerald-500/5 to-slate-600/5">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <div className="inline-flex items-center bg-emerald-400/20 text-emerald-400 px-6 py-3 rounded-full text-lg font-bold mb-6">
@@ -141,7 +146,10 @@ const TokenStats = () => {
               <span>Buy $BNKZ on Pumpfun</span>
               <ExternalLink className="w-5 h-5" />
             </button>
-            <button className="border-2 border-slate-600 text-white px-8 py-4 rounded-lg font-bold hover:bg-slate-800/50 transition-all">
+            <button 
+              onClick={handleAddToWallet}
+              className="border-2 border-slate-600 text-white px-8 py-4 rounded-lg font-bold hover:bg-slate-800/50 transition-all"
+            >
               Add to Wallet
             </button>
           </div>

@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Search, Filter, Grid, List, Clock, Star, Users } from 'lucide-react'
+import { Search, Filter, Grid, List, Clock, Star, Users, Bell } from 'lucide-react'
 
 const Marketplace = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [sortBy, setSortBy] = useState('price')
+  const [searchTerm, setSearchTerm] = useState('')
 
   // Pre-launch state - no actual listings yet
   const previewListings = [
@@ -80,6 +81,30 @@ const Marketplace = () => {
     }
   }
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    // In production, this would filter the listings
+    alert(`Searching for: ${searchTerm}`)
+  }
+
+  const handleFilter = () => {
+    alert('Advanced filtering options coming soon! Filter by rarity, price range, and more.')
+  }
+
+  const handleNotifyLaunch = () => {
+    alert('Launch notification signup coming soon! Get notified when the collection goes live.')
+  }
+
+  const handleComingSoon = () => {
+    alert('This NFT will be available for minting at launch. Stay tuned!')
+  }
+
+  // Filter listings based on search term
+  const filteredListings = previewListings.filter(listing =>
+    listing.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    listing.rarity.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   return (
     <section id="marketplace" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/10 to-emerald-900/10">
       <div className="max-w-7xl mx-auto">
@@ -106,14 +131,16 @@ const Marketplace = () => {
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-white/10">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* Search */}
-            <div className="flex items-center bg-white/10 rounded-lg px-4 py-3 w-full lg:w-96">
+            <form onSubmit={handleSearch} className="flex items-center bg-white/10 rounded-lg px-4 py-3 w-full lg:w-96">
               <Search className="w-5 h-5 text-slate-400 mr-3" />
               <input 
                 type="text" 
                 placeholder="Search Bonkeez..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="bg-transparent text-white placeholder-slate-400 outline-none flex-1"
               />
-            </div>
+            </form>
 
             {/* Controls */}
             <div className="flex items-center space-x-4">
@@ -130,7 +157,10 @@ const Marketplace = () => {
               </select>
 
               {/* Filter */}
-              <button className="bg-white/10 text-white px-4 py-3 rounded-lg hover:bg-white/20 transition-colors flex items-center space-x-2 border border-white/10">
+              <button 
+                onClick={handleFilter}
+                className="bg-white/10 text-white px-4 py-3 rounded-lg hover:bg-white/20 transition-colors flex items-center space-x-2 border border-white/10"
+              >
                 <Filter className="w-5 h-5" />
                 <span>Filter</span>
               </button>
@@ -164,10 +194,10 @@ const Marketplace = () => {
             ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
             : 'grid-cols-1'
         }`}>
-          {previewListings.map((listing) => (
-            <div key={listing.id} className={`bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:scale-105 transition-all group ${
+          {filteredListings.map((listing) => (
+            <div key={listing.id} className={`bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:scale-105 transition-all group cursor-pointer ${
               viewMode === 'list' ? 'flex items-center space-x-6' : ''
-            }`}>
+            }`} onClick={handleComingSoon}>
               {/* Image */}
               <div className={`relative overflow-hidden rounded-xl ${
                 viewMode === 'list' ? 'w-24 h-24 flex-shrink-0' : 'mb-4'
@@ -217,7 +247,13 @@ const Marketplace = () => {
                         <p className="text-slate-400 text-sm">Status</p>
                         <p className="text-emerald-400 font-medium">{listing.status}</p>
                       </div>
-                      <button className="bg-gradient-to-r from-slate-600 to-slate-700 text-white px-6 py-2 rounded-lg font-bold opacity-75 cursor-not-allowed">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleComingSoon()
+                        }}
+                        className="bg-gradient-to-r from-slate-600 to-slate-700 text-white px-6 py-2 rounded-lg font-bold opacity-75 cursor-not-allowed"
+                      >
                         Coming Soon
                       </button>
                     </div>
@@ -257,7 +293,13 @@ const Marketplace = () => {
                     </div>
 
                     {/* Action */}
-                    <button className="w-full bg-gradient-to-r from-slate-600 to-slate-700 text-white py-3 rounded-xl font-bold opacity-75 cursor-not-allowed">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleComingSoon()
+                      }}
+                      className="w-full bg-gradient-to-r from-slate-600 to-slate-700 text-white py-3 rounded-xl font-bold opacity-75 cursor-not-allowed"
+                    >
                       Coming Soon
                     </button>
                   </>
@@ -267,6 +309,19 @@ const Marketplace = () => {
           ))}
         </div>
 
+        {/* No Results */}
+        {filteredListings.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-slate-400 text-lg mb-4">No Bonkeez found matching your search.</p>
+            <button 
+              onClick={() => setSearchTerm('')}
+              className="text-emerald-400 hover:text-emerald-300 transition-colors"
+            >
+              Clear search
+            </button>
+          </div>
+        )}
+
         {/* Launch Info */}
         <div className="text-center mt-12">
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-2xl mx-auto">
@@ -275,8 +330,12 @@ const Marketplace = () => {
               All 5,350 Bonkeez NFTs will be available for minting at launch. 
               Be ready to secure your favorite characters!
             </p>
-            <button className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-8 py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25">
-              Get Notified at Launch
+            <button 
+              onClick={handleNotifyLaunch}
+              className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-8 py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center justify-center space-x-2 mx-auto"
+            >
+              <Bell className="w-5 h-5" />
+              <span>Get Notified at Launch</span>
             </button>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ArrowUpDown, Settings, TrendingUp, Zap, DollarSign, Coins } from 'lucide-react'
-import { getTokenDataSafe, type TokenData } from '../utils/pumpfunApi'
+import { getTokenDataSafe, getPumpfunUrl, type TokenData } from '../utils/pumpfunApi'
 
 const TokenTrading = () => {
   const [fromAmount, setFromAmount] = useState('')
@@ -29,8 +29,35 @@ const TokenTrading = () => {
   }
 
   const handlePumpfunTrade = () => {
-    window.open(`https://pump.fun/coin/${process.env.REACT_APP_TOKEN_CONTRACT || 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F'}`, '_blank')
+    window.open(getPumpfunUrl(), '_blank', 'noopener,noreferrer')
   }
+
+  const handleConnectWallet = () => {
+    alert('Wallet connection feature coming soon! This will integrate with Phantom, Solflare, and other Solana wallets.')
+  }
+
+  const handleSettings = () => {
+    alert('Advanced trading settings coming soon! This will include custom slippage, MEV protection, and more.')
+  }
+
+  // Simple price calculation for demo
+  useEffect(() => {
+    if (fromAmount && fromToken === 'SOL' && toToken === 'BNKZ') {
+      const solAmount = parseFloat(fromAmount)
+      if (!isNaN(solAmount)) {
+        // Assuming 1 SOL = ~900 BNKZ for demo
+        const bnkzAmount = (solAmount * 900).toFixed(0)
+        setToAmount(bnkzAmount)
+      }
+    } else if (fromAmount && fromToken === 'BNKZ' && toToken === 'SOL') {
+      const bnkzAmount = parseFloat(fromAmount)
+      if (!isNaN(bnkzAmount)) {
+        // Reverse calculation
+        const solAmount = (bnkzAmount / 900).toFixed(4)
+        setToAmount(solAmount)
+      }
+    }
+  }, [fromAmount, fromToken, toToken])
 
   return (
     <section id="token" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/20 to-emerald-900/20">
@@ -53,7 +80,10 @@ const TokenTrading = () => {
           <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-white">Swap Tokens</h3>
-              <button className="text-slate-400 hover:text-emerald-400 transition-colors">
+              <button 
+                onClick={handleSettings}
+                className="text-slate-400 hover:text-emerald-400 transition-colors"
+              >
                 <Settings className="w-6 h-6" />
               </button>
             </div>
@@ -62,7 +92,12 @@ const TokenTrading = () => {
             <div className="bg-white/5 rounded-2xl p-6 mb-4 border border-white/10">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-slate-400 text-sm">From</span>
-                <span className="text-slate-400 text-sm">Balance: -- SOL</span>
+                <button 
+                  onClick={handleConnectWallet}
+                  className="text-slate-400 text-sm hover:text-emerald-400 transition-colors"
+                >
+                  Balance: Connect Wallet
+                </button>
               </div>
               <div className="flex items-center space-x-4">
                 <input
@@ -95,7 +130,12 @@ const TokenTrading = () => {
             <div className="bg-white/5 rounded-2xl p-6 mb-6 border border-white/10">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-slate-400 text-sm">To</span>
-                <span className="text-slate-400 text-sm">Balance: -- BNKZ</span>
+                <button 
+                  onClick={handleConnectWallet}
+                  className="text-slate-400 text-sm hover:text-emerald-400 transition-colors"
+                >
+                  Balance: Connect Wallet
+                </button>
               </div>
               <div className="flex items-center space-x-4">
                 <input
@@ -136,7 +176,12 @@ const TokenTrading = () => {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">Price Impact</span>
-                <span className="text-emerald-400">Connect wallet to see</span>
+                <button 
+                  onClick={handleConnectWallet}
+                  className="text-emerald-400 hover:text-emerald-300 transition-colors"
+                >
+                  Connect wallet to see
+                </button>
               </div>
             </div>
 
