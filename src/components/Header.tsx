@@ -1,181 +1,132 @@
-import React, { useState } from 'react'
-import { Search, Menu, X, Wallet, TrendingUp } from 'lucide-react'
-import { useTokenPrice } from '../hooks/useTokenData'
-import { tokenApi } from '../services/tokenApi'
+import React, { useState, useEffect } from 'react'
+import { Menu, X, Wallet, User, Search, Coins } from 'lucide-react'
+import { getTokenDataSafe, type TokenData } from '../utils/pumpfunApi'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const { price, change24h, loading } = useTokenPrice()
+  const [tokenData, setTokenData] = useState<TokenData | null>(null)
 
-  const handleConnectWallet = () => {
-    if (window.solana && window.solana.isPhantom) {
-      window.solana.connect()
-        .then(() => {
-          alert('Wallet connected successfully!')
-        })
-        .catch(() => {
-          alert('Failed to connect wallet')
-        })
-    } else {
-      window.open('https://phantom.app/', '_blank')
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getTokenDataSafe()
+      setTokenData(data)
     }
-  }
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      console.log('Searching for:', searchQuery)
-    }
-  }
+    
+    fetchData()
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchData, 30000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <header className="bg-black/90 backdrop-blur-sm border-b border-white/10 sticky top-0 z-50">
+    <header className="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
-                <span className="text-black font-bold text-lg">B</span>
-              </div>
-              <div>
-                <h1 className="text-white font-bold text-xl">Bonkeez</h1>
-                <p className="text-gray-400 text-xs">NFT Exchange</p>
-              </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-gradient-to-r from-slate-700 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+              <span className="text-white font-bold text-lg">B</span>
+            </div>
+            <div>
+              <h1 className="text-white font-bold text-xl">Bonkeez</h1>
+              <p className="text-slate-400 text-xs">NFT Exchange</p>
             </div>
           </div>
 
-          {/* Live Token Price */}
-          <div className="hidden md:flex items-center space-x-4 bg-white/5 rounded-lg px-4 py-2">
-            <div className="flex items-center space-x-2">
-              <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                <span className="text-black font-bold text-xs">B</span>
-              </div>
-              <span className="text-yellow-400 font-medium">$BNKZ</span>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <a href="#marketplace" className="text-white hover:text-emerald-400 transition-colors font-medium">Marketplace</a>
+            <a href="#collection" className="text-white hover:text-emerald-400 transition-colors font-medium">Collection</a>
+            <a href="#token" className="text-white hover:text-emerald-400 transition-colors flex items-center space-x-1 font-medium">
+              <Coins className="w-4 h-4" />
+              <span>$BNKZ</span>
+            </a>
+            <a href="#stats" className="text-white hover:text-emerald-400 transition-colors font-medium">Stats</a>
+            <a href="#about" className="text-white hover:text-emerald-400 transition-colors font-medium">About</a>
+          </nav>
+
+          {/* Live Token Price Display */}
+          <div className="hidden lg:flex items-center bg-gradient-to-r from-slate-800/60 to-emerald-900/40 border border-emerald-500/30 rounded-lg px-3 py-2 backdrop-blur-sm">
+            <div className="w-6 h-6 bg-gradient-to-r from-slate-700 to-emerald-600 rounded-full flex items-center justify-center mr-2 shadow-sm">
+              <span className="text-white font-bold text-xs">B</span>
             </div>
-            <div className="text-white font-bold">
-              {loading ? (
-                <span className="animate-pulse">Loading...</span>
-              ) : (
-                tokenApi.formatPrice(price)
-              )}
-            </div>
-            <div className={`flex items-center space-x-1 text-sm ${
-              change24h >= 0 ? 'text-green-400' : 'text-red-400'
-            }`}>
-              <TrendingUp className="w-3 h-3" />
-              <span>{tokenApi.formatChange(change24h)}</span>
+            <div className="text-right">
+              <p className="text-emerald-300 font-bold text-sm">
+                {tokenData?.price || '$0.0001'}
+              </p>
+              <p className={`text-xs ${
+                tokenData?.change24h?.startsWith('+') ? 'text-emerald-400' : 'text-red-400'
+              }`}>
+                {tokenData?.change24h || '+0.0%'}
+              </p>
             </div>
           </div>
 
           {/* Search Bar */}
-          <div className="hidden md:block flex-1 max-w-md mx-8">
-            <form onSubmit={handleSearch} className="relative">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search Bonkeez NFTs..."
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 pl-10 text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400"
-              />
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-            </form>
+          <div className="hidden md:flex items-center bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 w-64 border border-white/10">
+            <Search className="w-4 h-4 text-slate-400 mr-2" />
+            <input 
+              type="text" 
+              placeholder="Search Bonkeez..." 
+              className="bg-transparent text-white placeholder-slate-400 outline-none flex-1"
+            />
           </div>
 
-          {/* Navigation & Wallet */}
-          <div className="hidden md:flex items-center space-x-6">
-            <nav className="flex items-center space-x-6">
-              <a href="#marketplace" className="text-gray-300 hover:text-white transition-colors">
-                Marketplace
-              </a>
-              <a href="#stats" className="text-gray-300 hover:text-white transition-colors">
-                Stats
-              </a>
-              <a href="#token" className="text-gray-300 hover:text-white transition-colors">
-                $BNKZ
-              </a>
-            </nav>
-            
-            <button 
-              onClick={handleConnectWallet}
-              className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-4 py-2 rounded-lg font-medium hover:from-yellow-500 hover:to-orange-600 transition-all flex items-center space-x-2 cursor-pointer"
-            >
+          {/* Wallet Connection */}
+          <div className="hidden md:flex items-center space-x-4">
+            <button className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-4 py-2 rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all flex items-center space-x-2 shadow-lg hover:shadow-emerald-500/25 border border-slate-600">
               <Wallet className="w-4 h-4" />
               <span>Connect Wallet</span>
             </button>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-300 hover:text-white transition-colors cursor-pointer"
-            >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <button className="text-white hover:text-emerald-400 transition-colors p-2 rounded-lg hover:bg-white/10">
+              <User className="w-6 h-6" />
             </button>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-black/95 rounded-lg mt-2">
-              {/* Mobile Token Price */}
-              <div className="flex items-center justify-between bg-white/5 rounded-lg px-4 py-3 mb-4">
+          <div className="md:hidden bg-black/40 backdrop-blur-md rounded-lg mt-2 p-4 border border-white/10">
+            <nav className="flex flex-col space-y-4">
+              <a href="#marketplace" className="text-white hover:text-emerald-400 transition-colors font-medium">Marketplace</a>
+              <a href="#collection" className="text-white hover:text-emerald-400 transition-colors font-medium">Collection</a>
+              <a href="#token" className="text-white hover:text-emerald-400 transition-colors flex items-center space-x-1 font-medium">
+                <Coins className="w-4 h-4" />
+                <span>$BNKZ Token</span>
+              </a>
+              <a href="#stats" className="text-white hover:text-emerald-400 transition-colors font-medium">Stats</a>
+              <a href="#about" className="text-white hover:text-emerald-400 transition-colors font-medium">About</a>
+              <div className="flex items-center justify-between bg-gradient-to-r from-slate-800/60 to-emerald-900/40 border border-emerald-500/30 rounded-lg p-3 backdrop-blur-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-black font-bold text-xs">B</span>
+                  <div className="w-6 h-6 bg-gradient-to-r from-slate-700 to-emerald-600 rounded-full flex items-center justify-center shadow-sm">
+                    <span className="text-white font-bold text-xs">B</span>
                   </div>
-                  <span className="text-yellow-400 font-medium">$BNKZ</span>
+                  <span className="text-emerald-300 font-bold">$BNKZ</span>
                 </div>
-                <div className="text-white font-bold">
-                  {loading ? (
-                    <span className="animate-pulse">Loading...</span>
-                  ) : (
-                    tokenApi.formatPrice(price)
-                  )}
-                </div>
-                <div className={`flex items-center space-x-1 text-sm ${
-                  change24h >= 0 ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  <TrendingUp className="w-3 h-3" />
-                  <span>{tokenApi.formatChange(change24h)}</span>
+                <div className="text-right">
+                  <p className="text-emerald-300 font-bold">
+                    {tokenData?.price || '$0.0001'}
+                  </p>
+                  <p className={`text-xs ${
+                    tokenData?.change24h?.startsWith('+') ? 'text-emerald-400' : 'text-red-400'
+                  }`}>
+                    {tokenData?.change24h || '+0.0%'}
+                  </p>
                 </div>
               </div>
-
-              {/* Mobile Search */}
-              <form onSubmit={handleSearch} className="relative mb-4">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search Bonkeez NFTs..."
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 pl-10 text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400"
-                />
-                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-              </form>
-
-              {/* Mobile Navigation */}
-              <a href="#marketplace" className="block px-3 py-2 text-gray-300 hover:text-white transition-colors">
-                Marketplace
-              </a>
-              <a href="#stats" className="block px-3 py-2 text-gray-300 hover:text-white transition-colors">
-                Stats
-              </a>
-              <a href="#token" className="block px-3 py-2 text-gray-300 hover:text-white transition-colors">
-                $BNKZ Token
-              </a>
-              
-              {/* Mobile Wallet Button */}
-              <button 
-                onClick={handleConnectWallet}
-                className="w-full mt-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-4 py-2 rounded-lg font-medium hover:from-yellow-500 hover:to-orange-600 transition-all flex items-center justify-center space-x-2 cursor-pointer"
-              >
+              <button className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-4 py-2 rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all flex items-center space-x-2 justify-center shadow-lg border border-slate-600">
                 <Wallet className="w-4 h-4" />
                 <span>Connect Wallet</span>
               </button>
-            </div>
+            </nav>
           </div>
         )}
       </div>

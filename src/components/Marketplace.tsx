@@ -1,68 +1,117 @@
 import React, { useState } from 'react'
-import { Filter, Grid, List, Search, SlidersHorizontal, Coins } from 'lucide-react'
+import { Search, Filter, Grid, List, Clock, Star, Users } from 'lucide-react'
 
 const Marketplace = () => {
-  const [viewMode, setViewMode] = useState('grid')
-  const [sortBy, setSortBy] = useState('price-low')
-  const [filterOpen, setFilterOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [sortBy, setSortBy] = useState('price')
 
-  const listings = [
-    { id: 1, name: 'Bloo Bonkee #123', price: '8.5 SOL', bnkzPrice: '460,271 BNKZ', image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/bloo-bonkee-1755298715025-223344300.jpeg', rarity: 'Rare' },
-    { id: 2, name: 'Yelloo Bonkee #456', price: '12.3 SOL', bnkzPrice: '666,124 BNKZ', image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/yelloo-bonkee-1755298146545-396548464.jpeg', rarity: 'Ultra Rare' },
-    { id: 3, name: 'Redz Bonkee #789', price: '15.7 SOL', bnkzPrice: '850,027 BNKZ', image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/redz-1755298949640-153157693.jpeg', rarity: 'Legendary' },
-    { id: 4, name: 'Pinko Bonkee #012', price: '6.8 SOL', bnkzPrice: '368,271 BNKZ', image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/image-1755299183632-281941757.jpg', rarity: 'Common' },
-    { id: 5, name: 'Greeno Bonkee #345', price: '10.2 SOL', bnkzPrice: '552,271 BNKZ', image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/greeno-bonkee-1755299593663-446736790.jpeg', rarity: 'Rare' },
-    { id: 6, name: 'Purpo Bonkee #678', price: '9.1 SOL', bnkzPrice: '492,671 BNKZ', image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/purpo-bonkee-1755299353407-767500589.jpeg', rarity: 'Uncommon' },
-    { id: 7, name: 'Bloo Bonkee #901', price: '11.4 SOL', bnkzPrice: '617,271 BNKZ', image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/bloo-bonkee-1755298715025-223344300.jpeg', rarity: 'Rare' },
-    { id: 8, name: 'Yelloo Bonkee #234', price: '18.9 SOL', bnkzPrice: '1,023,271 BNKZ', image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/yelloo-bonkee-1755298146545-396548464.jpeg', rarity: 'Legendary' }
+  // Pre-launch state - no actual listings yet
+  const previewListings = [
+    {
+      id: 1,
+      name: 'Bloo Bonkee',
+      image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/bloo-bonkee-1755298715025-223344300.jpeg',
+      price: '0.8 SOL',
+      bnkzPrice: '720 BNKZ',
+      rarity: 'Rare',
+      totalSupply: 500,
+      status: 'Coming Soon'
+    },
+    {
+      id: 2,
+      name: 'Yelloo Bonkee',
+      image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/yelloo-bonkee-1755298146545-396548464.jpeg',
+      price: '0.5 SOL',
+      bnkzPrice: '450 BNKZ',
+      rarity: 'Common',
+      totalSupply: 2000,
+      status: 'Coming Soon'
+    },
+    {
+      id: 3,
+      name: 'Redz Bonkee',
+      image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/redz-1755298949640-153157693.jpeg',
+      price: '1.2 SOL',
+      bnkzPrice: '1,080 BNKZ',
+      rarity: 'Legendary',
+      totalSupply: 100,
+      status: 'Coming Soon'
+    },
+    {
+      id: 4,
+      name: 'Pinko Bonkee',
+      image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/image-1755299183632-281941757.jpg',
+      price: '0.4 SOL',
+      bnkzPrice: '360 BNKZ',
+      rarity: 'Common',
+      totalSupply: 2000,
+      status: 'Coming Soon'
+    },
+    {
+      id: 5,
+      name: 'Purpo Bonkee',
+      image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/purpo-bonkee-1755299353407-767500589.jpeg',
+      price: '0.9 SOL',
+      bnkzPrice: '810 BNKZ',
+      rarity: 'Ultra Rare',
+      totalSupply: 250,
+      status: 'Coming Soon'
+    },
+    {
+      id: 6,
+      name: 'Greeno Bonkee',
+      image: 'https://cdn.chatandbuild.com/users/689bee88f300c9caf5f9881e/greeno-bonkee-1755299593663-446736790.jpeg',
+      price: '0.7 SOL',
+      bnkzPrice: '630 BNKZ',
+      rarity: 'Rare',
+      totalSupply: 500,
+      status: 'Coming Soon'
+    }
   ]
 
-  const handleBuyWithSOL = (listing: any) => {
-    if (window.solana && window.solana.isConnected) {
-      alert(`Purchasing ${listing.name} for ${listing.price}`)
-    } else {
-      alert('Please connect your Solana wallet first')
+  const getRarityColor = (rarity: string) => {
+    switch (rarity) {
+      case 'Common': return 'text-slate-400 bg-slate-400/20'
+      case 'Uncommon': return 'text-green-400 bg-green-400/20'
+      case 'Rare': return 'text-blue-400 bg-blue-400/20'
+      case 'Ultra Rare': return 'text-purple-400 bg-purple-400/20'
+      case 'Legendary': return 'text-yellow-400 bg-yellow-400/20'
+      default: return 'text-slate-400 bg-slate-400/20'
     }
-  }
-
-  const handleBuyWithBNKZ = (listing: any) => {
-    if (window.solana && window.solana.isConnected) {
-      alert(`Purchasing ${listing.name} for ${listing.bnkzPrice} (10% discount applied!)`)
-    } else {
-      alert('Please connect your Solana wallet first')
-    }
-  }
-
-  const handleLoadMore = () => {
-    alert('Loading more NFTs...')
   }
 
   return (
-    <section id="marketplace" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section id="marketplace" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/10 to-emerald-900/10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-            Marketplace
+            Marketplace Preview
           </h2>
-          <p className="text-xl text-gray-300 mb-4">
-            Browse and trade Bonkeez NFTs with other collectors
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+            Preview the upcoming Bonkeez collection. Launch pricing with 10% discount available with $BNKZ tokens.
           </p>
-          <div className="inline-flex items-center bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm font-medium">
-            <Coins className="w-4 h-4 mr-2" />
-            Now accepting $BNKZ payments with 10% discount!
+        </div>
+
+        {/* Pre-launch Notice */}
+        <div className="bg-emerald-400/10 border border-emerald-400/20 rounded-2xl p-6 mb-8 text-center">
+          <div className="inline-flex items-center bg-emerald-400/20 text-emerald-400 px-4 py-2 rounded-full text-sm font-bold mb-4">
+            <Clock className="w-4 h-4 mr-2" />
+            Pre-Launch Preview
           </div>
+          <p className="text-white text-lg mb-2">Collection launching soon!</p>
+          <p className="text-slate-300">All NFTs will be available for minting at launch. No items have been minted yet.</p>
         </div>
 
         {/* Filters and Controls */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-8">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
+        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-white/10">
+          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* Search */}
-            <div className="flex items-center bg-white/10 rounded-lg px-4 py-2 w-full lg:w-96">
-              <Search className="w-5 h-5 text-gray-400 mr-3" />
+            <div className="flex items-center bg-white/10 rounded-lg px-4 py-3 w-full lg:w-96">
+              <Search className="w-5 h-5 text-slate-400 mr-3" />
               <input 
                 type="text" 
-                placeholder="Search by name or ID..." 
-                className="bg-transparent text-white placeholder-gray-400 outline-none flex-1"
+                placeholder="Search Bonkeez..." 
+                className="bg-transparent text-white placeholder-slate-400 outline-none flex-1"
               />
             </div>
 
@@ -72,146 +121,164 @@ const Marketplace = () => {
               <select 
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2 outline-none cursor-pointer"
+                className="bg-white/10 text-white rounded-lg px-4 py-3 outline-none border border-white/10"
               >
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
+                <option value="price">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
                 <option value="rarity">Rarity</option>
-                <option value="newest">Newest</option>
+                <option value="supply">Supply</option>
               </select>
 
-              {/* Filter Toggle */}
-              <button 
-                onClick={() => setFilterOpen(!filterOpen)}
-                className="bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2 hover:bg-white/20 transition-colors flex items-center space-x-2 cursor-pointer"
-              >
-                <SlidersHorizontal className="w-4 h-4" />
-                <span>Filters</span>
+              {/* Filter */}
+              <button className="bg-white/10 text-white px-4 py-3 rounded-lg hover:bg-white/20 transition-colors flex items-center space-x-2 border border-white/10">
+                <Filter className="w-5 h-5" />
+                <span>Filter</span>
               </button>
 
               {/* View Mode */}
-              <div className="flex bg-white/10 rounded-lg p-1">
-                <button 
+              <div className="flex bg-white/10 rounded-lg p-1 border border-white/10">
+                <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded cursor-pointer ${viewMode === 'grid' ? 'bg-white/20 text-white' : 'text-gray-400'}`}
+                  className={`p-2 rounded-md transition-colors ${
+                    viewMode === 'grid' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'
+                  }`}
                 >
-                  <Grid className="w-4 h-4" />
+                  <Grid className="w-5 h-5" />
                 </button>
-                <button 
+                <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded cursor-pointer ${viewMode === 'list' ? 'bg-white/20 text-white' : 'text-gray-400'}`}
+                  className={`p-2 rounded-md transition-colors ${
+                    viewMode === 'list' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'
+                  }`}
                 >
-                  <List className="w-4 h-4" />
+                  <List className="w-5 h-5" />
                 </button>
               </div>
             </div>
           </div>
-
-          {/* Advanced Filters */}
-          {filterOpen && (
-            <div className="mt-6 pt-6 border-t border-white/10">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">Price Range</label>
-                  <div className="flex space-x-2">
-                    <input type="number" placeholder="Min" className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-2 w-full outline-none" />
-                    <input type="number" placeholder="Max" className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-2 w-full outline-none" />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">Payment Method</label>
-                  <select className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-2 w-full outline-none cursor-pointer">
-                    <option value="">All Payments</option>
-                    <option value="sol">SOL Only</option>
-                    <option value="bnkz">$BNKZ Only</option>
-                    <option value="both">SOL & $BNKZ</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">Rarity</label>
-                  <select className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-2 w-full outline-none cursor-pointer">
-                    <option value="">All Rarities</option>
-                    <option value="common">Common</option>
-                    <option value="uncommon">Uncommon</option>
-                    <option value="rare">Rare</option>
-                    <option value="ultra-rare">Ultra Rare</option>
-                    <option value="legendary">Legendary</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">Character</label>
-                  <select className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-2 w-full outline-none cursor-pointer">
-                    <option value="">All Characters</option>
-                    <option value="bloo">Bloo Bonkee</option>
-                    <option value="yelloo">Yelloo Bonkee</option>
-                    <option value="redz">Redz Bonkee</option>
-                    <option value="pinko">Pinko Bonkee</option>
-                    <option value="greeno">Greeno Bonkee</option>
-                    <option value="purpo">Purpo Bonkee</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Listings Grid */}
-        <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1'} gap-6`}>
-          {listings.map((listing) => (
-            <div key={listing.id} className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10 hover:bg-white/10 transition-all group">
-              <div className="relative mb-4 overflow-hidden rounded-xl">
+        {/* Preview Grid */}
+        <div className={`grid gap-6 ${
+          viewMode === 'grid' 
+            ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
+            : 'grid-cols-1'
+        }`}>
+          {previewListings.map((listing) => (
+            <div key={listing.id} className={`bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:scale-105 transition-all group ${
+              viewMode === 'list' ? 'flex items-center space-x-6' : ''
+            }`}>
+              {/* Image */}
+              <div className={`relative overflow-hidden rounded-xl ${
+                viewMode === 'list' ? 'w-24 h-24 flex-shrink-0' : 'mb-4'
+              }`}>
                 <img 
-                  src={listing.image}
+                  src={listing.image} 
                   alt={listing.name}
-                  className="w-full h-48 object-cover object-center group-hover:scale-110 transition-transform duration-300"
+                  className={`object-cover group-hover:scale-110 transition-transform duration-300 ${
+                    viewMode === 'list' ? 'w-full h-full' : 'w-full h-48'
+                  }`}
                 />
-                <div className="absolute top-2 right-2 bg-black/50 backdrop-blur-sm px-2 py-1 rounded-full text-xs text-white">
-                  {listing.rarity}
+                <div className="absolute top-2 right-2 flex flex-col space-y-1">
+                  <span className={`px-2 py-1 rounded-full text-xs font-bold ${getRarityColor(listing.rarity)}`}>
+                    {listing.rarity}
+                  </span>
+                  <span className="px-2 py-1 rounded-full text-xs font-bold bg-emerald-400/20 text-emerald-400">
+                    {listing.status}
+                  </span>
                 </div>
               </div>
-              
-              <div className="space-y-3">
-                <h3 className="text-white font-bold">{listing.name}</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">SOL Price</span>
-                    <span className="text-white font-bold">{listing.price}</span>
+
+              {/* Content */}
+              <div className={`${viewMode === 'list' ? 'flex-1' : ''}`}>
+                <div className={`${viewMode === 'list' ? 'flex items-center justify-between' : 'space-y-3'}`}>
+                  <div>
+                    <h3 className="text-xl font-bold text-white mb-1">{listing.name}</h3>
+                    <p className="text-slate-400 text-sm">Launch Collection</p>
+                    {viewMode === 'grid' && (
+                      <div className="flex items-center space-x-2 mt-2">
+                        <Users className="w-3 h-3 text-slate-400" />
+                        <span className="text-xs text-emerald-400">Full Supply Available</span>
+                      </div>
+                    )}
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-yellow-400 text-sm">$BNKZ Price</span>
-                    <span className="text-yellow-400 font-bold">{listing.bnkzPrice}</span>
-                  </div>
+
+                  {viewMode === 'list' && (
+                    <div className="flex items-center space-x-6">
+                      <div className="text-right">
+                        <p className="text-white font-bold">{listing.price}</p>
+                        <p className="text-emerald-400 text-sm">{listing.bnkzPrice}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-slate-400 text-sm">Supply</p>
+                        <p className="text-emerald-400 font-medium">{listing.totalSupply.toLocaleString()}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-slate-400 text-sm">Status</p>
+                        <p className="text-emerald-400 font-medium">{listing.status}</p>
+                      </div>
+                      <button className="bg-gradient-to-r from-slate-600 to-slate-700 text-white px-6 py-2 rounded-lg font-bold opacity-75 cursor-not-allowed">
+                        Coming Soon
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <div className="flex space-x-2">
-                  <button 
-                    onClick={() => handleBuyWithSOL(listing)}
-                    className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-2 rounded-lg font-bold hover:from-purple-700 hover:to-blue-700 transition-all text-sm cursor-pointer"
-                  >
-                    Buy with SOL
-                  </button>
-                  <button 
-                    onClick={() => handleBuyWithBNKZ(listing)}
-                    className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-black py-2 rounded-lg font-bold hover:from-yellow-500 hover:to-orange-600 transition-all text-sm cursor-pointer"
-                  >
-                    Buy with $BNKZ
-                  </button>
-                </div>
+
+                {viewMode === 'grid' && (
+                  <>
+                    {/* Supply Info */}
+                    <div className="bg-white/5 rounded-xl p-3 mb-4 border border-white/10">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-slate-400 text-sm">Total Supply</span>
+                        <span className="text-emerald-400 text-sm font-medium">Full Supply Available</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-slate-400">0 minted</span>
+                        <span className="text-emerald-400">{listing.totalSupply.toLocaleString()} available</span>
+                      </div>
+                    </div>
+
+                    {/* Pricing */}
+                    <div className="bg-white/5 rounded-xl p-4 mb-4 border border-white/10">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-slate-400 text-sm">Launch Price</span>
+                        <span className="text-emerald-400 text-sm">10% off with $BNKZ</span>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="flex justify-between items-center">
+                          <span className="text-white font-bold text-lg">{listing.price}</span>
+                          <span className="text-slate-400 text-sm">SOL</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-emerald-400 font-bold">{listing.bnkzPrice}</span>
+                          <span className="text-emerald-400 text-sm">$BNKZ</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action */}
+                    <button className="w-full bg-gradient-to-r from-slate-600 to-slate-700 text-white py-3 rounded-xl font-bold opacity-75 cursor-not-allowed">
+                      Coming Soon
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Load More */}
+        {/* Launch Info */}
         <div className="text-center mt-12">
-          <button 
-            onClick={handleLoadMore}
-            className="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-lg font-bold hover:bg-white/20 transition-colors cursor-pointer"
-          >
-            Load More NFTs
-          </button>
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-2xl mx-auto">
+            <h3 className="text-2xl font-bold text-white mb-4">Ready for Launch</h3>
+            <p className="text-slate-300 mb-6">
+              All 5,350 Bonkeez NFTs will be available for minting at launch. 
+              Be ready to secure your favorite characters!
+            </p>
+            <button className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-8 py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25">
+              Get Notified at Launch
+            </button>
+          </div>
         </div>
       </div>
     </section>

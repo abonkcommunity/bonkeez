@@ -1,25 +1,19 @@
 import React from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
-import FeaturedNFTs from './components/FeaturedNFTs'
 import TokenStats from './components/TokenStats'
 import TokenTrading from './components/TokenTrading'
-import MarketplaceGrid from './components/MarketplaceGrid'
+import Marketplace from './components/Marketplace'
 import Footer from './components/Footer'
-import SecurityCheck from './components/SecurityCheck'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
-      <SecurityCheck />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
       <Header />
-      <main>
-        <Hero />
-        <FeaturedNFTs />
-        <TokenStats />
-        <TokenTrading />
-        <MarketplaceGrid />
-      </main>
+      <Hero />
+      <TokenStats />
+      <TokenTrading />
+      <Marketplace />
       <Footer />
     </div>
   )

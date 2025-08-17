@@ -1,192 +1,132 @@
-import React, { useState } from 'react'
-import { ArrowUpDown, Wallet, TrendingUp, Info, ExternalLink, RefreshCw } from 'lucide-react'
-import { useTokenData } from '../hooks/useTokenData'
-import { tokenApi } from '../services/tokenApi'
+import React, { useState, useEffect } from 'react'
+import { ArrowUpDown, Settings, TrendingUp, Zap, DollarSign, Coins } from 'lucide-react'
+import { getTokenDataSafe, type TokenData } from '../utils/pumpfunApi'
 
 const TokenTrading = () => {
-  const [tradeType, setTradeType] = useState<'buy' | 'sell'>('buy')
-  const [amount, setAmount] = useState('')
-  const [slippage, setSlippage] = useState('1')
-  const { data: tokenData, loading } = useTokenData(10000) // Update every 10 seconds
+  const [fromAmount, setFromAmount] = useState('')
+  const [toAmount, setToAmount] = useState('')
+  const [fromToken, setFromToken] = useState('SOL')
+  const [toToken, setToToken] = useState('BNKZ')
+  const [slippage, setSlippage] = useState('0.5')
+  const [tokenData, setTokenData] = useState<TokenData | null>(null)
 
-  const handleConnectWallet = () => {
-    if (window.solana && window.solana.isPhantom) {
-      window.solana.connect()
-        .then(() => {
-          alert('Wallet connected successfully!')
-        })
-        .catch(() => {
-          alert('Failed to connect wallet')
-        })
-    } else {
-      window.open('https://phantom.app/', '_blank')
-    }
-  }
-
-  const handleSwap = () => {
-    if (!window.solana || !window.solana.isConnected) {
-      handleConnectWallet()
-      return
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getTokenDataSafe()
+      setTokenData(data)
     }
     
-    if (!amount || parseFloat(amount) <= 0) {
-      alert('Please enter a valid amount')
-      return
-    }
+    fetchData()
+    const interval = setInterval(fetchData, 30000)
+    return () => clearInterval(interval)
+  }, [])
 
-    alert(`${tradeType === 'buy' ? 'Buying' : 'Selling'} ${amount} ${tradeType === 'buy' ? 'SOL worth of' : ''} BNKZ tokens`)
+  const handleSwap = () => {
+    setFromToken(toToken)
+    setToToken(fromToken)
+    setFromAmount(toAmount)
+    setToAmount(fromAmount)
   }
 
-  const handlePumpfunClick = () => {
-    window.open('https://pump.fun/coin/Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F', '_blank')
+  const handlePumpfunTrade = () => {
+    window.open(`https://pump.fun/coin/${process.env.REACT_APP_TOKEN_CONTRACT || 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F'}`, '_blank')
   }
-
-  const handleSolscanClick = () => {
-    window.open('https://solscan.io/token/Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F', '_blank')
-  }
-
-  const handleAddToPhantom = () => {
-    if (window.solana && window.solana.isPhantom) {
-      window.solana.request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'SPL',
-          options: {
-            address: 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F',
-            symbol: 'BNKZ',
-            decimals: 9
-          }
-        }
-      })
-    } else {
-      window.open('https://phantom.app/', '_blank')
-    }
-  }
-
-  const handleLiquidityPool = () => {
-    window.open('https://raydium.io/pools/', '_blank')
-  }
-
-  const calculateTokenAmount = () => {
-    if (!amount || !tokenData?.price) return '0'
-    return (parseFloat(amount) / tokenData.price).toFixed(0)
-  }
-
-  const currentPrice = tokenData?.price || 0.00001847
-  const priceChange = tokenData?.change24h || 2.3
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8">
+    <section id="token" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/20 to-emerald-900/20">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center bg-emerald-400/20 text-emerald-400 px-6 py-3 rounded-full text-lg font-bold mb-6">
+            <Zap className="w-5 h-5 mr-2" />
+            $BNKZ Token Trading
+          </div>
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
             Trade $BNKZ Token
           </h2>
-          <p className="text-xl text-gray-300">
-            Swap SOL for $BNKZ or trade with other tokens in the Bonkeez ecosystem
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+            Swap SOL for $BNKZ tokens and unlock exclusive benefits in the Bonkeez ecosystem
           </p>
-          {loading && (
-            <div className="flex items-center justify-center mt-4">
-              <RefreshCw className="w-4 h-4 animate-spin text-yellow-400 mr-2" />
-              <span className="text-yellow-400 text-sm">Updating live prices...</span>
-            </div>
-          )}
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Trading Interface */}
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+          <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-white">Swap Tokens</h3>
-              <div className="flex bg-white/10 rounded-lg p-1">
-                <button 
-                  onClick={() => setTradeType('buy')}
-                  className={`px-4 py-2 rounded text-sm font-medium transition-colors cursor-pointer ${
-                    tradeType === 'buy' ? 'bg-green-500 text-white' : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Buy
-                </button>
-                <button 
-                  onClick={() => setTradeType('sell')}
-                  className={`px-4 py-2 rounded text-sm font-medium transition-colors cursor-pointer ${
-                    tradeType === 'sell' ? 'bg-red-500 text-white' : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Sell
-                </button>
-              </div>
+              <button className="text-slate-400 hover:text-emerald-400 transition-colors">
+                <Settings className="w-6 h-6" />
+              </button>
             </div>
 
             {/* From Token */}
-            <div className="space-y-4 mb-6">
-              <div className="bg-white/10 rounded-xl p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-400 text-sm">From</span>
-                  <span className="text-gray-400 text-sm">Balance: 12.45 SOL</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
-                    <span className="text-white font-medium">SOL</span>
+            <div className="bg-white/5 rounded-2xl p-6 mb-4 border border-white/10">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-slate-400 text-sm">From</span>
+                <span className="text-slate-400 text-sm">Balance: -- SOL</span>
+              </div>
+              <div className="flex items-center space-x-4">
+                <input
+                  type="number"
+                  value={fromAmount}
+                  onChange={(e) => setFromAmount(e.target.value)}
+                  placeholder="0.0"
+                  className="bg-transparent text-white text-2xl font-bold outline-none flex-1"
+                />
+                <div className="flex items-center bg-white/10 rounded-lg px-4 py-2 space-x-2">
+                  <div className="w-6 h-6 bg-gradient-to-r from-slate-600 to-slate-700 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xs">S</span>
                   </div>
-                  <input 
-                    type="number" 
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    placeholder="0.0"
-                    className="bg-transparent text-white text-xl font-bold outline-none flex-1 text-right"
-                  />
+                  <span className="text-white font-bold">{fromToken}</span>
                 </div>
               </div>
+            </div>
 
-              {/* Swap Button */}
-              <div className="flex justify-center">
-                <button className="bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors cursor-pointer">
-                  <ArrowUpDown className="w-5 h-5 text-white" />
-                </button>
+            {/* Swap Button */}
+            <div className="flex justify-center mb-4">
+              <button
+                onClick={handleSwap}
+                className="bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors border border-white/20"
+              >
+                <ArrowUpDown className="w-6 h-6 text-white" />
+              </button>
+            </div>
+
+            {/* To Token */}
+            <div className="bg-white/5 rounded-2xl p-6 mb-6 border border-white/10">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-slate-400 text-sm">To</span>
+                <span className="text-slate-400 text-sm">Balance: -- BNKZ</span>
               </div>
-
-              {/* To Token */}
-              <div className="bg-white/10 rounded-xl p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-400 text-sm">To</span>
-                  <span className="text-gray-400 text-sm">Balance: 54,123 BNKZ</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center space-x-2 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-lg px-3 py-2 border border-yellow-400/30">
-                    <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                      <span className="text-black font-bold text-xs">B</span>
-                    </div>
-                    <span className="text-yellow-400 font-medium">BNKZ</span>
+              <div className="flex items-center space-x-4">
+                <input
+                  type="number"
+                  value={toAmount}
+                  onChange={(e) => setToAmount(e.target.value)}
+                  placeholder="0.0"
+                  className="bg-transparent text-white text-2xl font-bold outline-none flex-1"
+                />
+                <div className="flex items-center bg-emerald-400/20 rounded-lg px-4 py-2 space-x-2">
+                  <div className="w-6 h-6 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xs">B</span>
                   </div>
-                  <div className="text-white text-xl font-bold flex-1 text-right">
-                    {loading ? (
-                      <span className="animate-pulse">Loading...</span>
-                    ) : (
-                      calculateTokenAmount()
-                    )}
-                  </div>
+                  <span className="text-emerald-400 font-bold">{toToken}</span>
                 </div>
               </div>
             </div>
 
             {/* Slippage Settings */}
-            <div className="bg-white/5 rounded-xl p-4 mb-6">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-2">
-                  <span className="text-white text-sm font-medium">Slippage Tolerance</span>
-                  <Info className="w-4 h-4 text-gray-400" />
-                </div>
+            <div className="bg-white/5 rounded-2xl p-4 mb-6 border border-white/10">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-white font-medium">Slippage Tolerance</span>
                 <div className="flex space-x-2">
-                  {['0.5', '1', '2'].map((value) => (
+                  {['0.1', '0.5', '1.0'].map((value) => (
                     <button
                       key={value}
                       onClick={() => setSlippage(value)}
-                      className={`px-3 py-1 rounded text-sm transition-colors cursor-pointer ${
-                        slippage === value 
-                          ? 'bg-yellow-400 text-black' 
-                          : 'bg-white/10 text-gray-400 hover:text-white'
+                      className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                        slippage === value
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-white/10 text-slate-400 hover:text-white'
                       }`}
                     >
                       {value}%
@@ -194,152 +134,87 @@ const TokenTrading = () => {
                   ))}
                 </div>
               </div>
-              <div className="text-gray-400 text-xs">
-                Rate: 1 SOL = {(1 / currentPrice).toFixed(0)} BNKZ • Fee: 0.25%
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-400">Price Impact</span>
+                <span className="text-emerald-400">Connect wallet to see</span>
               </div>
             </div>
 
-            {/* Swap Button */}
+            {/* Trade on Pumpfun Button */}
             <button 
-              onClick={handleSwap}
-              className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black py-4 rounded-xl font-bold text-lg hover:from-yellow-500 hover:to-orange-600 transition-all flex items-center justify-center space-x-2 cursor-pointer"
+              onClick={handlePumpfunTrade}
+              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25"
             >
-              <Wallet className="w-5 h-5" />
-              <span>{tradeType === 'buy' ? 'Buy BNKZ' : 'Sell BNKZ'}</span>
+              Trade on Pumpfun
             </button>
 
-            <p className="text-gray-400 text-sm text-center mt-4">
-              Connect your Solana wallet to start trading
+            <p className="text-slate-400 text-sm text-center mt-4">
+              Trading redirects to Pumpfun platform for secure transactions
             </p>
           </div>
 
-          {/* Trading Info */}
+          {/* Token Benefits */}
           <div className="space-y-6">
-            {/* Live Price Display */}
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-white">Live $BNKZ Price</h3>
-                <div className={`flex items-center space-x-2 ${
-                  priceChange >= 0 ? 'text-green-400' : 'text-red-400'
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-lg flex items-center justify-center shadow-lg">
+                  <DollarSign className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-lg">NFT Discounts</h4>
+                  <p className="text-slate-400 text-sm">Save 10% on all NFT purchases</p>
+                </div>
+              </div>
+              <p className="text-slate-300">
+                Use $BNKZ tokens to get exclusive discounts when buying Bonkeez NFTs on our marketplace.
+              </p>
+            </div>
+
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-slate-600 to-slate-700 rounded-lg flex items-center justify-center shadow-lg">
+                  <Coins className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-lg">Staking Rewards</h4>
+                  <p className="text-slate-400 text-sm">Earn passive income</p>
+                </div>
+              </div>
+              <p className="text-slate-300">
+                Stake your $BNKZ tokens to earn rewards and participate in the ecosystem governance.
+              </p>
+            </div>
+
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-emerald-600 to-slate-600 rounded-lg flex items-center justify-center shadow-lg">
+                  <TrendingUp className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-lg">Exclusive Access</h4>
+                  <p className="text-slate-400 text-sm">VIP member benefits</p>
+                </div>
+              </div>
+              <p className="text-slate-300">
+                Get early access to new drops, exclusive events, and premium features in the Bonkeez ecosystem.
+              </p>
+            </div>
+
+            {/* Live Stats */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-gradient-to-br from-emerald-500/10 to-slate-600/10 rounded-xl p-4 border border-emerald-400/20">
+                <p className="text-emerald-400 text-sm font-medium">Current Price</p>
+                <p className="text-white text-xl font-bold">{tokenData?.price || '$0.0001'}</p>
+                <p className={`text-xs ${
+                  tokenData?.change24h?.startsWith('+') ? 'text-emerald-400' : 'text-red-400'
                 }`}>
-                  <TrendingUp className="w-4 h-4" />
-                  <span className="text-sm font-medium">
-                    {tokenApi.formatChange(priceChange)} (24h)
-                  </span>
-                </div>
-              </div>
-              <div className="text-center">
-                <p className="text-4xl font-bold text-white mb-2">
-                  {loading ? (
-                    <span className="animate-pulse">Loading...</span>
-                  ) : (
-                    tokenApi.formatPrice(currentPrice)
-                  )}
+                  {tokenData?.change24h || '+0.0%'} (24h)
                 </p>
-                <p className="text-gray-400">Current market price</p>
               </div>
-            </div>
-
-            {/* Market Stats */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-              <h3 className="text-xl font-bold text-white mb-4">Market Statistics</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-gray-400 text-sm">Market Cap</p>
-                  <p className="text-white font-bold">
-                    {loading ? 'Loading...' : tokenApi.formatMarketCap(tokenData?.marketCap || 18470)}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">24h Volume</p>
-                  <p className="text-white font-bold">
-                    {loading ? 'Loading...' : tokenApi.formatVolume(tokenData?.volume24h || 2100)}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Holders</p>
-                  <p className="text-white font-bold">
-                    {loading ? 'Loading...' : (tokenData?.holders || 127).toLocaleString()}
-                  </p>
-                </div>
-                {tokenData?.liquidity && (
-                  <div>
-                    <p className="text-gray-400 text-sm">Liquidity</p>
-                    <p className="text-white font-bold">
-                      {tokenApi.formatMarketCap(tokenData.liquidity)}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Token Utility */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-              <h3 className="text-xl font-bold text-white mb-4">$BNKZ Utility</h3>
-              <div className="space-y-3">
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
-                  <div>
-                    <p className="text-white font-medium">NFT Trading Discounts</p>
-                    <p className="text-gray-400 text-sm">Hold BNKZ for reduced marketplace fees</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
-                  <div>
-                    <p className="text-white font-medium">Exclusive Access</p>
-                    <p className="text-gray-400 text-sm">Early access to new Bonkeez drops</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
-                  <div>
-                    <p className="text-white font-medium">Staking Rewards</p>
-                    <p className="text-gray-400 text-sm">Earn rewards by staking BNKZ tokens</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
-                  <div>
-                    <p className="text-white font-medium">Governance Rights</p>
-                    <p className="text-gray-400 text-sm">Vote on ecosystem proposals</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Links */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-              <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
-              <div className="space-y-3">
-                <button 
-                  onClick={handlePumpfunClick}
-                  className="w-full flex items-center justify-between text-gray-300 hover:text-white transition-colors cursor-pointer"
-                >
-                  <span>View on Pumpfun</span>
-                  <ExternalLink className="w-4 h-4" />
-                </button>
-                <button 
-                  onClick={handleSolscanClick}
-                  className="w-full flex items-center justify-between text-gray-300 hover:text-white transition-colors cursor-pointer"
-                >
-                  <span>Contract on Solscan</span>
-                  <ExternalLink className="w-4 h-4" />
-                </button>
-                <button 
-                  onClick={handleAddToPhantom}
-                  className="w-full flex items-center justify-between text-gray-300 hover:text-white transition-colors cursor-pointer"
-                >
-                  <span>Add to Phantom Wallet</span>
-                  <ExternalLink className="w-4 h-4" />
-                </button>
-                <button 
-                  onClick={handleLiquidityPool}
-                  className="w-full flex items-center justify-between text-gray-300 hover:text-white transition-colors cursor-pointer"
-                >
-                  <span>Liquidity Pool Info</span>
-                  <ExternalLink className="w-4 h-4" />
-                </button>
+              <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                <p className="text-slate-400 text-sm font-medium">Market Cap</p>
+                <p className="text-white text-xl font-bold">{tokenData?.marketCap || '$100K'}</p>
+                <p className="text-slate-400 text-xs">Fully Diluted</p>
               </div>
             </div>
           </div>
