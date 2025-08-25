@@ -38,12 +38,12 @@ const Header = () => {
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
           >
-            <div className="w-10 h-10 bg-gradient-to-r from-slate-700 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg">B</span>
             </div>
             <div>
               <h1 className="text-white font-bold text-xl">Bonkeez</h1>
-              <p className="text-slate-400 text-xs">NFT Exchange</p>
+              <p className="text-pink-300 text-xs">NFT Exchange</p>
             </div>
           </button>
 
@@ -51,48 +51,48 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <button 
               onClick={() => scrollToSection('marketplace')} 
-              className="text-white hover:text-emerald-400 transition-colors font-medium"
+              className="text-white hover:text-pink-400 transition-colors font-medium"
             >
               Marketplace
             </button>
             <button 
               onClick={() => scrollToSection('marketplace')} 
-              className="text-white hover:text-emerald-400 transition-colors font-medium"
+              className="text-white hover:text-purple-400 transition-colors font-medium"
             >
               Collection
             </button>
             <button 
               onClick={() => scrollToSection('token')} 
-              className="text-white hover:text-emerald-400 transition-colors flex items-center space-x-1 font-medium"
+              className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium"
             >
               <Coins className="w-4 h-4" />
               <span>$BNKZ</span>
             </button>
             <button 
               onClick={() => scrollToSection('stats')} 
-              className="text-white hover:text-emerald-400 transition-colors font-medium"
+              className="text-white hover:text-yellow-400 transition-colors font-medium"
             >
               Stats
             </button>
             <button 
-              onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })} 
-              className="text-white hover:text-emerald-400 transition-colors font-medium"
+              onClick={() => scrollToSection('stats')} 
+              className="text-white hover:text-green-400 transition-colors font-medium"
             >
               About
             </button>
           </nav>
 
           {/* Live Token Price Display */}
-          <div className="hidden lg:flex items-center bg-gradient-to-r from-slate-800/60 to-emerald-900/40 border border-emerald-500/30 rounded-lg px-3 py-2 backdrop-blur-sm">
-            <div className="w-6 h-6 bg-gradient-to-r from-slate-700 to-emerald-600 rounded-full flex items-center justify-center mr-2 shadow-sm">
+          <div className="hidden lg:flex items-center bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-400/30 rounded-full px-4 py-2 backdrop-blur-sm">
+            <div className="w-6 h-6 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full flex items-center justify-center mr-2 shadow-sm">
               <span className="text-white font-bold text-xs">B</span>
             </div>
             <div className="text-right">
-              <p className="text-emerald-300 font-bold text-sm">
+              <p className="text-pink-300 font-bold text-sm">
                 {tokenData?.price || '$0.0001'}
               </p>
               <p className={`text-xs ${
-                tokenData?.change24h?.startsWith('+') ? 'text-emerald-400' : 'text-red-400'
+                tokenData?.change24h?.startsWith('+') ? 'text-green-400' : 'text-red-400'
               }`}>
                 {tokenData?.change24h || '+0.0%'}
               </p>
@@ -116,10 +116,10 @@ const Header = () => {
 
           {/* Wallet Connection */}
          <div className="hidden md:flex items-center space-x-4">
-  <WalletMultiButton className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-4 py-2 rounded-lg hover:from-emerald-700 hover:to-emerald-800 transition-all flex items-center space-x-2 shadow-lg hover:shadow-emerald-500/25 border border-emerald-500/30" />
+  <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-6 py-2 rounded-full hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 shadow-lg hover:shadow-pink-500/25 border border-pink-400/30 font-medium" />
   <button 
     onClick={() => alert('User profile feature coming soon!')}
-    className="text-white hover:text-emerald-400 transition-colors p-2 rounded-lg hover:bg-white/10"
+    className="text-white hover:text-pink-400 transition-colors p-2 rounded-full hover:bg-pink-500/20"
   >
     <User className="w-6 h-6" />
   </button>
@@ -169,25 +169,25 @@ const Header = () => {
               >
                 About
               </button>
-              <div className="flex items-center justify-between bg-gradient-to-r from-slate-800/60 to-emerald-900/40 border border-emerald-500/30 rounded-lg p-3 backdrop-blur-sm">
+              <div className="flex items-center justify-between bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-400/30 rounded-full p-3 backdrop-blur-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-gradient-to-r from-slate-700 to-emerald-600 rounded-full flex items-center justify-center shadow-sm">
+                  <div className="w-6 h-6 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full flex items-center justify-center shadow-sm">
                     <span className="text-white font-bold text-xs">B</span>
                   </div>
-                  <span className="text-emerald-300 font-bold">$BNKZ</span>
+                  <span className="text-pink-300 font-bold">$BNKZ</span>
                 </div>
                 <div className="text-right">
-                  <p className="text-emerald-300 font-bold">
+                  <p className="text-pink-300 font-bold">
                     {tokenData?.price || '$0.0001'}
                   </p>
                   <p className={`text-xs ${
-                    tokenData?.change24h?.startsWith('+') ? 'text-emerald-400' : 'text-red-400'
+                    tokenData?.change24h?.startsWith('+') ? 'text-green-400' : 'text-red-400'
                   }`}>
                     {tokenData?.change24h || '+0.0%'}
                   </p>
                 </div>
               </div>
-              <WalletMultiButton className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-4 py-2 rounded-lg hover:from-emerald-700 hover:to-emerald-800 transition-all flex items-center space-x-2 justify-center shadow-lg border border-emerald-500/30" />
+              <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-full hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 justify-center shadow-lg border border-pink-400/30" />
             </nav>
           </div>
         )}
