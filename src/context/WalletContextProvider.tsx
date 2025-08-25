@@ -9,7 +9,7 @@ import { SolflareWalletAdapter } from "@solana/wallet-adapter-solflare";
 import { BackpackWalletAdapter } from '@solana/wallet-adapter-backpack';
 import { clusterApiUrl } from "@solana/web3.js";
 
-require("@solana/wallet-adapter-react-ui/styles.css");
+import "@solana/wallet-adapter-react-ui/styles.css";
 
 export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
