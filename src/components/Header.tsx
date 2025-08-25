@@ -116,7 +116,7 @@ const Header = () => {
 
           {/* Wallet Connection */}
          <div className="hidden md:flex items-center space-x-4">
-  <WalletMultiButton className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-4 py-2 rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all flex items-center space-x-2 shadow-lg hover:shadow-emerald-500/25 border border-slate-600" />
+  <WalletMultiButton className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-4 py-2 rounded-lg hover:from-emerald-700 hover:to-emerald-800 transition-all flex items-center space-x-2 shadow-lg hover:shadow-emerald-500/25 border border-emerald-500/30" />
   <button 
     onClick={() => alert('User profile feature coming soon!')}
     className="text-white hover:text-emerald-400 transition-colors p-2 rounded-lg hover:bg-white/10"
@@ -187,7 +187,7 @@ const Header = () => {
                   </p>
                 </div>
               </div>
-              <WalletMultiButton className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-4 py-2 rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all flex items-center space-x-2 justify-center shadow-lg border border-slate-600" />
+              <WalletMultiButton className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-4 py-2 rounded-lg hover:from-emerald-700 hover:to-emerald-800 transition-all flex items-center space-x-2 justify-center shadow-lg border border-emerald-500/30" />
             </nav>
           </div>
         )}
