@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Menu, X, Wallet, User, Search, Coins } from 'lucide-react'
 import { getTokenDataSafe, type TokenData } from '../utils/pumpfunApi'
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -26,10 +27,7 @@ const Header = () => {
     }
   }
 
-  const handleConnectWallet = () => {
-    // In production, this would integrate with Solana wallet adapters
-    alert('Wallet connection feature coming soon! This will integrate with Phantom, Solflare, and other Solana wallets.')
-  }
+ 
 
   return (
     <header className="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -117,21 +115,15 @@ const Header = () => {
           </div>
 
           {/* Wallet Connection */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button 
-              onClick={handleConnectWallet}
-              className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-4 py-2 rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all flex items-center space-x-2 shadow-lg hover:shadow-emerald-500/25 border border-slate-600"
-            >
-              <Wallet className="w-4 h-4" />
-              <span>Connect Wallet</span>
-            </button>
-            <button 
-              onClick={() => alert('User profile feature coming soon!')}
-              className="text-white hover:text-emerald-400 transition-colors p-2 rounded-lg hover:bg-white/10"
-            >
-              <User className="w-6 h-6" />
-            </button>
-          </div>
+         <div className="hidden md:flex items-center space-x-4">
+  <WalletMultiButton className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-4 py-2 rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all flex items-center space-x-2 shadow-lg hover:shadow-emerald-500/25 border border-slate-600" />
+  <button 
+    onClick={() => alert('User profile feature coming soon!')}
+    className="text-white hover:text-emerald-400 transition-colors p-2 rounded-lg hover:bg-white/10"
+  >
+    <User className="w-6 h-6" />
+  </button>
+</div>
 
           {/* Mobile Menu Button */}
           <button 
@@ -195,13 +187,7 @@ const Header = () => {
                   </p>
                 </div>
               </div>
-              <button 
-                onClick={handleConnectWallet}
-                className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-4 py-2 rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all flex items-center space-x-2 justify-center shadow-lg border border-slate-600"
-              >
-                <Wallet className="w-4 h-4" />
-                <span>Connect Wallet</span>
-              </button>
+              <WalletMultiButton className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-4 py-2 rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all flex items-center space-x-2 justify-center shadow-lg border border-slate-600" />
             </nav>
           </div>
         )}
