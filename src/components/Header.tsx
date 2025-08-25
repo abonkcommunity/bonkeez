@@ -140,32 +140,32 @@ const Header = () => {
             <nav className="flex flex-col space-y-4">
               <button 
                 onClick={() => scrollToSection('marketplace')} 
-                className="text-white hover:text-emerald-400 transition-colors font-medium text-left"
+                className="text-white hover:text-pink-400 transition-colors font-medium text-left"
               >
                 Marketplace
               </button>
               <button 
                 onClick={() => scrollToSection('marketplace')} 
-                className="text-white hover:text-emerald-400 transition-colors font-medium text-left"
+                className="text-white hover:text-purple-400 transition-colors font-medium text-left"
               >
                 Collection
               </button>
               <button 
                 onClick={() => scrollToSection('token')} 
-                className="text-white hover:text-emerald-400 transition-colors flex items-center space-x-1 font-medium"
+                className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium"
               >
                 <Coins className="w-4 h-4" />
                 <span>$BNKZ Token</span>
               </button>
               <button 
                 onClick={() => scrollToSection('stats')} 
-                className="text-white hover:text-emerald-400 transition-colors font-medium text-left"
+                className="text-white hover:text-pink-400 transition-colors font-medium text-left"
               >
                 Stats
               </button>
               <button 
                 onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })} 
-                className="text-white hover:text-emerald-400 transition-colors font-medium text-left"
+                className="text-white hover:text-purple-400 transition-colors font-medium text-left"
               >
                 About
               </button>

@@ -23,14 +23,14 @@ const Hero = () => {
   return (
     <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-slate-600/10"></div>
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-slate-600/10"></div>
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-slate-600/5 rounded-full blur-3xl"></div>
 
       <div className="relative max-w-7xl mx-auto">
         <div className="text-center mb-16">
           {/* Status Badge */}
-          <div className="inline-flex items-center bg-emerald-400/20 text-emerald-400 px-6 py-3 rounded-full text-lg font-bold mb-8">
+          <div className="inline-flex items-center bg-purple-400/20 text-purple-400 px-6 py-3 rounded-full text-lg font-bold mb-8">
             <Zap className="w-5 h-5 mr-2" />
             Pre-Launch • Collection Ready
           </div>
@@ -38,7 +38,7 @@ const Hero = () => {
           {/* Main Heading */}
           <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
             Welcome to
-            <span className="block bg-gradient-to-r from-emerald-400 to-slate-300 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-purple-400 to-slate-300 bg-clip-text text-transparent">
               Bonkeez Exchange
             </span>
           </h1>
@@ -53,7 +53,7 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
             <button 
               onClick={scrollToMarketplace}
-              className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-8 py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all flex items-center justify-center space-x-2 shadow-lg hover:shadow-emerald-500/25 text-lg"
+              className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-8 py-4 rounded-xl font-bold hover:from-purple-700 hover:to-purple-800 transition-all flex items-center justify-center space-x-2 shadow-lg hover:shadow-purple-500/25 text-lg"
             >
               <span>Explore Collection</span>
               <ArrowRight className="w-5 h-5" />
@@ -70,12 +70,12 @@ const Hero = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
               <Star className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-3xl font-bold text-white mb-2">5,350</h3>
             <p className="text-slate-400">Unique Bonkeez NFTs</p>
-            <p className="text-emerald-400 text-sm mt-1">Ready for Launch</p>
+            <p className="text-purple-400 text-sm mt-1">Ready for Launch</p>
           </div>
 
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 text-center">
@@ -84,16 +84,16 @@ const Hero = () => {
             </div>
             <h3 className="text-3xl font-bold text-white mb-2">1,247</h3>
             <p className="text-slate-400">$BNKZ Token Holders</p>
-            <p className="text-emerald-400 text-sm mt-1">Growing Community</p>
+            <p className="text-purple-400 text-sm mt-1">Growing Community</p>
           </div>
 
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-emerald-600 to-slate-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
               <TrendingUp className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-3xl font-bold text-white mb-2">$142K</h3>
-            <p className="text-slate-400">$BNKZ Market Cap</p>
-            <p className="text-emerald-400 text-sm mt-1">+12.5% (24h)</p>
+            <h3 className="text-3xl font-bold text-white mb-2">0.4 SOL</h3>
+            <p className="text-slate-400">Launch Price</p>
+            <p className="text-blue-400 text-sm mt-1">Mint Price</p>
           </div>
         </div>
 
@@ -123,7 +123,7 @@ const Hero = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
                 <h4 className="text-white font-bold text-center">{bonkee.name}</h4>
-                <p className="text-emerald-400 text-sm text-center">{bonkee.rarity}</p>
+                <p className="text-purple-400 text-sm text-center">{bonkee.rarity}</p>
               </div>
             ))}
           </div>
@@ -142,7 +142,7 @@ const Hero = () => {
         <div className="text-center mt-16">
           <button 
             onClick={handleLearnMore}
-            className="text-slate-400 hover:text-emerald-400 transition-colors flex items-center space-x-2 mx-auto"
+            className="text-slate-400 hover:text-purple-400 transition-colors flex items-center space-x-2 mx-auto"
           >
             <span>Learn more about Bonkeez</span>
             <ArrowRight className="w-4 h-4" />

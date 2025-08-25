@@ -8,7 +8,7 @@ const Stats = () => {
       label: 'Total Volume',
       value: '0 SOL',
       change: 'Pre-Launch',
-      color: 'from-emerald-500 to-emerald-600'
+      color: 'from-pink-500 to-pink-600'
     },
     {
       icon: Users,
@@ -22,7 +22,7 @@ const Stats = () => {
       label: 'Floor Price',
       value: '0.4 SOL',
       change: 'Launch Price',
-      color: 'from-emerald-600 to-slate-600'
+      color: 'from-blue-600 to-purple-600'
     },
     {
       icon: Zap,
@@ -52,7 +52,7 @@ const Stats = () => {
                 <div className={`w-12 h-12 bg-gradient-to-r ${stat.color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg`}>
                   <stat.icon className="w-6 h-6 text-white" />
                 </div>
-                <div className="text-sm font-medium px-2 py-1 rounded-full text-emerald-400 bg-emerald-400/20">
+                <div className="text-sm font-medium px-2 py-1 rounded-full text-pink-400 bg-pink-400/20">
                   {stat.change}
                 </div>
               </div>
