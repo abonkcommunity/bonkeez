@@ -8,6 +8,8 @@ if (typeof globalThis !== 'undefined') {
   globalThis.Buffer = Buffer
   // @ts-ignore
   globalThis.process = process
+  // @ts-ignore
+  globalThis.global = globalThis
 }
 
 if (typeof window !== 'undefined') {

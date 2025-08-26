@@ -19,15 +19,22 @@ export default defineConfig({
       buffer: 'buffer',
       process: 'process/browser',
       util: 'util',
+      stream: 'stream-browserify',
+      http: 'stream-http',
+      https: 'https-browserify',
+      url: 'url',
+      path: 'path-browserify',
+      fs: 'browserify-fs',
+      crypto: 'crypto-browserify',
     },
   },
   optimizeDeps: {
-    include: ['buffer', 'process'],
+    include: ['buffer', 'process', 'stream-browserify', 'stream-http', 'https-browserify', 'url', 'path-browserify', 'crypto-browserify'],
     exclude: ['node:async_hooks', 'async_hooks'],
   },
   build: {
     rollupOptions: {
-      external: ['node:async_hooks', 'async_hooks'],
+      external: ['node:async_hooks', 'async_hooks', 'fs', 'path', 'os'],
     },
   },
 })
