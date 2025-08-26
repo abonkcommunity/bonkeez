@@ -5,27 +5,13 @@ import TokenStats from './components/TokenStats'
 import TokenTrading from './components/TokenTrading'
 import Marketplace from './components/Marketplace'
 import Footer from './components/Footer'
-import NotificationSystem, { useNotifications } from './components/NotificationSystem'
 import UserProfile from './components/UserProfile'
 import NFTMinting from './components/NFTMinting'
 import Staking from './components/Staking'
 
 function App() {
-  const { notifications, addNotification, removeNotification } = useNotifications()
-
-  // Add welcome notification
-  React.useEffect(() => {
-    setTimeout(() => {
-      addNotification('info', 'Welcome to Bonkeez Exchange!', 'All systems are now fully functional')
-    }, 2000)
-  }, [])
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-blue-900">
-      <NotificationSystem 
-        notifications={notifications} 
-        onRemove={removeNotification} 
-      />
       <Header />
       <Hero />
       <TokenStats />
