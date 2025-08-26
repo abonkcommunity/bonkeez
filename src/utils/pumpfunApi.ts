@@ -1,44 +1,19 @@
-import { TokenData } from '../types/token'
+import PumpFunAPI from 'pumpfun-api';
+const pumpFun = new PumpFunAPI();
 
-const PUMPFUN_API_BASE = 'https://frontend-api.pump.fun'
-const TOKEN_ADDRESS = '3pgobXzgLCX6buwLDcjQjJADT4QLfpLhsQNJ4NqUTrYK'
-
-export const getPumpfunUrl = () => `https://pump.fun/3pgobXzgLCX6buwLDcjQjJADT4QLfpLhsQNJ4NqUTrYK`
-export const getSolscanUrl = () => `https://solscan.io/token/${TOKEN_ADDRESS}`
-
-export const fetchTokenData = async (): Promise<TokenData | null> => {
+export const getTokenDataLive = async (mintAddress: string) => {
   try {
-    // Mock data for now since pump.fun API might be restricted
+    const tokenData = await pumpFun.getTokenData(mintAddress);
     return {
-      price: 0.000021,
-      change24h: 15.7,
-      volume24h: 125000,
-      marketCap: 2100000,
-      holders: 1250,
-      totalSupply: 1000000000,
-      circulatingSupply: 800000000,
-      liquidityUsd: 45000,
-      lastUpdated: new Date().toISOString()
-    }
+      price: `$${tokenData.price}`,
+      change24h: `${tokenData.change24h}%`,
+      marketCap: `$${tokenData.marketCap}`,
+      volume24h: `$${tokenData.volume24h}`,
+      holders: tokenData.holders,
+      totalSupply: tokenData.totalSupply,
+    };
   } catch (error) {
-    console.error('Error fetching token data:', error)
-    return null
+    console.error('Error fetching live token data:', error);
+    return null;
   }
-}
-
-export const getTokenDataSafe = async (): Promise<TokenData> => {
-  const data = await fetchTokenData()
-
-  // Return fallback data if API fails
-  return data || {
-    price: 0.000021,
-    change24h: 15.7,
-    volume24h: 125000,
-    marketCap: 2100000,
-    holders: 1250,
-    totalSupply: 1000000000,
-    circulatingSupply: 800000000,
-    liquidityUsd: 45000,
-    lastUpdated: new Date().toISOString()
-  }
-}
+};
