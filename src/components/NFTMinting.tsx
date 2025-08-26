@@ -18,8 +18,9 @@ const NFTMinting = () => {
   const { connection } = useConnection()
   const { publicKey, signTransaction, wallet } = useWallet()
 
-  // Candy Machine configuration
-  const CANDY_MACHINE_ID = new PublicKey('YOUR_CANDY_MACHINE_ID') // Replace with actual ID
+  // Candy Machine configuration - Replace with your actual Candy Machine ID
+  const CANDY_MACHINE_ID_STRING = process.env.REACT_APP_CANDY_MACHINE_ID || '11111111111111111111111111111111'
+  const CANDY_MACHINE_ID = new PublicKey(CANDY_MACHINE_ID_STRING)
   const COLLECTION_SIZE = 5350
 
   const mintPrice = {
@@ -30,6 +31,12 @@ const NFTMinting = () => {
   const handleMint = useCallback(async () => {
     if (!publicKey || !signTransaction || !wallet) {
       alert('Please connect your wallet first')
+      return
+    }
+
+    // Validate Candy Machine ID
+    if (CANDY_MACHINE_ID_STRING === '11111111111111111111111111111111') {
+      alert('Candy Machine ID not configured. Please set REACT_APP_CANDY_MACHINE_ID environment variable.')
       return
     }
 

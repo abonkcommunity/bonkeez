@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import UserProfile from './components/UserProfile'
 import NFTMinting from './components/NFTMinting'
 import Staking from './components/Staking'
+import ErrorBoundary from './components/ErrorBoundary'
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <TokenStats />
       <TokenTrading />
       <Marketplace />
-      
+
       {/* New Functional Sections */}
       <section id="minting" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
@@ -30,7 +31,9 @@ function App() {
             </p>
           </div>
           <div className="max-w-md mx-auto">
-            <NFTMinting />
+            <ErrorBoundary>
+              <NFTMinting />
+            </ErrorBoundary>
           </div>
         </div>
       </section>
