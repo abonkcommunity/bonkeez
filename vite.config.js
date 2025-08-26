@@ -10,13 +10,22 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis',
+    'process.env': {},
   },
   resolve: {
     alias: {
       buffer: 'buffer',
+      process: 'process/browser',
+      util: 'util',
     },
   },
   optimizeDeps: {
-    include: ['buffer'],
+    include: ['buffer', 'process'],
+    exclude: ['node:async_hooks', 'async_hooks'],
+  },
+  build: {
+    rollupOptions: {
+      external: ['node:async_hooks', 'async_hooks'],
+    },
   },
 })
