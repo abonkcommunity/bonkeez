@@ -270,9 +270,9 @@ const TokenTrading = () => {
                 <p className="text-emerald-400 text-sm font-medium">Current Price</p>
                 <p className="text-white text-xl font-bold">{tokenData?.price || '$0.0001'}</p>
                 <p className={`text-xs ${
-                  tokenData?.change24h?.startsWith('+') ? 'text-emerald-400' : 'text-red-400'
+                  (tokenData?.change24h || 0) >= 0 ? 'text-emerald-400' : 'text-red-400'
                 }`}>
-                  {tokenData?.change24h || '+0.0%'} (24h)
+                  {tokenData?.change24h ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` : '+0.0%'} (24h)
                 </p>
               </div>
               <div className="bg-white/5 rounded-xl p-4 border border-white/10">

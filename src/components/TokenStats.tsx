@@ -79,11 +79,11 @@ const TokenStats = () => {
                 <DollarSign className="w-6 h-6 text-white" />
               </div>
               <div className={`px-3 py-1 rounded-full text-sm font-bold ${
-                tokenData.change24h.startsWith('+') 
+                tokenData.change24h >= 0
                   ? 'text-emerald-400 bg-emerald-400/20' 
                   : 'text-red-400 bg-red-400/20'
               }`}>
-                {tokenData.change24h}
+                {tokenData.change24h >= 0 ? '+' : ''}{tokenData.change24h.toFixed(1)}%
               </div>
             </div>
             <div>

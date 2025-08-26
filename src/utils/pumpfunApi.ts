@@ -1,4 +1,15 @@
-import { TokenData } from '../types/token'
+
+export interface TokenData {
+  price: number
+  change24h: number
+  volume24h: number
+  marketCap: number
+  holders: number
+  totalSupply: number | string
+  circulatingSupply: number
+  liquidityUsd: number
+  lastUpdated: string
+}
 
 const PUMPFUN_API_BASE = 'https://frontend-api.pump.fun'
 const TOKEN_ADDRESS = '3pgobXzgLCX6buwLDcjQjJADT4QLfpLhsQNJ4NqUTrYK'
