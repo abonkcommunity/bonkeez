@@ -25,6 +25,9 @@ export default defineConfig({
       http: 'stream-http',
       https: 'https-browserify',
       crypto: 'crypto-browserify',
+      util: 'util',
+      assert: 'assert',
+      os: 'os-browserify/browser',
     },
   },
   optimizeDeps: {
