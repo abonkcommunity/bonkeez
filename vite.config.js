@@ -8,6 +8,10 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     allowedHosts: ['.replit.dev', '.repl.co'],
+    hmr: {
+      port: 5173,
+      host: '0.0.0.0'
+    }
   },
   define: {
     global: 'globalThis',
