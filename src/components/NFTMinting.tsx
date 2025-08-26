@@ -1,8 +1,9 @@
+
 import React, { useState, useCallback } from 'react'
 import { Zap, Clock, Star, Coins } from 'lucide-react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { PublicKey, Transaction } from '@solana/web3.js'
-import { Metaplex, walletAdapterIdentity } from '@metaplex-foundation/js'
+import { Metaplex, walletAdapterIdentity, bundlrStorage } from '@metaplex-foundation/js'
 import { createMintV2Instruction, mplCandyMachine } from '@metaplex-foundation/mpl-candy-machine'
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
 import { walletAdapterIdentity as umiWalletAdapter } from '@metaplex-foundation/umi-signer-wallet-adapters'
@@ -17,9 +18,8 @@ const NFTMinting = () => {
   const { connection } = useConnection()
   const { publicKey, signTransaction, wallet } = useWallet()
 
-  // Candy Machine configuration - Replace with your actual Candy Machine ID
-  const CANDY_MACHINE_ID_STRING = process.env.REACT_APP_CANDY_MACHINE_ID || '11111111111111111111111111111111'
-  const CANDY_MACHINE_ID = new PublicKey(CANDY_MACHINE_ID_STRING)
+  // Candy Machine configuration
+  const CANDY_MACHINE_ID = new PublicKey('YOUR_CANDY_MACHINE_ID') // Replace with actual ID
   const COLLECTION_SIZE = 5350
 
   const mintPrice = {
@@ -33,12 +33,6 @@ const NFTMinting = () => {
       return
     }
 
-    // Validate Candy Machine ID
-    if (CANDY_MACHINE_ID_STRING === '11111111111111111111111111111111') {
-      alert('Candy Machine ID not configured. Please set REACT_APP_CANDY_MACHINE_ID environment variable.')
-      return
-    }
-
     setIsMinting(true)
     setMintStatus('Preparing mint...')
 
@@ -46,6 +40,7 @@ const NFTMinting = () => {
       // Initialize Metaplex
       const metaplex = Metaplex.make(connection)
         .use(walletAdapterIdentity(wallet.adapter))
+        .use(bundlrStorage())
 
       // Initialize UMI for Candy Machine v3
       const umi = createUmi(connection.rpcEndpoint)
@@ -63,7 +58,7 @@ const NFTMinting = () => {
 
       // Create mint instructions
       const mintInstructions = []
-
+      
       for (let i = 0; i < mintQuantity; i++) {
         const mintInstruction = createMintV2Instruction(umi, {
           candyMachine: CANDY_MACHINE_ID,
@@ -75,27 +70,27 @@ const NFTMinting = () => {
           tokenStandard: 'NonFungible',
           group: paymentMethod === 'SOL' ? 'default' : 'bnkz'
         })
-
+        
         mintInstructions.push(mintInstruction)
       }
 
       // Create and send transaction
       const transaction = new Transaction()
       mintInstructions.forEach(instruction => transaction.add(instruction))
-
+      
       transaction.feePayer = publicKey
       transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash
 
       setMintStatus('Waiting for signature...')
-
+      
       const signedTransaction = await signTransaction(transaction)
-
+      
       setMintStatus('Broadcasting transaction...')
-
+      
       const signature = await connection.sendRawTransaction(signedTransaction.serialize())
-
+      
       setMintStatus('Confirming transaction...')
-
+      
       await connection.confirmTransaction(signature, 'confirmed')
 
       // Update collection supply
@@ -106,7 +101,7 @@ const NFTMinting = () => {
 
       setMintStatus('Mint successful!')
       alert(`Successfully minted ${mintQuantity} Bonkeez NFT${mintQuantity > 1 ? 's' : ''}!\n\nTransaction: ${signature}`)
-
+      
     } catch (error) {
       console.error('Minting error:', error)
       setMintStatus('Mint failed')

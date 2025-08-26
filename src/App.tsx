@@ -5,20 +5,33 @@ import TokenStats from './components/TokenStats'
 import TokenTrading from './components/TokenTrading'
 import Marketplace from './components/Marketplace'
 import Footer from './components/Footer'
+import NotificationSystem, { useNotifications } from './components/NotificationSystem'
 import UserProfile from './components/UserProfile'
 import NFTMinting from './components/NFTMinting'
 import Staking from './components/Staking'
-import ErrorBoundary from './components/ErrorBoundary'
 
 function App() {
+  const { notifications, addNotification, removeNotification } = useNotifications()
+
+  // Add welcome notification
+  React.useEffect(() => {
+    setTimeout(() => {
+      addNotification('info', 'Welcome to Bonkeez Exchange!', 'All systems are now fully functional')
+    }, 2000)
+  }, [])
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-blue-900">
+      <NotificationSystem 
+        notifications={notifications} 
+        onRemove={removeNotification} 
+      />
       <Header />
       <Hero />
       <TokenStats />
       <TokenTrading />
       <Marketplace />
-
+      
       {/* New Functional Sections */}
       <section id="minting" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
@@ -31,9 +44,7 @@ function App() {
             </p>
           </div>
           <div className="max-w-md mx-auto">
-            <ErrorBoundary>
-              <NFTMinting />
-            </ErrorBoundary>
+            <NFTMinting />
           </div>
         </div>
       </section>

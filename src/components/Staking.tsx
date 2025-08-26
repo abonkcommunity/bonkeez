@@ -13,18 +13,6 @@ interface StakeInfo {
 }
 
 const Staking = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  // Safe initialization check
-  useEffect(() => {
-    try {
-      // Any initialization code here
-    } catch (err) {
-      console.error('Staking initialization error:', err)
-      setError('Failed to initialize staking component')
-    }
-  }, [])
   const [stakeAmount, setStakeAmount] = useState('')
   const [unstakeAmount, setUnstakeAmount] = useState('')
   const [stakeInfo, setStakeInfo] = useState<StakeInfo>({
@@ -42,9 +30,9 @@ const Staking = () => {
   const { publicKey, signTransaction, wallet } = useWallet()
 
   // Staking program configuration
-  const STAKING_PROGRAM_ID = new PublicKey('11111111111111111111111111111112') // System program as placeholder
-  const BNKZ_MINT = new PublicKey('J1S9H3QjnRtBbbuD4HjPV6RpRhwuk4zKbxsnCHuTgh9w') // Use the actual BNKZ mint
-  const REWARDS_POOL = new PublicKey('11111111111111111111111111111112') // System program as placeholder
+  const STAKING_PROGRAM_ID = new PublicKey('YOUR_STAKING_PROGRAM_ID') // Replace with actual program ID
+  const BNKZ_MINT = new PublicKey('Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F')
+  const REWARDS_POOL = new PublicKey('YOUR_REWARDS_POOL_ADDRESS') // Replace with actual address
 
   // Staking parameters
   const APY = 12 // 12% APY

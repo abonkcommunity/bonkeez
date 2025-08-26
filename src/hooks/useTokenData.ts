@@ -1,49 +1,58 @@
+import { useState, useEffect, useCallback } from 'react'
+import { tokenApi, TokenData } from '../services/tokenApi'
 
-import { useState, useEffect } from 'react'
-import { getTokenData } from '../services/tokenApi'
-
-interface TokenData {
-  price: number
-  change24h: number
-  marketCap: number
-  volume24h: number
-  holders: number
-  totalSupply: string
-  liquidity?: number
-  transactions24h?: number
+interface UseTokenDataReturn {
+  data: TokenData | null
+  loading: boolean
+  error: string | null
+  refetch: () => Promise<void>
+  lastUpdated: Date | null
 }
 
-export const useTokenData = (refreshInterval = 30000) => {
+export const useTokenData = (refreshInterval: number = 30000): UseTokenDataReturn => {
   const [data, setData] = useState<TokenData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      setLoading(true)
-      const tokenData = await getTokenData()
-      setData(tokenData)
       setError(null)
+      const tokenData = await tokenApi.fetchCombinedData()
+      setData(tokenData)
+      setLastUpdated(new Date())
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch token data')
+      console.error('Token data fetch error:', err)
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  const refetch = useCallback(async () => {
+    setLoading(true)
+    await fetchData()
+  }, [fetchData])
 
   useEffect(() => {
     fetchData()
-    
+
     const interval = setInterval(fetchData, refreshInterval)
     return () => clearInterval(interval)
-  }, [refreshInterval])
+  }, [fetchData, refreshInterval])
 
-  return { data, loading, error, refetch: fetchData }
+  return {
+    data,
+    loading,
+    error,
+    refetch,
+    lastUpdated
+  }
 }
 
 export const useTokenPrice = () => {
   const { data, loading, error } = useTokenData(10000) // Update every 10 seconds for price
-
+  
   return {
     price: data?.price || 0,
     change24h: data?.change24h || 0,

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TrendingUp, DollarSign, Users, Zap, ExternalLink } from 'lucide-react'
-import { getPumpfunUrl, getSolscanUrl, type TokenData } from '../utils/pumpfunApi'
-import { useTokenData } from '../hooks/useTokenData'
+import { getTokenDataSafe, getPumpfunUrl, getSolscanUrl, type TokenData } from '../utils/pumpfunApi'
 
 const TokenStats = () => {
   const [tokenData, setTokenData] = useState<TokenData | null>(null)
@@ -10,11 +9,11 @@ const TokenStats = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      const data = await useTokenData(); // Use the hook to get token data
+      const data = await getTokenDataSafe()
       setTokenData(data)
       setLoading(false)
     }
-
+    
     fetchData()
     // Refresh every 30 seconds
     const interval = setInterval(fetchData, 30000)

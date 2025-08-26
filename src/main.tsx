@@ -1,17 +1,17 @@
-import './polyfills'
 import React from 'react'
-import { createRoot } from 'react-dom/client'
+import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import { WalletContextProvider } from "./context/WalletContextProvider"
+import { WalletContextProvider } from "./context/WalletContextProvider";
+import { Buffer } from 'buffer'
 
-const rootElement = document.getElementById('root')
-if (!rootElement) throw new Error('Failed to find the root element')
+// Polyfill Buffer for browser compatibility
+window.Buffer = Buffer
 
-createRoot(rootElement).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <WalletContextProvider>
-      <App />
-    </WalletContextProvider>
+        <WalletContextProvider>
+    <App />
+        </WalletContextProvider>
   </React.StrictMode>,
 )
