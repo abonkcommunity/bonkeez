@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import NotificationSystem, { useNotifications } from './components/NotificationSystem'
 import UserProfile from './components/UserProfile'
 import NFTMinting from './components/NFTMinting'
+import Staking from './components/Staking'
 
 function App() {
   const { notifications, addNotification, removeNotification } = useNotifications()
@@ -44,6 +45,22 @@ function App() {
           </div>
           <div className="max-w-md mx-auto">
             <NFTMinting />
+          </div>
+        </div>
+      </section>
+
+      <section id="staking" className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+              Stake & Earn
+            </h2>
+            <p className="text-xl text-slate-300">
+              Earn passive rewards by staking your $BNKZ tokens
+            </p>
+          </div>
+          <div className="max-w-2xl mx-auto">
+            <Staking />
           </div>
         </div>
       </section>

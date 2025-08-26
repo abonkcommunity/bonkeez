@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { ArrowUpDown, Settings, TrendingUp, Zap, DollarSign, Coins } from 'lucide-react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { ArrowUpDown, Settings, TrendingUp, Zap, DollarSign, Coins, AlertTriangle } from 'lucide-react'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { getTokenDataSafe, getPumpfunUrl, type TokenData } from '../utils/pumpfunApi'
+import SwapService, { type SwapQuote } from '../services/swapService'
 
 const TokenTrading = () => {
   const [fromAmount, setFromAmount] = useState('')
@@ -9,6 +11,14 @@ const TokenTrading = () => {
   const [toToken, setToToken] = useState('BNKZ')
   const [slippage, setSlippage] = useState('0.5')
   const [tokenData, setTokenData] = useState<TokenData | null>(null)
+  const [quote, setQuote] = useState<SwapQuote | null>(null)
+  const [isLoadingQuote, setIsLoadingQuote] = useState(false)
+  const [isSwapping, setIsSwapping] = useState(false)
+  const [swapStatus, setSwapStatus] = useState('')
+
+  const { connection } = useConnection()
+  const { publicKey, wallet } = useWallet()
+  const swapService = new SwapService(connection)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,24 +54,96 @@ const TokenTrading = () => {
     alert('Advanced trading settings coming soon! This will include custom slippage, MEV protection, and more.')
   }
 
-  // Simple price calculation for demo
-  useEffect(() => {
-    if (fromAmount && fromToken === 'SOL' && toToken === 'BNKZ') {
-      const solAmount = parseFloat(fromAmount)
-      if (!isNaN(solAmount)) {
-        // Assuming 1 SOL = ~900 BNKZ for demo
-        const bnkzAmount = (solAmount * 900).toFixed(0)
-        setToAmount(bnkzAmount)
-      }
-    } else if (fromAmount && fromToken === 'BNKZ' && toToken === 'SOL') {
-      const bnkzAmount = parseFloat(fromAmount)
-      if (!isNaN(bnkzAmount)) {
-        // Reverse calculation
-        const solAmount = (bnkzAmount / 900).toFixed(4)
-        setToAmount(solAmount)
-      }
+  // Fetch quote when amount or tokens change
+  const fetchQuote = useCallback(async () => {
+    if (!fromAmount || !publicKey) {
+      setQuote(null)
+      setToAmount('')
+      return
     }
-  }, [fromAmount, fromToken, toToken])
+
+    const amount = parseFloat(fromAmount)
+    if (isNaN(amount) || amount <= 0) {
+      setQuote(null)
+      setToAmount('')
+      return
+    }
+
+    setIsLoadingQuote(true)
+    try {
+      const inputMint = swapService.getTokenMint(fromToken)
+      const outputMint = swapService.getTokenMint(toToken)
+      const parsedAmount = swapService.parseAmount(amount)
+
+      const swapQuote = await swapService.getQuote({
+        inputMint,
+        outputMint,
+        amount: parsedAmount,
+        slippageBps: Math.floor(parseFloat(slippage) * 100),
+        userPublicKey: publicKey.toString()
+      })
+
+      setQuote(swapQuote)
+      setToAmount(swapService.formatAmount(swapQuote.outputAmount).toFixed(fromToken === 'SOL' ? 0 : 4))
+    } catch (error) {
+      console.error('Error fetching quote:', error)
+      setQuote(null)
+      setToAmount('')
+    } finally {
+      setIsLoadingQuote(false)
+    }
+  }, [fromAmount, fromToken, toToken, slippage, publicKey, swapService])
+
+  useEffect(() => {
+    const timer = setTimeout(fetchQuote, 500) // Debounce
+    return () => clearTimeout(timer)
+  }, [fetchQuote])
+
+  const executeSwap = useCallback(async () => {
+    if (!quote || !wallet || !publicKey) {
+      alert('Please connect wallet and get a quote first')
+      return
+    }
+
+    setIsSwapping(true)
+    setSwapStatus('Preparing swap...')
+
+    try {
+      const inputMint = swapService.getTokenMint(fromToken)
+      const outputMint = swapService.getTokenMint(toToken)
+      const parsedAmount = swapService.parseAmount(parseFloat(fromAmount))
+
+      setSwapStatus('Waiting for signature...')
+
+      const signature = await swapService.executeSwap(
+        {
+          inputMint,
+          outputMint,
+          amount: parsedAmount,
+          slippageBps: Math.floor(parseFloat(slippage) * 100),
+          userPublicKey: publicKey.toString()
+        },
+        wallet.adapter,
+        quote
+      )
+
+      setSwapStatus('Swap successful!')
+      alert(`Swap completed!\n\nTransaction: ${signature}`)
+      
+      // Clear form
+      setFromAmount('')
+      setToAmount('')
+      setQuote(null)
+      
+    } catch (error) {
+      console.error('Swap error:', error)
+      setSwapStatus('Swap failed')
+      alert(`Swap failed: ${error.message}`)
+    } finally {
+      setIsSwapping(false)
+      setTimeout(() => setSwapStatus(''), 3000)
+    }
+  }, [quote, wallet, publicKey, fromToken, toToken, fromAmount, slippage, swapService])
 
   return (
     <section id="token" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/20 to-emerald-900/20">
@@ -180,29 +262,67 @@ const TokenTrading = () => {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">Price Impact</span>
-                <button 
-                  onClick={handleConnectWallet}
-                  className="text-emerald-400 hover:text-emerald-300 transition-colors"
-                >
-                  Connect wallet to see
-                </button>
+                {quote ? (
+                  <span className={`${
+                    quote.priceImpact > 5 
+                      ? 'text-red-400' 
+                      : quote.priceImpact > 1 
+                        ? 'text-yellow-400' 
+                        : 'text-emerald-400'
+                  }`}>
+                    {quote.priceImpact.toFixed(2)}%
+                  </span>
+                ) : (
+                  <span className="text-slate-400">-</span>
+                )}
               </div>
+              {quote?.route && (
+                <div className="flex justify-between text-sm mt-2">
+                  <span className="text-slate-400">Route</span>
+                  <span className="text-slate-300">{quote.route}</span>
+                </div>
+              )}
             </div>
+
+            {/* Price Impact Warning */}
+            {quote && quote.priceImpact > 5 && (
+              <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-3 mb-4 flex items-center space-x-2">
+                <AlertTriangle className="w-4 h-4 text-red-400" />
+                <p className="text-red-300 text-sm">High price impact! Consider reducing amount.</p>
+              </div>
+            )}
+
+            {/* Swap Status */}
+            {swapStatus && (
+              <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 mb-4">
+                <p className="text-blue-300 text-sm text-center">{swapStatus}</p>
+              </div>
+            )}
 
             {/* Execute Swap Button */}
             <button 
-              onClick={() => {
-                if (!fromAmount) {
-                  alert('Please enter an amount to swap')
-                  return
-                }
-                if (confirm(`Swap ${fromAmount} ${fromToken} for ${toAmount} ${toToken}?`)) {
-                  alert('Swap executed successfully! (Demo mode)')
-                }
-              }}
-              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25 mb-2"
+              onClick={executeSwap}
+              disabled={!quote || isSwapping || !publicKey || isLoadingQuote}
+              className={`w-full py-4 rounded-xl font-bold transition-all mb-2 ${
+                !quote || isSwapping || !publicKey || isLoadingQuote
+                  ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-emerald-600 to-emerald-700 text-white hover:from-emerald-700 hover:to-emerald-800 shadow-lg hover:shadow-emerald-500/25'
+              }`}
             >
-              Execute Swap
+              {!publicKey ? (
+                'Connect Wallet to Swap'
+              ) : isLoadingQuote ? (
+                'Getting Quote...'
+              ) : isSwapping ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-5 h-5 border-2 border-slate-400 border-t-transparent rounded-full animate-spin"></div>
+                  <span>Swapping...</span>
+                </div>
+              ) : !quote ? (
+                'Enter Amount'
+              ) : (
+                `Swap ${fromAmount} ${fromToken} for ${toAmount} ${toToken}`
+              )}
             </button>
             
             <button 
