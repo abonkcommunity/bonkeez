@@ -12,6 +12,11 @@ interface State {
   error?: Error
 }
 
+interface Props {
+  children: React.ReactNode
+  fallback?: React.ComponentType<{ error: Error; resetErrorBoundary: () => void }>
+}
+
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props)

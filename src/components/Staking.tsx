@@ -13,6 +13,18 @@ interface StakeInfo {
 }
 
 const Staking = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  // Safe initialization check
+  useEffect(() => {
+    try {
+      // Any initialization code here
+    } catch (err) {
+      console.error('Staking initialization error:', err)
+      setError('Failed to initialize staking component')
+    }
+  }, [])
   const [stakeAmount, setStakeAmount] = useState('')
   const [unstakeAmount, setUnstakeAmount] = useState('')
   const [stakeInfo, setStakeInfo] = useState<StakeInfo>({

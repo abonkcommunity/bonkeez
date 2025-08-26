@@ -1,47 +1,38 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
+
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: '0.0.0.0',
-    port: 5173,
-    allowedHosts: ['.replit.dev', '.repl.co'],
-    hmr: {
-      port: 5173,
-      host: '0.0.0.0'
-    }
-  },
+  plugins: [
+    react(),
+    nodePolyfills({
+      include: ['buffer', 'stream', 'util', 'http', 'url', 'crypto'],
+      globals: {
+        Buffer: true,
+        global: true,
+        process: true,
+      },
+    })
+  ],
   define: {
     global: 'globalThis',
-    'process.env': {},
   },
   resolve: {
     alias: {
       buffer: 'buffer',
       stream: 'stream-browserify',
-      url: 'url',
-      http: 'stream-http',
-      https: 'https-browserify',
-      crypto: 'crypto-browserify',
       util: 'util',
-      assert: 'assert',
-      os: 'os-browserify/browser',
-    },
+    }
   },
   optimizeDeps: {
-    include: [
-      'buffer', 
-      'stream-browserify',
-      'url',
-      'stream-http',
-      'https-browserify',
-      'crypto-browserify',
-      '@solana/web3.js', 
-      '@solana/wallet-adapter-base', 
-      '@solana/wallet-adapter-react'
-    ],
-    exclude: []
+    include: ['buffer', 'stream-browserify', 'util']
   },
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    hmr: {
+      port: 5173
+    }
+  }
 })

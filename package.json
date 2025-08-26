@@ -28,7 +28,6 @@
     "@solana/web3.js": "^1.98.4",
     "assert": "^2.1.0",
     "bs58": "^6.0.0",
-    "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
     "globals": "^16.3.0",
     "https-browserify": "^1.0.0",
@@ -38,11 +37,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "recharts": "^2.8.0",
-    "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "typescript-eslint": "^8.41.0",
-    "url": "^0.11.4",
-    "util": "^0.12.5"
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
@@ -51,12 +48,16 @@
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
     "autoprefixer": "^10.4.14",
+    "buffer": "^6.0.3",
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "postcss": "^8.4.27",
+    "stream-browserify": "^3.0.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "util": "^0.12.5",
+    "vite": "^4.4.5",
+    "vite-plugin-node-polyfills": "^0.24.0"
   }
 }

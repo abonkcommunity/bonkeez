@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react'
 import { Zap, Clock, Star, Coins } from 'lucide-react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
@@ -64,7 +63,7 @@ const NFTMinting = () => {
 
       // Create mint instructions
       const mintInstructions = []
-      
+
       for (let i = 0; i < mintQuantity; i++) {
         const mintInstruction = createMintV2Instruction(umi, {
           candyMachine: CANDY_MACHINE_ID,
@@ -76,27 +75,27 @@ const NFTMinting = () => {
           tokenStandard: 'NonFungible',
           group: paymentMethod === 'SOL' ? 'default' : 'bnkz'
         })
-        
+
         mintInstructions.push(mintInstruction)
       }
 
       // Create and send transaction
       const transaction = new Transaction()
       mintInstructions.forEach(instruction => transaction.add(instruction))
-      
+
       transaction.feePayer = publicKey
       transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash
 
       setMintStatus('Waiting for signature...')
-      
+
       const signedTransaction = await signTransaction(transaction)
-      
+
       setMintStatus('Broadcasting transaction...')
-      
+
       const signature = await connection.sendRawTransaction(signedTransaction.serialize())
-      
+
       setMintStatus('Confirming transaction...')
-      
+
       await connection.confirmTransaction(signature, 'confirmed')
 
       // Update collection supply
@@ -107,7 +106,7 @@ const NFTMinting = () => {
 
       setMintStatus('Mint successful!')
       alert(`Successfully minted ${mintQuantity} Bonkeez NFT${mintQuantity > 1 ? 's' : ''}!\n\nTransaction: ${signature}`)
-      
+
     } catch (error) {
       console.error('Minting error:', error)
       setMintStatus('Mint failed')

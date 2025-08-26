@@ -50,11 +50,14 @@ interface PumpfunResponse {
 
 class TokenApiService {
   private readonly CONTRACT_ADDRESS = 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F'
-  private readonly PROXY_SERVER_URL = 'undefined'
+  private readonly PROXY_SERVER_URL = import.meta.env.VITE_PROXY_SERVER_URL || ''
   private readonly ACCESS_TOKEN = import.meta.env.VITE_PROXY_SERVER_ACCESS_TOKEN || 'undefined'
 
   async fetchPumpfunData(): Promise<TokenData> {
     try {
+      if (!this.PROXY_SERVER_URL || this.PROXY_SERVER_URL === 'undefined') {
+        throw new Error('Proxy server URL not configured')
+      }
       const response = await fetch(this.PROXY_SERVER_URL, {
         method: 'POST',
         headers: {
