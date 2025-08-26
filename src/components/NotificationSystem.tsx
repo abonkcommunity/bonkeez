@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect } from 'react'
 import { X, Bell, CheckCircle, AlertCircle, Info } from 'lucide-react'
+import { createPortal } from 'react-dom/client'
 
 interface Notification {
   id: string
@@ -73,9 +73,9 @@ export const useNotifications = () => {
       message,
       timestamp: new Date()
     }
-    
+
     setNotifications(prev => [...prev, notification])
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
       removeNotification(id)

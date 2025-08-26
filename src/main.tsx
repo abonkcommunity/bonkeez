@@ -1,6 +1,6 @@
 
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { WalletContextProvider } from "./context/WalletContextProvider"
@@ -14,7 +14,7 @@ if (typeof window !== 'undefined') {
 const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Failed to find the root element')
 
-ReactDOM.createRoot(rootElement).render(
+createRoot(rootElement).render(
   <React.StrictMode>
     <WalletContextProvider>
       <App />
