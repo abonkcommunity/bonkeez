@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { X, Bell, CheckCircle, AlertCircle, Info } from 'lucide-react'
-import { createPortal } from 'react-dom/client'
+import { createPortal } from 'react-dom'
 
 interface Notification {
   id: string
