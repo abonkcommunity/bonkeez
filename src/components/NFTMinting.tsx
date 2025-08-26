@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react'
 import { Zap, Clock, Star, Coins } from 'lucide-react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { PublicKey, Transaction } from '@solana/web3.js'
-import { Metaplex, walletAdapterIdentity, bundlrStorage } from '@metaplex-foundation/js'
+import { Metaplex, walletAdapterIdentity } from '@metaplex-foundation/js'
 import { createMintV2Instruction, mplCandyMachine } from '@metaplex-foundation/mpl-candy-machine'
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
 import { walletAdapterIdentity as umiWalletAdapter } from '@metaplex-foundation/umi-signer-wallet-adapters'
@@ -40,7 +40,6 @@ const NFTMinting = () => {
       // Initialize Metaplex
       const metaplex = Metaplex.make(connection)
         .use(walletAdapterIdentity(wallet.adapter))
-        .use(bundlrStorage())
 
       // Initialize UMI for Candy Machine v3
       const umi = createUmi(connection.rpcEndpoint)
