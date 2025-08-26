@@ -1,72 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Menu, X, Wallet, User, Search, Coins } from 'lucide-react'
 import { getTokenDataSafe, type TokenData } from '../utils/pumpfunApi'
-import { WalletMultiButton, useWallet } from "@solana/wallet-adapter-react-ui";
-import { authService } from '../services/authService'; // Assuming authService is in '../services/authService'
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [tokenData, setTokenData] = useState<TokenData | null>(null)
-  const [session, setSession] = useState<any>(null); // State for session
-  const [isSigningIn, setIsSigningIn] = useState(false); // State for sign-in loading
-  const { wallet, connected, publicKey } = useWallet();
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getTokenDataSafe()
       setTokenData(data)
     }
-
+    
     fetchData()
+    // Refresh every 30 seconds
     const interval = setInterval(fetchData, 30000)
     return () => clearInterval(interval)
   }, [])
-
-  useEffect(() => {
-    // Check for existing session
-    const currentSession = authService.getCurrentSession()
-    setSession(currentSession)
-  }, [])
-
-  useEffect(() => {
-    // Update session when wallet connection changes
-    if (connected && publicKey) {
-      const currentSession = authService.getCurrentSession()
-      if (currentSession && currentSession.publicKey !== publicKey.toString()) {
-        // Different wallet connected, clear session
-        authService.signOut()
-        setSession(null)
-      }
-    } else {
-      // Wallet disconnected, clear session
-      setSession(null)
-    }
-  }, [connected, publicKey])
-
-  const handleSignIn = async () => {
-    if (!wallet || !connected) {
-      alert('Please connect your wallet first')
-      return
-    }
-
-    setIsSigningIn(true)
-    try {
-      const newSession = await authService.signIn(wallet.adapter)
-      setSession(newSession)
-      alert('Successfully signed in!')
-    } catch (error) {
-      console.error('Sign in error:', error)
-      alert(`Sign in failed: ${error.message}`)
-    } finally {
-      setIsSigningIn(false)
-    }
-  }
-
-  const handleSignOut = () => {
-    authService.signOut()
-    setSession(null)
-  }
-
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -76,7 +27,7 @@ const Header = () => {
     }
   }
 
-
+ 
 
   return (
     <header className="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -127,7 +78,7 @@ const Header = () => {
             </button>
           </nav>
 
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
             {/* Live Token Price Display */}
             <div className="hidden lg:flex items-center bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-400/30 rounded-lg px-3 py-2 backdrop-blur-sm">
               <img 
@@ -165,36 +116,21 @@ const Header = () => {
 
           {/* Wallet Connection */}
          <div className="hidden md:flex items-center space-x-3">
-            <WalletMultiButton className="!bg-gradient-to-r !from-purple-600 !to-purple-700 hover:!from-purple-700 hover:!to-purple-800 !rounded-xl !font-bold !px-6 !py-3 !transition-all" />
-
-            {connected && (
-              session ? (
-                <div className="flex items-center space-x-2">
-                  <div className="bg-green-500/20 text-green-400 px-3 py-2 rounded-lg text-sm font-medium">
-                    Authenticated
-                  </div>
-                  <button
-                    onClick={handleSignOut}
-                    className="text-slate-400 hover:text-white transition-colors text-sm"
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={handleSignIn}
-                  disabled={isSigningIn}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isSigningIn
-                      ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                      : 'bg-emerald-600 text-white hover:bg-emerald-700'
-                  }`}
-                >
-                  {isSigningIn ? 'Signing...' : 'Sign In'}
-                </button>
-              )
-            )}
-          </div>
+  <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 shadow-lg hover:shadow-pink-500/25 border border-pink-400/30 font-medium text-sm" />
+  <button 
+    onClick={() => {
+      const profileSection = document.getElementById('profile')
+      if (profileSection) {
+        profileSection.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+      }
+    }}
+    className="text-white hover:text-pink-400 transition-colors p-2 rounded-lg hover:bg-pink-500/20"
+  >
+    <User className="w-5 h-5" />
+  </button>
+</div>
 
           {/* Mobile Menu Button */}
           <button 
@@ -260,7 +196,7 @@ const Header = () => {
                   </p>
                 </div>
               </div>
-              <WalletMultiButton className="!bg-gradient-to-r !from-pink-500 !via-purple-500 !to-blue-500 !text-white !px-4 !py-2 !rounded-full !hover:from-pink-600 !hover:via-purple-600 !hover:to-blue-600 !transition-all !flex !items-center !space-x-2 !justify-center !shadow-lg !border !border-pink-400/30" />
+              <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-full hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 justify-center shadow-lg border border-pink-400/30" />
             </nav>
           </div>
         )}

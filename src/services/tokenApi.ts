@@ -147,10 +147,9 @@ class TokenApiService {
   async fetchCombinedData(): Promise<TokenData> {
     try {
       // Try multiple sources and combine the best data
-      const [pumpfunData, dexScreenerData, solscanData] = await Promise.allSettled([
+      const [pumpfunData, dexScreenerData] = await Promise.allSettled([
         this.fetchPumpfunData(),
-        this.fetchDexScreenerData(),
-        this.fetchSolscanData()
+        this.fetchDexScreenerData()
       ])
 
       let combinedData = this.getFallbackData()
@@ -163,48 +162,10 @@ class TokenApiService {
         combinedData = { ...combinedData, ...dexScreenerData.value }
       }
 
-      if (solscanData.status === 'fulfilled') {
-        combinedData = { ...combinedData, ...solscanData.value }
-      }
-
       return combinedData
     } catch (error) {
       console.error('Error fetching combined data:', error)
       return this.getFallbackData()
-    }
-  }
-
-  async fetchSolscanData(): Promise<Partial<TokenData>> {
-    try {
-      const response = await fetch(this.PROXY_SERVER_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.ACCESS_TOKEN}`
-        },
-        body: JSON.stringify({
-          url: `https://public-api.solscan.io/token/meta?tokenAddress=${this.CONTRACT_ADDRESS}`,
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
-          },
-          body: {}
-        })
-      })
-
-      const data = await response.json()
-      
-      if (data.success) {
-        return {
-          holders: data.data.holder || 0,
-          totalSupply: this.formatSupply(data.data.supply || 1000000000)
-        }
-      }
-
-      return {}
-    } catch (error) {
-      console.error('Error fetching Solscan data:', error)
-      return {}
     }
   }
 
