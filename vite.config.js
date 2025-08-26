@@ -6,10 +6,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
+    port: 5173,
     allowedHosts: ['.replit.dev', '.repl.co'],
   },
   define: {
     global: 'globalThis',
+    'process.env': {},
   },
   resolve: {
     alias: {
@@ -17,6 +19,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['buffer'],
+    include: ['buffer', '@solana/web3.js', '@solana/wallet-adapter-base'],
+    exclude: ['@solana/wallet-adapter-react-ui']
   },
 })

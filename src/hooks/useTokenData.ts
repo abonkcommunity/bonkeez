@@ -1,53 +1,44 @@
-import { useState, useEffect, useCallback } from 'react'
-import { tokenApi, TokenData } from '../services/tokenApi'
 
-interface UseTokenDataReturn {
-  data: TokenData | null
-  loading: boolean
-  error: string | null
-  refetch: () => Promise<void>
-  lastUpdated: Date | null
+import { useState, useEffect } from 'react'
+import { getTokenData } from '../services/tokenApi'
+
+interface TokenData {
+  price: number
+  change24h: number
+  marketCap: number
+  volume24h: number
+  holders: number
+  totalSupply: string
+  liquidity?: number
+  transactions24h?: number
 }
 
-export const useTokenData = (refreshInterval: number = 30000): UseTokenDataReturn => {
+export const useTokenData = (refreshInterval = 30000) => {
   const [data, setData] = useState<TokenData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     try {
-      setError(null)
-      const tokenData = await tokenApi.fetchCombinedData()
+      setLoading(true)
+      const tokenData = await getTokenData()
       setData(tokenData)
-      setLastUpdated(new Date())
+      setError(null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch token data')
-      console.error('Token data fetch error:', err)
     } finally {
       setLoading(false)
     }
-  }, [])
-
-  const refetch = useCallback(async () => {
-    setLoading(true)
-    await fetchData()
-  }, [fetchData])
+  }
 
   useEffect(() => {
     fetchData()
-
+    
     const interval = setInterval(fetchData, refreshInterval)
     return () => clearInterval(interval)
-  }, [fetchData, refreshInterval])
+  }, [refreshInterval])
 
-  return {
-    data,
-    loading,
-    error,
-    refetch,
-    lastUpdated
-  }
+  return { data, loading, error, refetch: fetchData }
 }
 
 export const useTokenPrice = () => {
