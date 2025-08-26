@@ -16,10 +16,25 @@ export default defineConfig({
   resolve: {
     alias: {
       buffer: 'buffer',
+      stream: 'stream-browserify',
+      url: 'url',
+      http: 'stream-http',
+      https: 'https-browserify',
+      crypto: 'crypto-browserify',
     },
   },
   optimizeDeps: {
-    include: ['buffer', '@solana/web3.js', '@solana/wallet-adapter-base', '@solana/wallet-adapter-react'],
+    include: [
+      'buffer', 
+      'stream-browserify',
+      'url',
+      'stream-http',
+      'https-browserify',
+      'crypto-browserify',
+      '@solana/web3.js', 
+      '@solana/wallet-adapter-base', 
+      '@solana/wallet-adapter-react'
+    ],
     exclude: []
   },
 })

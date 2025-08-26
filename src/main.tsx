@@ -1,13 +1,6 @@
 
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { createPortal } from 'react-dom'
-
-// Ensure createPortal is available globally for wallet adapter components
-if (typeof window !== 'undefined') {
-  // @ts-ignore
-  window.ReactDOM = { createPortal }
-}
 import App from './App.tsx'
 import './index.css'
 import { WalletContextProvider } from "./context/WalletContextProvider"
