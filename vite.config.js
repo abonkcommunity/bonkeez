@@ -19,7 +19,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['buffer', '@solana/web3.js', '@solana/wallet-adapter-base'],
-    exclude: ['@solana/wallet-adapter-react-ui']
+    include: ['buffer', '@solana/web3.js', '@solana/wallet-adapter-base', '@solana/wallet-adapter-react'],
+    exclude: []
   },
 })

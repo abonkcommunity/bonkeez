@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Menu, X, Wallet, User, Search, Coins } from 'lucide-react'
 import { getTokenDataSafe, type TokenData } from '../utils/pumpfunApi'
-import { WalletMultiButton, useWallet } from "@solana/wallet-adapter-react-ui";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { authService } from '../services/authService'; // Assuming authService is in '../services/authService'
 
 const Header = () => {
