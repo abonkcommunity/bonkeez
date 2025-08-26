@@ -9,6 +9,34 @@ interface TokenData {
   transactions24h?: number
 }
 
+// Mock token data for development
+const mockTokenData: TokenData = {
+  price: 0.000456,
+  change24h: 12.45,
+  marketCap: 2400000,
+  volume24h: 850000,
+  holders: 1247,
+  totalSupply: "1000000000",
+  liquidity: 450000,
+  transactions24h: 3247
+}
+
+// Safe token data fetcher with error handling
+export const getTokenDataSafe = async (): Promise<TokenData> => {
+  try {
+    // In a real implementation, this would fetch from an API
+    // For now, return mock data
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(mockTokenData), 100)
+    })
+  } catch (error) {
+    console.error('Error fetching token data:', error)
+    return mockTokenData
+  }
+}
+
+export const getTokenData = getTokenDataSafe
+
 interface PumpfunResponse {
   price: number
   market_cap: number

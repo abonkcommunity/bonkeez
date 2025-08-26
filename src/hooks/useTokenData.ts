@@ -52,7 +52,7 @@ export const useTokenData = (refreshInterval: number = 30000): UseTokenDataRetur
 
 export const useTokenPrice = () => {
   const { data, loading, error } = useTokenData(10000) // Update every 10 seconds for price
-  
+
   return {
     price: data?.price || 0,
     change24h: data?.change24h || 0,
