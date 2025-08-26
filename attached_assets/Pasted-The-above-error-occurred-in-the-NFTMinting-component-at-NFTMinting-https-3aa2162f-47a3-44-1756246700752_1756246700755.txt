@@ -1,0 +1,52 @@
+The above error occurred in the <NFTMinting> component:
+
+    at NFTMinting (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/src/components/NFTMinting.tsx:25:43)
+    at div
+    at div
+    at section
+    at div
+    at App (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/src/App.tsx:31:66)
+    at WalletModalProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/@solana_wallet-adapter-react-ui.js?v=c65aac14:598:30)
+    at WalletProviderBase (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/chunk-Y6V7ZKO3.js?v=c65aac14:7099:31)
+    at WalletProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/chunk-Y6V7ZKO3.js?v=c65aac14:7311:27)
+    at ConnectionProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/chunk-Y6V7ZKO3.js?v=c65aac14:6136:29)
+    at WalletContextProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/src/context/WalletContextProvider.tsx:30:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+at NFTMinting (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/src/components/NFTMinting.tsx:25:43)
+at div
+at div
+at section
+at div
+at App (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/src/App.tsx:31:66)
+at WalletModalProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/@solana_wallet-adapter-react-ui.js?v=c65aac14:598:30)
+at WalletProviderBase (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/chunk-Y6V7ZKO3.js?v=c65aac14:7099:31)
+at WalletProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/chunk-Y6V7ZKO3.js?v=c65aac14:7311:27)
+at ConnectionProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/chunk-Y6V7ZKO3.js?v=c65aac14:6136:29)
+at WalletContextProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/src/context/WalletContextProvider.tsx:30:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+at t.value (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+The above error occurred in the <Staking> component:
+
+    at Staking (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/src/components/Staking.tsx:25:41)
+    at div
+    at div
+    at section
+    at div
+    at App (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/src/App.tsx:31:66)
+    at WalletModalProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/@solana_wallet-adapter-react-ui.js?v=c65aac14:598:30)
+    at WalletProviderBase (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/chunk-Y6V7ZKO3.js?v=c65aac14:7099:31)
+    at WalletProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/chunk-Y6V7ZKO3.js?v=c65aac14:7311:27)
+    at ConnectionProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/node_modules/.vite/deps/chunk-Y6V7ZKO3.js?v=c65aac14:6136:29)
+    at WalletContextProvider (https://3aa2162f-47a3-4443-9ee5-9a2165363ead-00-2ziat87dgmnel.worf.replit.dev/src/context/WalletContextProvider.tsx:30:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+Non-base58 character
