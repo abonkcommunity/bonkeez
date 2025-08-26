@@ -1,53 +1,19 @@
-// Pumpfun API utilities for token data
-export interface TokenData {
-  price: string
-  change24h: string
-  marketCap: string
-  volume24h: string
-  holders: string
-  totalSupply: string
-}
+import PumpFunAPI from 'pumpfun-api';
+const pumpFun = new PumpFunAPI();
 
-// Mock data for development - replace with real API calls when available
-const mockTokenData: TokenData = {
-  price: '$0.000142',
-  change24h: '+12.5%',
-  marketCap: '$142K',
-  volume24h: '$28.4K',
-  holders: '1,247',
-  totalSupply: '1B BNKZ'
-}
-
-export const getTokenDataSafe = async (): Promise<TokenData> => {
+export const getTokenDataLive = async (mintAddress: string) => {
   try {
-    // In production, this would make actual API calls to Pumpfun
-    // For now, return mock data with slight variations to simulate live updates
-    const variations = [
-      { price: '$0.000142', change24h: '+12.5%', marketCap: '$142K', volume24h: '$28.4K' },
-      { price: '$0.000138', change24h: '+8.2%', marketCap: '$138K', volume24h: '$31.2K' },
-      { price: '$0.000145', change24h: '+15.1%', marketCap: '$145K', volume24h: '$25.8K' }
-    ]
-    
-    const randomVariation = variations[Math.floor(Math.random() * variations.length)]
-    
+    const tokenData = await pumpFun.getTokenData(mintAddress);
     return {
-      ...mockTokenData,
-      ...randomVariation
-    }
+      price: `$${tokenData.price}`,
+      change24h: `${tokenData.change24h}%`,
+      marketCap: `$${tokenData.marketCap}`,
+      volume24h: `$${tokenData.volume24h}`,
+      holders: tokenData.holders,
+      totalSupply: tokenData.totalSupply,
+    };
   } catch (error) {
-    console.error('Error fetching token data:', error)
-    return mockTokenData
+    console.error('Error fetching live token data:', error);
+    return null;
   }
-}
-
-export const getTokenContract = (): string => {
-  return process.env.REACT_APP_TOKEN_CONTRACT || 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F'
-}
-
-export const getPumpfunUrl = (): string => {
-  return `https://pump.fun/coin/${getTokenContract()}`
-}
-
-export const getSolscanUrl = (): string => {
-  return `https://solscan.io/token/${getTokenContract()}`
-}
+};
