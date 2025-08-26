@@ -83,12 +83,26 @@ const Marketplace = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    // In production, this would filter the listings
-    alert(`Searching for: ${searchTerm}`)
+    // Search is now handled by real-time filtering in filteredListings
+    if (searchTerm) {
+      const results = filteredListings.length
+      if (results === 0) {
+        alert(`No results found for "${searchTerm}"`)
+      }
+    }
   }
 
   const handleFilter = () => {
-    alert('Advanced filtering options coming soon! Filter by rarity, price range, and more.')
+    const filterOptions = ['All', 'Common', 'Rare', 'Ultra Rare', 'Legendary']
+    const selectedFilter = prompt(`Filter by rarity:\n${filterOptions.join(', ')}`, 'All')
+    
+    if (selectedFilter && filterOptions.includes(selectedFilter)) {
+      if (selectedFilter === 'All') {
+        setSearchTerm('')
+      } else {
+        setSearchTerm(selectedFilter)
+      }
+    }
   }
 
   const handleNotifyLaunch = () => {

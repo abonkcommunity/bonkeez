@@ -21,7 +21,7 @@ const FeaturedCollection = () => {
       rarity: 'Common',
       totalSupply: 2000,
       minted: 0,
-      color: 'from-emerald-500 to-emerald-600'
+      color: 'from-purple-500 to-purple-600'
     },
     {
       id: 3,
@@ -31,7 +31,7 @@ const FeaturedCollection = () => {
       rarity: 'Legendary',
       totalSupply: 100,
       minted: 0,
-      color: 'from-emerald-600 to-slate-600'
+      color: 'from-blue-600 to-purple-600'
     },
     {
       id: 4,
@@ -51,7 +51,7 @@ const FeaturedCollection = () => {
       rarity: 'Rare',
       totalSupply: 500,
       minted: 0,
-      color: 'from-emerald-600 to-emerald-700'
+      color: 'from-pink-600 to-pink-700'
     },
     {
       id: 6,
@@ -61,7 +61,7 @@ const FeaturedCollection = () => {
       rarity: 'Ultra Rare',
       totalSupply: 250,
       minted: 0,
-      color: 'from-slate-600 to-emerald-600'
+      color: 'from-slate-600 to-purple-600'
     }
   ]
 
@@ -87,7 +87,7 @@ const FeaturedCollection = () => {
             Each Bonkee is a unique digital collectible with its own personality and rarity. 
             Discover the colorful world created by Adam, the anonymous artist.
           </p>
-          
+
           {/* Collection Stats */}
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 max-w-4xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -125,7 +125,7 @@ const FeaturedCollection = () => {
                     alt={bonkee.name}
                     className="w-full h-80 object-cover object-center group-hover:scale-110 transition-transform duration-300"
                   />
-                  
+
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-4 left-4 right-4 flex justify-between">
@@ -137,7 +137,7 @@ const FeaturedCollection = () => {
                       </button>
                     </div>
                   </div>
-                  
+
                   {/* Rarity Badge */}
                   <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold ${getRarityColor(bonkee.rarity)}`}>
                     {bonkee.rarity}
@@ -176,7 +176,7 @@ const FeaturedCollection = () => {
                         0 / {bonkee.totalSupply.toLocaleString()}
                       </span>
                     </div>
-                    
+
                     {/* Progress Bar */}
                     <div className="w-full bg-slate-700 rounded-full h-2 mb-2">
                       <div 
@@ -184,7 +184,7 @@ const FeaturedCollection = () => {
                         style={{ width: `${progressPercentage}%` }}
                       ></div>
                     </div>
-                    
+
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-emerald-400">{remaining.toLocaleString()} available</span>
                       <span className="text-slate-400 font-medium">Ready to mint</span>
@@ -211,7 +211,7 @@ const FeaturedCollection = () => {
         {/* Supply Breakdown */}
         <div className="mt-16 bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
           <h3 className="text-2xl font-bold text-white mb-8 text-center">Collection Supply Breakdown</h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center p-6 bg-white/5 rounded-2xl border border-white/10">
               <div className="text-slate-400 bg-slate-400/20 px-3 py-1 rounded-full text-sm font-bold mb-4 inline-block">
@@ -221,7 +221,7 @@ const FeaturedCollection = () => {
               <p className="text-slate-400 text-sm mb-2">Total Supply</p>
               <p className="text-emerald-400 font-medium">0.4 - 0.5 SOL</p>
             </div>
-            
+
             <div className="text-center p-6 bg-white/5 rounded-2xl border border-white/10">
               <div className="text-blue-400 bg-blue-400/20 px-3 py-1 rounded-full text-sm font-bold mb-4 inline-block">
                 Rare
@@ -230,7 +230,7 @@ const FeaturedCollection = () => {
               <p className="text-slate-400 text-sm mb-2">Total Supply</p>
               <p className="text-emerald-400 font-medium">0.7 - 0.8 SOL</p>
             </div>
-            
+
             <div className="text-center p-6 bg-white/5 rounded-2xl border border-white/10">
               <div className="text-purple-400 bg-purple-400/20 px-3 py-1 rounded-full text-sm font-bold mb-4 inline-block">
                 Ultra Rare
@@ -239,7 +239,7 @@ const FeaturedCollection = () => {
               <p className="text-slate-400 text-sm mb-2">Total Supply</p>
               <p className="text-emerald-400 font-medium">0.9 SOL</p>
             </div>
-            
+
             <div className="text-center p-6 bg-white/5 rounded-2xl border border-white/10">
               <div className="text-yellow-400 bg-yellow-400/20 px-3 py-1 rounded-full text-sm font-bold mb-4 inline-block">
                 Legendary

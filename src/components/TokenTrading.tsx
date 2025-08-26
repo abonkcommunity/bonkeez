@@ -33,7 +33,11 @@ const TokenTrading = () => {
   }
 
   const handleConnectWallet = () => {
-    alert('Wallet connection feature coming soon! This will integrate with Phantom, Solflare, and other Solana wallets.')
+    // This will trigger the wallet modal from WalletMultiButton
+    const walletButton = document.querySelector('.wallet-adapter-button') as HTMLButtonElement
+    if (walletButton) {
+      walletButton.click()
+    }
   }
 
   const handleSettings = () => {
@@ -185,12 +189,27 @@ const TokenTrading = () => {
               </div>
             </div>
 
-            {/* Trade on Pumpfun Button */}
+            {/* Execute Swap Button */}
+            <button 
+              onClick={() => {
+                if (!fromAmount) {
+                  alert('Please enter an amount to swap')
+                  return
+                }
+                if (confirm(`Swap ${fromAmount} ${fromToken} for ${toAmount} ${toToken}?`)) {
+                  alert('Swap executed successfully! (Demo mode)')
+                }
+              }}
+              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25 mb-2"
+            >
+              Execute Swap
+            </button>
+            
             <button 
               onClick={handlePumpfunTrade}
-              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25"
+              className="w-full bg-gradient-to-r from-slate-600 to-slate-700 text-white py-3 rounded-xl font-medium hover:from-slate-700 hover:to-slate-800 transition-all"
             >
-              Trade on Pumpfun
+              Or Trade on Pumpfun
             </button>
 
             <p className="text-slate-400 text-sm text-center mt-4">
