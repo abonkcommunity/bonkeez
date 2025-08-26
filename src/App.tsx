@@ -9,6 +9,7 @@ import NotificationSystem, { useNotifications } from './components/NotificationS
 import UserProfile from './components/UserProfile'
 import NFTMinting from './components/NFTMinting'
 import Staking from './components/Staking'
+import { ErrorBoundary } from './components/ErrorBoundary'
 
 function App() {
   const { notifications, addNotification, removeNotification } = useNotifications()
@@ -29,9 +30,11 @@ function App() {
       <Header />
       <Hero />
       <TokenStats />
-      <TokenTrading />
+      <ErrorBoundary>
+        <TokenTrading />
+      </ErrorBoundary>
       <Marketplace />
-      
+
       {/* New Functional Sections */}
       <section id="minting" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
@@ -44,7 +47,9 @@ function App() {
             </p>
           </div>
           <div className="max-w-md mx-auto">
-            <NFTMinting />
+            <ErrorBoundary>
+              <NFTMinting />
+            </ErrorBoundary>
           </div>
         </div>
       </section>
@@ -60,7 +65,9 @@ function App() {
             </p>
           </div>
           <div className="max-w-2xl mx-auto">
-            <Staking />
+            <ErrorBoundary>
+              <Staking />
+            </ErrorBoundary>
           </div>
         </div>
       </section>

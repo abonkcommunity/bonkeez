@@ -29,7 +29,21 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['buffer', 'process', 'stream-browserify', 'stream-http', 'https-browserify', 'url', 'path-browserify', 'crypto-browserify'],
+    include: [
+      'buffer', 
+      'process/browser', 
+      'util',
+      'stream-browserify', 
+      'stream-http', 
+      'https-browserify', 
+      'url', 
+      'path-browserify', 
+      'crypto-browserify',
+      '@solana/web3.js',
+      '@solana/wallet-adapter-base',
+      '@solana/wallet-adapter-react',
+      'bs58'
+    ],
     exclude: ['node:async_hooks', 'async_hooks'],
   },
   build: {
