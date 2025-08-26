@@ -28,4 +28,9 @@ export default defineConfig({
       external: ['node:async_hooks', 'async_hooks'],
     },
   },
+  define: {
+    global: 'globalThis',
+    'process.env': {},
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+  },
 })

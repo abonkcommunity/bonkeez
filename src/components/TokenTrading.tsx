@@ -25,7 +25,7 @@ const TokenTrading = () => {
       const data = await getTokenDataSafe()
       setTokenData(data)
     }
-    
+
     fetchData()
     const interval = setInterval(fetchData, 30000)
     return () => clearInterval(interval)
@@ -129,12 +129,12 @@ const TokenTrading = () => {
 
       setSwapStatus('Swap successful!')
       alert(`Swap completed!\n\nTransaction: ${signature}`)
-      
+
       // Clear form
       setFromAmount('')
       setToAmount('')
       setQuote(null)
-      
+
     } catch (error) {
       console.error('Swap error:', error)
       setSwapStatus('Swap failed')
@@ -324,7 +324,7 @@ const TokenTrading = () => {
                 `Swap ${fromAmount} ${fromToken} for ${toAmount} ${toToken}`
               )}
             </button>
-            
+
             <button 
               onClick={handlePumpfunTrade}
               className="w-full bg-gradient-to-r from-slate-600 to-slate-700 text-white py-3 rounded-xl font-medium hover:from-slate-700 hover:to-slate-800 transition-all"

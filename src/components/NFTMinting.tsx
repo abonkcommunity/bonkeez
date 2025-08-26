@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react'
 import { Zap, Clock, Star, Coins } from 'lucide-react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
@@ -58,17 +57,17 @@ const NFTMinting = () => {
         })
 
       setMintStatus('Waiting for signature...')
-      
+
       const { signature } = await metaplex.rpc().sendAndConfirmTransaction(nftBuilder, {
         commitment: 'confirmed'
       })
-      
+
       setMintStatus('Mint successful!')
       alert(`Successfully minted ${mintQuantity} Bonkeez NFT${mintQuantity > 1 ? 's' : ''}!\n\nTransaction: ${signature}`)
-      
+
       // Update collection supply (simulate)
       setCollectionSupply(prev => Math.max(0, prev - mintQuantity))
-      
+
     } catch (error) {
       console.error('Minting error:', error)
       setMintStatus('Mint failed')
