@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Security
+Disallow: /api/
+Disallow: /.env
+Disallow: /config/
+
+Sitemap: https://www.bonkeez.com/sitemap.xml
