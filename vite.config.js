@@ -15,6 +15,7 @@ export default defineConfig({
     process: {
       env: {}
     },
+    Buffer: ['buffer', 'Buffer'],
   },
   resolve: {
     alias: {
@@ -42,6 +43,7 @@ export default defineConfig({
     rollupOptions: {
       define: {
         global: 'globalThis',
+        Buffer: ['buffer', 'Buffer'],
       },
     },
     commonjsOptions: {
