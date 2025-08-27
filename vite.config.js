@@ -23,7 +23,11 @@ export default defineConfig({
       https: 'https-browserify',
       url: 'url',
       crypto: 'crypto-browserify',
+      util: 'util',
     },
+  },
+  ssr: {
+    noExternal: ['@solana/web3.js', '@metaplex-foundation/js', '@solana/spl-token']
   },
   optimizeDeps: {
     include: [
@@ -33,16 +37,13 @@ export default defineConfig({
       'https-browserify',
       'url',
       'crypto-browserify',
+      'util',
     ],
+    exclude: ['@solana/web3.js', '@metaplex-foundation/js', '@solana/spl-token']
   },
   build: {
     rollupOptions: {
       external: [],
-      output: {
-        globals: {
-          buffer: 'Buffer'
-        }
-      }
     },
     commonjsOptions: {
       transformMixedEsModules: true
