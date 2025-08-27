@@ -1,4 +1,5 @@
 
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -26,9 +27,6 @@ export default defineConfig({
       util: 'util',
     },
   },
-  ssr: {
-    noExternal: ['@solana/web3.js', '@metaplex-foundation/js', '@solana/spl-token']
-  },
   optimizeDeps: {
     include: [
       'buffer',
@@ -39,14 +37,16 @@ export default defineConfig({
       'crypto-browserify',
       'util',
     ],
-    exclude: ['@solana/web3.js', '@metaplex-foundation/js', '@solana/spl-token']
   },
   build: {
     rollupOptions: {
-      external: [],
+      define: {
+        global: 'globalThis',
+      },
     },
     commonjsOptions: {
       transformMixedEsModules: true
     }
   },
 })
+
