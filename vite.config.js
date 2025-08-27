@@ -1,3 +1,4 @@
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -10,13 +11,28 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis',
+    process: {
+      env: {}
+    },
   },
   resolve: {
     alias: {
       buffer: 'buffer',
+      stream: 'stream-browserify',
+      http: 'stream-http',
+      https: 'https-browserify',
+      url: 'url',
+      crypto: 'crypto-browserify',
     },
   },
   optimizeDeps: {
-    include: ['buffer'],
+    include: [
+      'buffer',
+      'stream-browserify',
+      'stream-http', 
+      'https-browserify',
+      'url',
+      'crypto-browserify',
+    ],
   },
 })
