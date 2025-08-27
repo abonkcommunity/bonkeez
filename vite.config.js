@@ -35,4 +35,17 @@ export default defineConfig({
       'crypto-browserify',
     ],
   },
+  build: {
+    rollupOptions: {
+      external: [],
+      output: {
+        globals: {
+          buffer: 'Buffer'
+        }
+      }
+    },
+    commonjsOptions: {
+      transformMixedEsModules: true
+    }
+  },
 })
