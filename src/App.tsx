@@ -28,10 +28,28 @@ function App() {
       <Header />
       <Hero />
       <TokenStats />
+      
+      {/* Profile Section */}
+      <section id="profile" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-900/20 to-pink-900/20">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+              Your Bonkeez Profile
+            </h2>
+            <p className="text-lg text-slate-300">
+              Connect your wallet to view your collection and $BNKZ balance
+            </p>
+          </div>
+          <div className="max-w-2xl mx-auto">
+            <UserProfile />
+          </div>
+        </div>
+      </section>
+      
       <TokenTrading />
       <Marketplace />
       
-      {/* New Functional Sections */}
+      {/* NFT Minting Section */}
       <section id="minting" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
@@ -44,22 +62,6 @@ function App() {
           </div>
           <div className="max-w-md mx-auto">
             <NFTMinting />
-          </div>
-        </div>
-      </section>
-
-      <section id="profile" className="py-20 px-4 sm:px-6 lg:px-8 bg-black/20">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-              Your Profile
-            </h2>
-            <p className="text-xl text-slate-300">
-              Manage your Bonkeez collection and account
-            </p>
-          </div>
-          <div className="max-w-md mx-auto">
-            <UserProfile />
           </div>
         </div>
       </section>

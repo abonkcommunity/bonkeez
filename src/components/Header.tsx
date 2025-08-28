@@ -58,23 +58,30 @@ const Header = () => {
               Marketplace
             </button>
             <button 
-              onClick={() => scrollToSection('marketplace')} 
-              className="text-white hover:text-purple-400 transition-colors font-medium text-sm"
+              onClick={() => scrollToSection('stats')} 
+              className="text-white hover:text-yellow-400 transition-colors font-medium text-sm"
             >
-              Collection
+              Stats
             </button>
             <button 
               onClick={() => scrollToSection('token')} 
               className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium text-sm"
             >
               <Coins className="w-4 h-4" />
-              <span>$BNKZ</span>
+              <span>$BNKZ Trading</span>
             </button>
             <button 
-              onClick={() => scrollToSection('stats')} 
-              className="text-white hover:text-yellow-400 transition-colors font-medium text-sm"
+              onClick={() => scrollToSection('profile')} 
+              className="text-white hover:text-green-400 transition-colors flex items-center space-x-1 font-medium text-sm"
             >
-              Stats
+              <User className="w-4 h-4" />
+              <span>Profile</span>
+            </button>
+            <button 
+              onClick={() => scrollToSection('minting')} 
+              className="text-white hover:text-purple-400 transition-colors font-medium text-sm"
+            >
+              NFT Minting
             </button>
           </nav>
 
@@ -91,9 +98,9 @@ const Header = () => {
                   {tokenData?.price || '$0.0001'}
                 </p>
                 <p className={`text-xs ${
-                  tokenData?.change24h?.startsWith('+') ? 'text-green-400' : 'text-red-400'
+                  (tokenData?.change24h || 0) >= 0 ? 'text-green-400' : 'text-red-400'
                 }`}>
-                  {tokenData?.change24h || '+0.0%'}
+                  {tokenData?.change24h ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` : '+0.0%'}
                 </p>
               </div>
             </div>
@@ -117,19 +124,6 @@ const Header = () => {
           {/* Wallet Connection */}
          <div className="hidden md:flex items-center space-x-3">
   <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 shadow-lg hover:shadow-pink-500/25 border border-pink-400/30 font-medium text-sm" />
-  <button 
-    onClick={() => {
-      const profileSection = document.getElementById('profile')
-      if (profileSection) {
-        profileSection.scrollIntoView({ behavior: 'smooth' })
-      } else {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-      }
-    }}
-    className="text-white hover:text-pink-400 transition-colors p-2 rounded-lg hover:bg-pink-500/20"
-  >
-    <User className="w-5 h-5" />
-  </button>
 </div>
 
           {/* Mobile Menu Button */}
@@ -152,29 +146,30 @@ const Header = () => {
                 Marketplace
               </button>
               <button 
-                onClick={() => scrollToSection('marketplace')} 
-                className="text-white hover:text-purple-400 transition-colors font-medium text-left"
+                onClick={() => scrollToSection('stats')} 
+                className="text-white hover:text-yellow-400 transition-colors font-medium text-left"
               >
-                Collection
+                Stats
               </button>
               <button 
                 onClick={() => scrollToSection('token')} 
                 className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium"
               >
                 <Coins className="w-4 h-4" />
-                <span>$BNKZ Token</span>
+                <span>$BNKZ Trading</span>
               </button>
               <button 
-                onClick={() => scrollToSection('stats')} 
-                className="text-white hover:text-pink-400 transition-colors font-medium text-left"
+                onClick={() => scrollToSection('profile')} 
+                className="text-white hover:text-green-400 transition-colors flex items-center space-x-1 font-medium"
               >
-                Stats
+                <User className="w-4 h-4" />
+                <span>Profile</span>
               </button>
               <button 
-                onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })} 
+                onClick={() => scrollToSection('minting')} 
                 className="text-white hover:text-purple-400 transition-colors font-medium text-left"
               >
-                About
+                NFT Minting
               </button>
               <div className="flex items-center justify-between bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-400/30 rounded-full p-3 backdrop-blur-sm">
                 <div className="flex items-center space-x-2">
@@ -190,9 +185,9 @@ const Header = () => {
                     {tokenData?.price || '$0.0001'}
                   </p>
                   <p className={`text-xs ${
-                    tokenData?.change24h?.startsWith('+') ? 'text-green-400' : 'text-red-400'
+                    (tokenData?.change24h || 0) >= 0 ? 'text-green-400' : 'text-red-400'
                   }`}>
-                    {tokenData?.change24h || '+0.0%'}
+                    {tokenData?.change24h ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` : '+0.0%'}
                   </p>
                 </div>
               </div>

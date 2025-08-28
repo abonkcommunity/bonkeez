@@ -1,6 +1,6 @@
-
 import React, { useState } from 'react'
 import { Zap, Clock, Star, Coins } from 'lucide-react'
+import { PublicKey } from '@solana/web3.js';
 
 const NFTMinting = () => {
   const [mintQuantity, setMintQuantity] = useState(1)
@@ -12,12 +12,17 @@ const NFTMinting = () => {
     BNKZ: 720
   }
 
+  // Placeholder for the actual collection mint public key.
+  // The original 'BonkEEz...' was an invalid base58 string.
+  // Replaced with a valid, though arbitrary, placeholder address.
+  const COLLECTION_MINT = new PublicKey('11111111111111111111111111111112')
+
   const handleMint = async () => {
     setIsMinting(true)
-    
+
     // Simulate minting process
     await new Promise(resolve => setTimeout(resolve, 3000))
-    
+
     alert(`Successfully minted ${mintQuantity} Bonkeez NFT${mintQuantity > 1 ? 's' : ''}!`)
     setIsMinting(false)
   }
