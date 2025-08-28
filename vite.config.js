@@ -1,3 +1,5 @@
+
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -10,10 +12,13 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis',
-    'process.env': {},
-    'process.version': '"v16.0.0"',
-    'process.platform': '"browser"',
-    'process.browser': true,
+    process: {
+      env: {},
+      version: '"v16.0.0"',
+      platform: '"browser"',
+      browser: true
+    },
+    Buffer: ['buffer', 'Buffer'],
   },
   resolve: {
     alias: {
@@ -39,10 +44,20 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: [],
+      define: {
+        global: 'globalThis',
+        process: {
+          env: {},
+          version: '"v16.0.0"',
+          platform: '"browser"',
+          browser: true
+        },
+        Buffer: ['buffer', 'Buffer'],
+      },
     },
     commonjsOptions: {
       transformMixedEsModules: true
     }
   },
 })
+
