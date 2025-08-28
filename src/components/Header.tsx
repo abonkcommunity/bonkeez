@@ -58,23 +58,17 @@ const Header = () => {
               Marketplace
             </button>
             <button 
-              onClick={() => scrollToSection('marketplace')} 
-              className="text-white hover:text-purple-400 transition-colors font-medium text-sm"
+              onClick={() => scrollToSection('stats')} 
+              className="text-white hover:text-yellow-400 transition-colors font-medium text-sm"
             >
-              Collection
+              Stats
             </button>
             <button 
               onClick={() => scrollToSection('token')} 
               className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium text-sm"
             >
               <Coins className="w-4 h-4" />
-              <span>$BNKZ</span>
-            </button>
-            <button 
-              onClick={() => scrollToSection('stats')} 
-              className="text-white hover:text-yellow-400 transition-colors font-medium text-sm"
-            >
-              Stats
+              <span>$BNKZ Trading</span>
             </button>
             <button 
               onClick={() => scrollToSection('profile')} 
@@ -82,6 +76,12 @@ const Header = () => {
             >
               <User className="w-4 h-4" />
               <span>Profile</span>
+            </button>
+            <button 
+              onClick={() => scrollToSection('minting')} 
+              className="text-white hover:text-purple-400 transition-colors font-medium text-sm"
+            >
+              NFT Minting
             </button>
           </nav>
 
@@ -146,23 +146,17 @@ const Header = () => {
                 Marketplace
               </button>
               <button 
-                onClick={() => scrollToSection('marketplace')} 
-                className="text-white hover:text-purple-400 transition-colors font-medium text-left"
+                onClick={() => scrollToSection('stats')} 
+                className="text-white hover:text-yellow-400 transition-colors font-medium text-left"
               >
-                Collection
+                Stats
               </button>
               <button 
                 onClick={() => scrollToSection('token')} 
                 className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium"
               >
                 <Coins className="w-4 h-4" />
-                <span>$BNKZ Token</span>
-              </button>
-              <button 
-                onClick={() => scrollToSection('stats')} 
-                className="text-white hover:text-pink-400 transition-colors font-medium text-left"
-              >
-                Stats
+                <span>$BNKZ Trading</span>
               </button>
               <button 
                 onClick={() => scrollToSection('profile')} 
@@ -172,10 +166,10 @@ const Header = () => {
                 <span>Profile</span>
               </button>
               <button 
-                onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })} 
+                onClick={() => scrollToSection('minting')} 
                 className="text-white hover:text-purple-400 transition-colors font-medium text-left"
               >
-                About
+                NFT Minting
               </button>
               <div className="flex items-center justify-between bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-400/30 rounded-full p-3 backdrop-blur-sm">
                 <div className="flex items-center space-x-2">
