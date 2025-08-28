@@ -13,7 +13,10 @@ export default defineConfig({
   define: {
     global: 'globalThis',
     process: {
-      env: {}
+      env: {},
+      version: '"v16.0.0"',
+      platform: '"browser"',
+      browser: true
     },
     Buffer: ['buffer', 'Buffer'],
   },
@@ -43,6 +46,12 @@ export default defineConfig({
     rollupOptions: {
       define: {
         global: 'globalThis',
+        process: {
+          env: {},
+          version: '"v16.0.0"',
+          platform: '"browser"',
+          browser: true
+        },
         Buffer: ['buffer', 'Buffer'],
       },
     },
