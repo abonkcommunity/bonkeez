@@ -76,6 +76,13 @@ const Header = () => {
             >
               Stats
             </button>
+            <button 
+              onClick={() => scrollToSection('profile')} 
+              className="text-white hover:text-green-400 transition-colors flex items-center space-x-1 font-medium text-sm"
+            >
+              <User className="w-4 h-4" />
+              <span>Profile</span>
+            </button>
           </nav>
 
           <div className="flex items-center space-x-4">
@@ -117,19 +124,6 @@ const Header = () => {
           {/* Wallet Connection */}
          <div className="hidden md:flex items-center space-x-3">
   <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 shadow-lg hover:shadow-pink-500/25 border border-pink-400/30 font-medium text-sm" />
-  <button 
-    onClick={() => {
-      const profileSection = document.getElementById('profile')
-      if (profileSection) {
-        profileSection.scrollIntoView({ behavior: 'smooth' })
-      } else {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-      }
-    }}
-    className="text-white hover:text-pink-400 transition-colors p-2 rounded-lg hover:bg-pink-500/20"
-  >
-    <User className="w-5 h-5" />
-  </button>
 </div>
 
           {/* Mobile Menu Button */}
@@ -169,6 +163,13 @@ const Header = () => {
                 className="text-white hover:text-pink-400 transition-colors font-medium text-left"
               >
                 Stats
+              </button>
+              <button 
+                onClick={() => scrollToSection('profile')} 
+                className="text-white hover:text-green-400 transition-colors flex items-center space-x-1 font-medium"
+              >
+                <User className="w-4 h-4" />
+                <span>Profile</span>
               </button>
               <button 
                 onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })} 
