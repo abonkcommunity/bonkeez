@@ -1,18 +1,16 @@
-
 import { Buffer } from 'buffer'
 
-// Make Buffer available globally for Solana/Metaplex libraries
+// Make Buffer available globally
 if (typeof window !== 'undefined') {
-  window.Buffer = Buffer
-  window.global = window
-  
-  // Additional polyfills for crypto and other Node.js modules
-  if (!window.process) {
-    window.process = { env: {} } as any
+  (window as any).Buffer = Buffer
+  // Also make it available as global.Buffer for compatibility
+  if (typeof (window as any).global === 'undefined') {
+    (window as any).global = window
   }
+  (window as any).global.Buffer = Buffer
 }
 
-// For Node.js environment compatibility
-if (typeof global !== 'undefined' && !global.Buffer) {
-  global.Buffer = Buffer
+// Polyfill for global
+if (typeof global === 'undefined') {
+  (globalThis as any).global = globalThis
 }
