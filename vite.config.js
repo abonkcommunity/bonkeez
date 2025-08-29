@@ -21,6 +21,7 @@ export default defineConfig({
       url: 'url',
       crypto: 'crypto-browserify',
       util: 'util',
+      'readable-stream': 'stream-browserify',
     },
   },
   optimizeDeps: {
@@ -32,6 +33,9 @@ export default defineConfig({
       'url',
       'crypto-browserify',
       'util',
+    ],
+    exclude: [
+      'readable-stream'
     ],
   },
   build: {

@@ -1,3 +1,4 @@
+
 import { Buffer } from 'buffer'
 
 // Make Buffer and other Node.js modules available globally
@@ -38,6 +39,22 @@ if (typeof window !== 'undefined') {
   if (!window.process) {
     window.process = globalThis.process
   }
+}
+
+// Add polyfill for stream methods that might be undefined
+const originalSlice = Array.prototype.slice;
+if (typeof String.prototype.slice === 'undefined') {
+  String.prototype.slice = function(start?: number, end?: number) {
+    return originalSlice.call(this, start, end).join('');
+  };
+}
+
+// Ensure ArrayBuffer and Uint8Array have proper slice methods
+if (typeof Uint8Array.prototype.slice === 'undefined') {
+  Uint8Array.prototype.slice = function(start?: number, end?: number) {
+    const result = new Uint8Array(this.subarray(start, end));
+    return result;
+  };
 }
 
 export {}
