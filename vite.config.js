@@ -1,4 +1,3 @@
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -12,6 +11,9 @@ export default defineConfig({
   define: {
     global: 'globalThis',
     'process.env': {},
+    'process.version': '"v16.0.0"',
+    'process.platform': '"browser"',
+    'process.browser': true,
   },
   resolve: {
     alias: {
@@ -22,8 +24,6 @@ export default defineConfig({
       url: 'url',
       crypto: 'crypto-browserify',
       util: 'util',
-      assert: 'assert',
-      events: 'events',
     },
   },
   optimizeDeps: {
@@ -35,8 +35,6 @@ export default defineConfig({
       'url',
       'crypto-browserify',
       'util',
-      'assert',
-      'events',
     ],
   },
   build: {
