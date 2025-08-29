@@ -9,22 +9,7 @@ const TokenStats = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      let data = await getTokenDataSafe()
-      
-      // If API fails, use mock data
-      if (!data) {
-        console.log('Using mock data for token stats')
-        data = {
-          price: '$0.00002400',
-          change24h: 5.2,
-          marketCap: '$2.4M',
-          volume24h: '$187K',
-          holders: '1,284',
-          totalSupply: '1.0B BNKZ',
-          lastUpdated: new Date().toLocaleTimeString()
-        }
-      }
-      
+      const data = await getTokenDataSafe()
       setTokenData(data)
       setLoading(false)
     }
