@@ -21,7 +21,10 @@ export default defineConfig({
       url: 'url',
       crypto: 'crypto-browserify',
       util: 'util',
-      'readable-stream': 'stream-browserify',
+      'readable-stream': 'readable-stream',
+      'readable-stream/lib/_stream_readable.js': 'readable-stream/lib/_stream_readable.js',
+      'readable-stream/lib/_stream_writable.js': 'readable-stream/lib/_stream_writable.js',
+      'readable-stream/lib/_stream_duplex.js': 'readable-stream/lib/_stream_duplex.js',
     },
   },
   optimizeDeps: {
@@ -33,10 +36,9 @@ export default defineConfig({
       'url',
       'crypto-browserify',
       'util',
+      'readable-stream',
     ],
-    exclude: [
-      'readable-stream'
-    ],
+    exclude: [],
   },
   build: {
     chunkSizeWarningLimit: 1000,

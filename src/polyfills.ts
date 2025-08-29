@@ -57,4 +57,25 @@ if (typeof Uint8Array.prototype.slice === 'undefined') {
   };
 }
 
+// Handle dynamic require for readable-stream modules
+if (typeof window !== 'undefined') {
+  // Mock require function for dynamic requires
+  const mockRequire = (id: string) => {
+    if (id === 'readable-stream/lib/_stream_readable.js') {
+      return require('readable-stream/lib/_stream_readable.js');
+    }
+    if (id === 'readable-stream/lib/_stream_writable.js') {
+      return require('readable-stream/lib/_stream_writable.js');
+    }
+    if (id === 'readable-stream/lib/_stream_duplex.js') {
+      return require('readable-stream/lib/_stream_duplex.js');
+    }
+    throw new Error(`Cannot require module: ${id}`);
+  };
+  
+  // Set up require for modules that need it
+  (globalThis as any).require = mockRequire;
+  (window as any).require = mockRequire;
+}
+
 export {}
