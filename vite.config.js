@@ -11,6 +11,9 @@ export default defineConfig({
   define: {
     global: 'globalThis',
     'process.env': {},
+    'process.version': '"v16.0.0"',
+    'process.platform': '"browser"',
+    'process.browser': true,
   },
   resolve: {
     alias: {
@@ -21,10 +24,6 @@ export default defineConfig({
       url: 'url',
       crypto: 'crypto-browserify',
       util: 'util',
-      'readable-stream': 'readable-stream',
-      'readable-stream/lib/_stream_readable.js': 'readable-stream/lib/_stream_readable.js',
-      'readable-stream/lib/_stream_writable.js': 'readable-stream/lib/_stream_writable.js',
-      'readable-stream/lib/_stream_duplex.js': 'readable-stream/lib/_stream_duplex.js',
     },
   },
   optimizeDeps: {
@@ -36,37 +35,14 @@ export default defineConfig({
       'url',
       'crypto-browserify',
       'util',
-      'readable-stream',
     ],
-    exclude: [],
   },
   build: {
-    chunkSizeWarningLimit: 1000,
     rollupOptions: {
-      output: {
-        manualChunks: {
-          'solana-core': [
-            '@solana/web3.js',
-            '@solana/spl-token'
-          ],
-          'solana-wallet': [
-            '@solana/wallet-adapter-base',
-            '@solana/wallet-adapter-react',
-            '@solana/wallet-adapter-react-ui',
-            '@solana/wallet-adapter-phantom',
-            '@solana/wallet-adapter-backpack',
-            '@solana/wallet-adapter-solflare'
-          ],
-          'vendor': [
-            'react',
-            'react-dom'
-          ]
-        }
-      }
+      external: [],
     },
     commonjsOptions: {
-      transformMixedEsModules: true,
-      include: [/node_modules/]
+      transformMixedEsModules: true
     }
   },
 })

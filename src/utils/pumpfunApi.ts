@@ -1,7 +1,8 @@
+// pumpfunApi.ts - Improved version with better error handling and CORS solutions
 import React from 'react';
 
 // Configuration - Update this with your actual token address
-const TOKEN_ADDRESS = "Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F";
+const TOKEN_ADDRESS = "Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F"; // Updated to match your contract
 const API_URL = `https://frontend-api.pump.fun/coins/${TOKEN_ADDRESS}`;
 const WEBSOCKET_URL = 'wss://pumpportal.fun/api/data';
 
@@ -27,7 +28,6 @@ export interface TokenData {
   holders: string;
   totalSupply: string;
   lastUpdated?: string;
-  circulation?: string; // Added circulation property
 }
 
 // Mock data with more realistic values
@@ -36,9 +36,9 @@ const generateMockData = (): TokenData => {
   const basePrice = 0.0024;
   const variation = (Math.random() - 0.5) * 0.0001;
   const currentPrice = basePrice + variation;
-
+  
   const change24h = (Math.random() - 0.5) * 30; // -15% to +15%
-
+  
   return {
     price: `$${currentPrice.toFixed(6)}`,
     change24h: Number(change24h.toFixed(1)),
@@ -46,8 +46,7 @@ const generateMockData = (): TokenData => {
     volume24h: `$${(156 + Math.floor(Math.random() * 50)).toFixed(0)}K`,
     holders: `${1247 + Math.floor(Math.random() * 100)}`,
     totalSupply: '1B BNKZ',
-    lastUpdated: new Date().toLocaleTimeString(),
-    circulation: `$${(0.8 + (Math.random() - 0.5) * 0.2).toFixed(1)}M` // Mock circulation
+    lastUpdated: new Date().toLocaleTimeString()
   };
 };
 
@@ -79,7 +78,7 @@ async function fetchWithCORSProxy(url: string, proxyIndex = 0): Promise<Response
   if (proxyIndex >= CORS_PROXIES.length) {
     return null;
   }
-
+  
   try {
     const proxyUrl = CORS_PROXIES[proxyIndex] + encodeURIComponent(url);
     const response = await fetch(proxyUrl, {
@@ -89,11 +88,11 @@ async function fetchWithCORSProxy(url: string, proxyIndex = 0): Promise<Response
       },
       signal: AbortSignal.timeout(8000) // 8 second timeout
     });
-
+    
     if (!response.ok) {
       throw new Error(`Proxy ${proxyIndex} failed: ${response.status}`);
     }
-
+    
     return response;
   } catch (error) {
     console.warn(`CORS proxy ${proxyIndex} failed:`, error);
@@ -105,7 +104,7 @@ async function fetchWithCORSProxy(url: string, proxyIndex = 0): Promise<Response
 // Enhanced API fetch function
 export async function getTokenDataSafe(): Promise<TokenData | null> {
   console.log('Attempting to fetch token data...');
-
+  
   // Method 1: Try direct API call first
   try {
     const response = await fetch(API_URL, {
@@ -119,7 +118,7 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
       mode: 'cors',
       signal: AbortSignal.timeout(5000) // 5 second timeout
     });
-
+    
     if (response.ok) {
       const data = await response.json();
       console.log('Direct API success:', data);
@@ -128,7 +127,7 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
   } catch (error) {
     console.warn('Direct API failed:', error);
   }
-
+  
   // Method 2: Try CORS proxy
   console.log('Trying CORS proxy...');
   try {
@@ -149,7 +148,7 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
       } catch (e) {
         console.warn('Failed to parse proxy response');
       }
-
+      
       if (data && typeof data === 'object') {
         console.log('Proxy API success:', data);
         return parseTokenData(data);
@@ -158,7 +157,7 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
   } catch (error) {
     console.warn('Proxy API failed:', error);
   }
-
+  
   // Method 3: Try backup APIs
   console.log('Trying backup APIs...');
   for (const backupUrl of BACKUP_APIs) {
@@ -167,7 +166,7 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
         headers: { 'Accept': 'application/json' },
         signal: AbortSignal.timeout(5000)
       });
-
+      
       if (response.ok) {
         const data = await response.json();
         console.log('Backup API success:', data);
@@ -177,8 +176,8 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
       console.warn(`Backup API ${backupUrl} failed:`, error);
     }
   }
-
-  console.log('All API methods failed, returning null to trigger mock data');
+  
+  console.log('All API methods failed, using mock data');
   return null; // This will trigger mock data usage
 }
 
@@ -189,32 +188,20 @@ function parseTokenData(data: any): TokenData | null {
     const price = data.usdMarketCap && data.supply ? 
       (data.usdMarketCap / data.supply) : 
       (data.priceUsd ?? data.price ?? data.virtualSolAmount ?? 0);
-
+    
     const marketCap = data.usdMarketCap ?? data.marketCap ?? data.market_cap ?? 0;
     const volume24h = data.usdVolume24h ?? data.volume24h ?? data.volume_24h ?? 0;
     const holders = data.holders ?? data.uniqueWallets ?? data.holder_count ?? "N/A";
     const supply = data.supply ?? data.totalSupply ?? data.total_supply ?? 0;
     const change24h = data.change24h ?? data.priceChange24h ?? data.price_change_24h ?? 0;
-    const circulation = data.circulation ?? (data.circulatingSupply ?? data.circulating_supply) ?? 0;
-
-    // Safely format values, providing defaults if they are missing or invalid
-    const formattedPrice = price ? `$${Number(price).toFixed(6)}` : "$0.000000";
-    const formattedMarketCap = marketCap ? formatCurrency(marketCap) : "N/A";
-    const formattedVolume24h = volume24h ? formatCurrency(volume24h) : "N/A";
-    const formattedHolders = formatNumber(holders);
-    const formattedSupply = supply ? formatNumber(supply) : "1B BNKZ";
-    const formattedChange24h = typeof change24h === 'number' ? change24h : 0;
-    const formattedCirculation = circulation ? formatCurrency(circulation) : "N/A";
-
-
+    
     return {
-      price: formattedPrice,
-      change24h: formattedChange24h,
-      marketCap: formattedMarketCap,
-      volume24h: formattedVolume24h,
-      holders: formattedHolders,
-      totalSupply: formattedSupply,
-      circulation: formattedCirculation,
+      price: `$${Number(price).toFixed(6)}`,
+      change24h: Number(change24h),
+      marketCap: marketCap ? formatCurrency(marketCap) : "N/A",
+      volume24h: volume24h ? formatCurrency(volume24h) : "N/A",
+      holders: formatNumber(holders),
+      totalSupply: supply ? formatNumber(supply) : "1B BNKZ",
       lastUpdated: new Date().toLocaleTimeString()
     };
   } catch (error) {
@@ -236,31 +223,12 @@ function parseBackupApiData(data: any): TokenData | null {
         volume24h: pair.volume?.h24 ? formatCurrency(pair.volume.h24) : "N/A",
         holders: "N/A",
         totalSupply: "1B BNKZ",
-        circulation: "N/A", // Placeholder for circulation if not available
         lastUpdated: new Date().toLocaleTimeString()
       };
     }
-
-    // Handle Solscan format (example, adjust as needed)
-    if (data.token && data.token.tokenAddress === TOKEN_ADDRESS) {
-      return {
-        price: `$${Number(data.token.price || 0).toFixed(6)}`,
-        change24h: Number(data.token.priceChange24h || 0),
-        marketCap: data.token.marketCap ? formatCurrency(data.token.marketCap) : "N/A",
-        volume24h: data.token.volume24h ? formatCurrency(data.token.volume24h) : "N/A",
-        holders: data.token.holders ? formatNumber(data.token.holders) : "N/A",
-        totalSupply: data.token.totalSupply ? formatNumber(data.token.totalSupply) : "1B BNKZ",
-        circulation: data.token.circulatingSupply ? formatCurrency(data.token.circulatingSupply) : "N/A",
-        lastUpdated: new Date().toLocaleTimeString()
-      };
-    }
-
-    // Fallback to primary API parsing if structure is unknown but data is present
-    if (data && Object.keys(data).length > 0) {
-        return parseTokenData(data);
-    }
-
-    return null; // Return null if data format is not recognized
+    
+    // Handle other formats
+    return parseTokenData(data);
   } catch (error) {
     console.error('Error parsing backup API data:', error);
     return null;
@@ -303,24 +271,24 @@ export class PumpfunWebSocket {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       return; // Already connected
     }
-
+    
     this.isManuallyDisconnected = false;
-
+    
     try {
       this.ws = new WebSocket(WEBSOCKET_URL);
-
+      
       this.ws.onopen = () => {
         console.log('Connected to PumpPortal WebSocket');
         this.onConnectionChange(true);
         this.reconnectAttempts = 0;
         this.reconnectDelay = 1000;
-
+        
         // Resubscribe to all previous subscriptions
         this.subscriptions.forEach(subscription => {
           this.send(JSON.parse(subscription));
         });
       };
-
+      
       this.ws.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
@@ -329,21 +297,21 @@ export class PumpfunWebSocket {
           console.error('Error parsing WebSocket message:', error);
         }
       };
-
+      
       this.ws.onclose = (event) => {
         console.log('WebSocket connection closed:', event.code, event.reason);
         this.onConnectionChange(false);
-
+        
         if (!this.isManuallyDisconnected) {
           this.attemptReconnect();
         }
       };
-
+      
       this.ws.onerror = (error) => {
         console.error('WebSocket error:', error);
         this.onConnectionChange(false);
       };
-
+      
     } catch (error) {
       console.error('Failed to create WebSocket connection:', error);
       this.onConnectionChange(false);
@@ -367,7 +335,7 @@ export class PumpfunWebSocket {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       const messageStr = JSON.stringify(message);
       this.ws.send(messageStr);
-
+      
       // Store subscription for reconnection
       if (message.method && message.method.startsWith('subscribe')) {
         this.subscriptions.add(messageStr);
@@ -376,7 +344,7 @@ export class PumpfunWebSocket {
         const subscribeMethod = message.method.replace('unsubscribe', 'subscribe');
         for (const sub of this.subscriptions) {
           const subObj = JSON.parse(sub);
-          if (subObj.method === subscribeMethod &&
+          if (subObj.method === subscribeMethod && 
               JSON.stringify(subObj.keys) === JSON.stringify(message.keys)) {
             this.subscriptions.delete(sub);
             break;
@@ -390,16 +358,16 @@ export class PumpfunWebSocket {
 
   // Subscribe to token trades for our specific token
   subscribeToTokenTrades(): void {
-    this.send({
-      method: "subscribeTokenTrade",
-      keys: [TOKEN_ADDRESS]
+    this.send({ 
+      method: "subscribeTokenTrade", 
+      keys: [TOKEN_ADDRESS] 
     });
   }
 
   unsubscribeFromTokenTrades(): void {
-    this.send({
-      method: "unsubscribeTokenTrade",
-      keys: [TOKEN_ADDRESS]
+    this.send({ 
+      method: "unsubscribeTokenTrade", 
+      keys: [TOKEN_ADDRESS] 
     });
   }
 
@@ -440,7 +408,7 @@ export function usePumpfunWebSocket(
 export function isValidSolanaAddress(address: string): boolean {
   if (!address || typeof address !== 'string') return false;
   if (address.length < 32 || address.length > 44) return false;
-
+  
   // Check for valid base58 characters
   const base58Regex = /^[1-9A-HJ-NP-Za-km-z]+$/;
   return base58Regex.test(address);
@@ -457,10 +425,10 @@ export async function testApiConnections(): Promise<{
     proxy: false,
     backup: false
   };
-
+  
   // Test direct connection
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL, { 
       method: 'HEAD',
       mode: 'cors',
       signal: AbortSignal.timeout(3000)
@@ -469,7 +437,7 @@ export async function testApiConnections(): Promise<{
   } catch (error) {
     console.log('Direct API test failed');
   }
-
+  
   // Test proxy connection
   try {
     const proxyResponse = await fetchWithCORSProxy(API_URL);
@@ -477,7 +445,7 @@ export async function testApiConnections(): Promise<{
   } catch (error) {
     console.log('Proxy API test failed');
   }
-
+  
   // Test backup APIs
   for (const backupUrl of BACKUP_APIs) {
     try {
@@ -493,7 +461,7 @@ export async function testApiConnections(): Promise<{
       continue;
     }
   }
-
+  
   return results;
 }
 
