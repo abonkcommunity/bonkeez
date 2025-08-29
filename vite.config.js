@@ -38,8 +38,39 @@ export default defineConfig({
     ],
   },
   build: {
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       external: [],
+      output: {
+        manualChunks: {
+          'solana-core': [
+            '@solana/web3.js',
+            '@solana/spl-token'
+          ],
+          'solana-wallet': [
+            '@solana/wallet-adapter-base',
+            '@solana/wallet-adapter-react',
+            '@solana/wallet-adapter-react-ui',
+            '@solana/wallet-adapter-phantom',
+            '@solana/wallet-adapter-backpack',
+            '@solana/wallet-adapter-solflare',
+            '@solana/wallet-adapter-torus'
+          ],
+          'metaplex': [
+            '@metaplex-foundation/js'
+          ],
+          'vendor': [
+            'react',
+            'react-dom'
+          ],
+          'charts': [
+            'recharts'
+          ],
+          'icons': [
+            'lucide-react'
+          ]
+        }
+      }
     },
     commonjsOptions: {
       transformMixedEsModules: true
