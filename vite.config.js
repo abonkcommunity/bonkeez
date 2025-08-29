@@ -9,6 +9,10 @@ export default defineConfig({
     host: '0.0.0.0',
     allowedHosts: ['.replit.dev', '.repl.co'],
   },
+  define: {
+    global: 'globalThis',
+    'process.env': {},
+  },
   resolve: {
     alias: {
       buffer: 'buffer',
@@ -18,6 +22,8 @@ export default defineConfig({
       url: 'url',
       crypto: 'crypto-browserify',
       util: 'util',
+      assert: 'assert',
+      events: 'events',
     },
   },
   optimizeDeps: {
@@ -29,6 +35,8 @@ export default defineConfig({
       'url',
       'crypto-browserify',
       'util',
+      'assert',
+      'events',
     ],
   },
   build: {
