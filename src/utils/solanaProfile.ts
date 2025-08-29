@@ -65,6 +65,9 @@ export async function fetchUserNFTs(walletAddress: string): Promise<NFTMetadata[
 
 export async function fetchBNKZBalance(walletAddress: string): Promise<number> {
   try {
+    if (!walletAddress) {
+      return 0;
+    }
     const publicKey = new PublicKey(walletAddress)
     const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
       publicKey,
@@ -85,6 +88,9 @@ export async function fetchBNKZBalance(walletAddress: string): Promise<number> {
 
 export async function fetchSOLBalance(walletAddress: string): Promise<number> {
   try {
+    if (!walletAddress) {
+      return 0;
+    }
     const publicKey = new PublicKey(walletAddress)
     const balance = await connection.getBalance(publicKey)
     return balance / 1e9 // Convert lamports to SOL

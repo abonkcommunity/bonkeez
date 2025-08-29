@@ -112,17 +112,15 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'Mozilla/5.0 (compatible; BonkeezApp/1.0)',
-        'Origin': 'https://pump.fun',
-        'Referer': 'https://pump.fun/',
       },
-      mode: 'cors',
       signal: AbortSignal.timeout(5000) // 5 second timeout
     });
     
     if (response.ok) {
       const data = await response.json();
       console.log('Direct API success:', data);
-      return parseTokenData(data);
+      const parsedData = parseTokenData(data);
+      if (parsedData) return parsedData;
     }
   } catch (error) {
     console.warn('Direct API failed:', error);
@@ -134,8 +132,7 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
     const proxyResponse = await fetchWithCORSProxy(API_URL);
     if (proxyResponse) {
       const text = await proxyResponse.text();
-      // Handle AllOrigins response format
-      let data = text;
+      let data;
       try {
         const parsed = JSON.parse(text);
         if (parsed.contents) {
@@ -145,13 +142,14 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
         } else {
           data = parsed;
         }
+        
+        if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+          console.log('Proxy API success:', data);
+          const parsedData = parseTokenData(data);
+          if (parsedData) return parsedData;
+        }
       } catch (e) {
         console.warn('Failed to parse proxy response');
-      }
-      
-      if (data && typeof data === 'object') {
-        console.log('Proxy API success:', data);
-        return parseTokenData(data);
       }
     }
   } catch (error) {
@@ -170,15 +168,16 @@ export async function getTokenDataSafe(): Promise<TokenData | null> {
       if (response.ok) {
         const data = await response.json();
         console.log('Backup API success:', data);
-        return parseBackupApiData(data);
+        const parsedData = parseBackupApiData(data);
+        if (parsedData) return parsedData;
       }
     } catch (error) {
       console.warn(`Backup API ${backupUrl} failed:`, error);
     }
   }
   
-  console.log('All API methods failed, using mock data');
-  return null; // This will trigger mock data usage
+  console.log('All API methods failed, returning mock data');
+  return generateMockData(); // Return mock data instead of null
 }
 
 // Parse data from primary API
@@ -225,6 +224,12 @@ function parseBackupApiData(data: any): TokenData | null {
         totalSupply: "1B BNKZ",
         lastUpdated: new Date().toLocaleTimeString()
       };
+    }
+    
+    // If backup API returns no valid data, return null to trigger fallback
+    if (!data || (data.pairs === null) || (data.schemaVersion && !data.pairs)) {
+      console.warn('Backup API returned empty data structure');
+      return null;
     }
     
     // Handle other formats
