@@ -1,4 +1,4 @@
-// pumpfunApi.ts - Improved version with better error handling and CORS solutions
+
 import React from 'react';
 
 // Configuration - Update this with your actual token address
