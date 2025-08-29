@@ -100,7 +100,9 @@ const Header = () => {
                 <p className={`text-xs ${
                   (tokenData?.change24h || 0) >= 0 ? 'text-green-400' : 'text-red-400'
                 }`}>
-                  {tokenData?.change24h ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` : '+0.0%'}
+                  {tokenData?.change24h !== undefined && typeof tokenData.change24h === 'number' 
+                    ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` 
+                    : '+0.0%'}
                 </p>
               </div>
             </div>
@@ -187,7 +189,9 @@ const Header = () => {
                   <p className={`text-xs ${
                     (tokenData?.change24h || 0) >= 0 ? 'text-green-400' : 'text-red-400'
                   }`}>
-                    {tokenData?.change24h ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` : '+0.0%'}
+                    {tokenData?.change24h !== undefined && typeof tokenData.change24h === 'number'
+                      ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` 
+                      : '+0.0%'}
                   </p>
                 </div>
               </div>

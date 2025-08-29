@@ -27,6 +27,7 @@ export interface TokenData {
   holders: string;
   totalSupply: string;
   lastUpdated?: string;
+  circulation?: string; // Added circulation property
 }
 
 // Mock data with more realistic values
@@ -45,7 +46,8 @@ const generateMockData = (): TokenData => {
     volume24h: `$${(156 + Math.floor(Math.random() * 50)).toFixed(0)}K`,
     holders: `${1247 + Math.floor(Math.random() * 100)}`,
     totalSupply: '1B BNKZ',
-    lastUpdated: new Date().toLocaleTimeString()
+    lastUpdated: new Date().toLocaleTimeString(),
+    circulation: `$${(0.8 + (Math.random() - 0.5) * 0.2).toFixed(1)}M` // Mock circulation
   };
 };
 
@@ -193,6 +195,7 @@ function parseTokenData(data: any): TokenData | null {
     const holders = data.holders ?? data.uniqueWallets ?? data.holder_count ?? "N/A";
     const supply = data.supply ?? data.totalSupply ?? data.total_supply ?? 0;
     const change24h = data.change24h ?? data.priceChange24h ?? data.price_change_24h ?? 0;
+    const circulation = data.circulation ?? (data.circulatingSupply ?? data.circulating_supply) ?? 0;
 
     // Safely format values, providing defaults if they are missing or invalid
     const formattedPrice = price ? `$${Number(price).toFixed(6)}` : "$0.000000";
@@ -201,6 +204,7 @@ function parseTokenData(data: any): TokenData | null {
     const formattedHolders = formatNumber(holders);
     const formattedSupply = supply ? formatNumber(supply) : "1B BNKZ";
     const formattedChange24h = typeof change24h === 'number' ? change24h : 0;
+    const formattedCirculation = circulation ? formatCurrency(circulation) : "N/A";
 
 
     return {
@@ -210,6 +214,7 @@ function parseTokenData(data: any): TokenData | null {
       volume24h: formattedVolume24h,
       holders: formattedHolders,
       totalSupply: formattedSupply,
+      circulation: formattedCirculation,
       lastUpdated: new Date().toLocaleTimeString()
     };
   } catch (error) {
@@ -231,12 +236,31 @@ function parseBackupApiData(data: any): TokenData | null {
         volume24h: pair.volume?.h24 ? formatCurrency(pair.volume.h24) : "N/A",
         holders: "N/A",
         totalSupply: "1B BNKZ",
+        circulation: "N/A", // Placeholder for circulation if not available
         lastUpdated: new Date().toLocaleTimeString()
       };
     }
 
-    // Handle other formats by attempting to parse them like the primary API
-    return parseTokenData(data);
+    // Handle Solscan format (example, adjust as needed)
+    if (data.token && data.token.tokenAddress === TOKEN_ADDRESS) {
+      return {
+        price: `$${Number(data.token.price || 0).toFixed(6)}`,
+        change24h: Number(data.token.priceChange24h || 0),
+        marketCap: data.token.marketCap ? formatCurrency(data.token.marketCap) : "N/A",
+        volume24h: data.token.volume24h ? formatCurrency(data.token.volume24h) : "N/A",
+        holders: data.token.holders ? formatNumber(data.token.holders) : "N/A",
+        totalSupply: data.token.totalSupply ? formatNumber(data.token.totalSupply) : "1B BNKZ",
+        circulation: data.token.circulatingSupply ? formatCurrency(data.token.circulatingSupply) : "N/A",
+        lastUpdated: new Date().toLocaleTimeString()
+      };
+    }
+
+    // Fallback to primary API parsing if structure is unknown but data is present
+    if (data && Object.keys(data).length > 0) {
+        return parseTokenData(data);
+    }
+
+    return null; // Return null if data format is not recognized
   } catch (error) {
     console.error('Error parsing backup API data:', error);
     return null;

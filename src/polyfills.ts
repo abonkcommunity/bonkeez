@@ -83,33 +83,68 @@ if (typeof window !== 'undefined') {
 // Enhanced stream and buffer polyfills
 const originalSlice = Array.prototype.slice;
 
-// Fix slice method for various types
+// Fix slice method for various types with better error handling
 const ensureSliceMethod = (proto: any) => {
+  if (!proto || typeof proto !== 'object') return;
+  
   if (!proto.slice) {
     proto.slice = function(start?: number, end?: number) {
-      if (this.subarray) {
-        return new this.constructor(this.subarray(start, end));
-      } else if (this.substring) {
-        return this.substring(start, end);
-      } else if (Array.isArray(this)) {
-        return originalSlice.call(this, start, end);
+      try {
+        if (this === null || this === undefined) {
+          return new Uint8Array(0);
+        }
+        
+        if (this.subarray && typeof this.subarray === 'function') {
+          return new this.constructor(this.subarray(start, end));
+        } else if (this.substring && typeof this.substring === 'function') {
+          return this.substring(start, end);
+        } else if (Array.isArray(this)) {
+          return originalSlice.call(this, start, end);
+        } else if (this.length !== undefined) {
+          // Handle array-like objects
+          const length = Math.max(0, this.length);
+          const actualStart = start === undefined ? 0 : Math.max(0, start < 0 ? length + start : start);
+          const actualEnd = end === undefined ? length : Math.min(length, end < 0 ? length + end : end);
+          const result = [];
+          for (let i = actualStart; i < actualEnd; i++) {
+            result.push(this[i]);
+          }
+          return result;
+        }
+        return this;
+      } catch (error) {
+        console.warn('Slice operation failed, returning empty array:', error);
+        return new Uint8Array(0);
       }
-      return this;
     };
   }
 };
 
-// Apply slice method to all relevant prototypes
-[Uint8Array.prototype, Int8Array.prototype, Uint16Array.prototype, Int16Array.prototype,
- Uint32Array.prototype, Int32Array.prototype, Float32Array.prototype, Float64Array.prototype,
- ArrayBuffer.prototype, String.prototype].forEach(ensureSliceMethod);
+// Apply slice method to all relevant prototypes with safety checks
+try {
+  [Uint8Array.prototype, Int8Array.prototype, Uint16Array.prototype, Int16Array.prototype,
+   Uint32Array.prototype, Int32Array.prototype, Float32Array.prototype, Float64Array.prototype,
+   ArrayBuffer.prototype, String.prototype].forEach(proto => {
+     if (proto) ensureSliceMethod(proto);
+   });
+} catch (error) {
+  console.warn('Failed to setup array prototype slice methods:', error);
+}
 
 // Additional Buffer polyfills for crypto operations
-if (typeof globalThis.Buffer !== 'undefined') {
+if (typeof globalThis.Buffer !== 'undefined' && globalThis.Buffer.prototype) {
   const BufferProto = globalThis.Buffer.prototype;
   if (!BufferProto.slice) {
     BufferProto.slice = function(start?: number, end?: number) {
-      return new globalThis.Buffer(this.subarray(start, end));
+      try {
+        if (this && this.subarray) {
+          return new globalThis.Buffer(this.subarray(start, end));
+        }
+        return new globalThis.Buffer(0);
+      } catch (error) {
+        console.warn('Buffer slice failed:', error);
+        return new globalThis.Buffer(0);
+      }
     };
   }
 }
