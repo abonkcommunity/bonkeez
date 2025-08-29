@@ -80,41 +80,126 @@ if (typeof window !== 'undefined') {
   }
 }
 
-// Add polyfill for stream methods that might be undefined
+// Enhanced stream and buffer polyfills
 const originalSlice = Array.prototype.slice;
-if (typeof String.prototype.slice === 'undefined') {
-  String.prototype.slice = function(start?: number, end?: number) {
-    return originalSlice.call(this, start, end).join('');
-  };
+
+// Fix slice method for various types
+const ensureSliceMethod = (proto: any) => {
+  if (!proto.slice) {
+    proto.slice = function(start?: number, end?: number) {
+      if (this.subarray) {
+        return new this.constructor(this.subarray(start, end));
+      } else if (this.substring) {
+        return this.substring(start, end);
+      } else if (Array.isArray(this)) {
+        return originalSlice.call(this, start, end);
+      }
+      return this;
+    };
+  }
+};
+
+// Apply slice method to all relevant prototypes
+[Uint8Array.prototype, Int8Array.prototype, Uint16Array.prototype, Int16Array.prototype,
+ Uint32Array.prototype, Int32Array.prototype, Float32Array.prototype, Float64Array.prototype,
+ ArrayBuffer.prototype, String.prototype].forEach(ensureSliceMethod);
+
+// Additional Buffer polyfills for crypto operations
+if (typeof globalThis.Buffer !== 'undefined') {
+  const BufferProto = globalThis.Buffer.prototype;
+  if (!BufferProto.slice) {
+    BufferProto.slice = function(start?: number, end?: number) {
+      return new globalThis.Buffer(this.subarray(start, end));
+    };
+  }
 }
 
-// Ensure ArrayBuffer and Uint8Array have proper slice methods
-if (typeof Uint8Array.prototype.slice === 'undefined') {
-  Uint8Array.prototype.slice = function(start?: number, end?: number) {
-    const result = new Uint8Array(this.subarray(start, end));
-    return result;
-  };
-}
-
-// Handle dynamic require for readable-stream modules
-if (typeof window !== 'undefined') {
-  // Mock require function for dynamic requires
-  const mockRequire = (id: string) => {
-    if (id === 'readable-stream/lib/_stream_readable.js') {
-      return require('readable-stream/lib/_stream_readable.js');
-    }
-    if (id === 'readable-stream/lib/_stream_writable.js') {
-      return require('readable-stream/lib/_stream_writable.js');
-    }
-    if (id === 'readable-stream/lib/_stream_duplex.js') {
-      return require('readable-stream/lib/_stream_duplex.js');
-    }
-    throw new Error(`Cannot require module: ${id}`);
-  };
+// Stream polyfills for readable-stream compatibility
+class MockReadableStream {
+  constructor(options: any = {}) {
+    this.readable = true;
+    this.ended = false;
+    this._readableState = {
+      objectMode: false,
+      highWaterMark: 16384,
+      buffer: { head: null, tail: null, length: 0 }
+    };
+  }
+  readable = true;
+  ended = false;
+  _readableState: any;
   
-  // Set up require for modules that need it
-  (globalThis as any).require = mockRequire;
-  (window as any).require = mockRequire;
+  pipe(destination: any) { return destination; }
+  unpipe() {}
+  on(event: string, listener: Function) { return this; }
+  once(event: string, listener: Function) { return this; }
+  emit(event: string, ...args: any[]) { return false; }
+  read() { return null; }
+  push(chunk: any) { return true; }
+  unshift(chunk: any) {}
+  wrap(stream: any) { return this; }
+}
+
+class MockWritableStream {
+  constructor(options: any = {}) {
+    this.writable = true;
+    this.destroyed = false;
+    this._writableState = {
+      objectMode: false,
+      highWaterMark: 16384,
+      corked: 0,
+      bufferedRequest: null,
+      bufferedRequestCount: 0
+    };
+  }
+  writable = true;
+  destroyed = false;
+  _writableState: any;
+  
+  write(chunk: any, encoding?: any, callback?: Function) {
+    if (typeof encoding === 'function') callback = encoding;
+    if (callback) callback();
+    return true;
+  }
+  end(chunk?: any, encoding?: any, callback?: Function) {
+    if (typeof chunk === 'function') callback = chunk;
+    else if (typeof encoding === 'function') callback = encoding;
+    if (callback) callback();
+  }
+  destroy() { this.destroyed = true; }
+  on(event: string, listener: Function) { return this; }
+  once(event: string, listener: Function) { return this; }
+  emit(event: string, ...args: any[]) { return false; }
+}
+
+// Set up stream polyfills
+const streamPolyfills = {
+  Readable: MockReadableStream,
+  Writable: MockWritableStream,
+  Duplex: class extends MockReadableStream {
+    write = MockWritableStream.prototype.write;
+    end = MockWritableStream.prototype.end;
+    destroy = MockWritableStream.prototype.destroy;
+    writable = true;
+  },
+  Transform: class extends MockReadableStream {
+    write = MockWritableStream.prototype.write;
+    end = MockWritableStream.prototype.end;
+    destroy = MockWritableStream.prototype.destroy;
+    writable = true;
+    _transform(chunk: any, encoding: any, callback: Function) { callback(); }
+  }
+};
+
+// Set up global stream access
+if (typeof globalThis !== 'undefined') {
+  globalThis.stream = streamPolyfills;
+  (globalThis as any).Stream = streamPolyfills;
+}
+
+if (typeof window !== 'undefined') {
+  (window as any).stream = streamPolyfills;
+  (window as any).Stream = streamPolyfills;
 }
 
 export {}
