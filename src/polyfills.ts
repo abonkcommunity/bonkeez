@@ -7,16 +7,54 @@ declare global {
     Buffer: typeof Buffer
     global: typeof globalThis
     process: any
+    util: any
   }
   var Buffer: typeof Buffer
   var global: typeof globalThis
   var process: any
+  var util: any
+}
+
+// Create util polyfill
+const utilPolyfill = {
+  debuglog: (section: string) => () => {},
+  inspect: (obj: any, options?: any) => {
+    if (obj === null) return 'null'
+    if (obj === undefined) return 'undefined'
+    if (typeof obj === 'string') return obj
+    if (typeof obj === 'number' || typeof obj === 'boolean') return String(obj)
+    try {
+      return JSON.stringify(obj, null, 2)
+    } catch {
+      return '[object Object]'
+    }
+  },
+  format: (f: string, ...args: any[]) => {
+    let i = 0
+    return f.replace(/%[sdj%]/g, (x) => {
+      if (x === '%%') return x
+      if (i >= args.length) return x
+      switch (x) {
+        case '%s': return String(args[i++])
+        case '%d': return Number(args[i++])
+        case '%j':
+          try {
+            return JSON.stringify(args[i++])
+          } catch {
+            return '[Circular]'
+          }
+        default:
+          return x
+      }
+    })
+  }
 }
 
 // Set up global polyfills
 if (typeof globalThis !== 'undefined') {
   globalThis.Buffer = Buffer
   globalThis.global = globalThis
+  globalThis.util = utilPolyfill
 
   if (!globalThis.process) {
     globalThis.process = { 
@@ -35,6 +73,7 @@ if (typeof globalThis !== 'undefined') {
 if (typeof window !== 'undefined') {
   window.Buffer = Buffer
   window.global = globalThis
+  window.util = utilPolyfill
 
   if (!window.process) {
     window.process = globalThis.process
