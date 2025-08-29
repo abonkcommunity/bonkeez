@@ -11,9 +11,6 @@ export default defineConfig({
   define: {
     global: 'globalThis',
     'process.env': {},
-    'process.version': '"v16.0.0"',
-    'process.platform': '"browser"',
-    'process.browser': true,
   },
   resolve: {
     alias: {
@@ -40,7 +37,6 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
-      external: [],
       output: {
         manualChunks: {
           'solana-core': [
@@ -53,27 +49,18 @@ export default defineConfig({
             '@solana/wallet-adapter-react-ui',
             '@solana/wallet-adapter-phantom',
             '@solana/wallet-adapter-backpack',
-            '@solana/wallet-adapter-solflare',
-            '@solana/wallet-adapter-torus'
-          ],
-          'metaplex': [
-            '@metaplex-foundation/js'
+            '@solana/wallet-adapter-solflare'
           ],
           'vendor': [
             'react',
             'react-dom'
-          ],
-          'charts': [
-            'recharts'
-          ],
-          'icons': [
-            'lucide-react'
           ]
         }
       }
     },
     commonjsOptions: {
-      transformMixedEsModules: true
+      transformMixedEsModules: true,
+      include: [/node_modules/]
     }
   },
 })
