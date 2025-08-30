@@ -11,13 +11,35 @@ import NFTMinting from './components/NFTMinting'
 
 function App() {
   const { notifications, addNotification, removeNotification } = useNotifications()
+  const [isLoading, setIsLoading] = React.useState(true)
 
-  // Add welcome notification
+  // Add welcome notification and handle loading
   React.useEffect(() => {
-    setTimeout(() => {
+    // Set loading to false after a short delay to ensure everything is rendered
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+
+    const welcomeTimer = setTimeout(() => {
       addNotification('info', 'Welcome to Bonkeez Exchange!', 'All systems are now fully functional')
     }, 2000)
+
+    return () => {
+      clearTimeout(loadingTimer)
+      clearTimeout(welcomeTimer)
+    }
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-blue-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white mx-auto"></div>
+          <p className="text-white text-xl mt-4">Loading Bonkeez Exchange...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-blue-900">
