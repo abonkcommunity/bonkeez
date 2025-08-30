@@ -1,4 +1,6 @@
+
 modules = ["nodejs-20", "web"]
+
 [nix]
 channel = "stable-25_05"
 
@@ -25,5 +27,3 @@ args = "npm run dev"
 
 [agent]
 expertMode = true
-
-
