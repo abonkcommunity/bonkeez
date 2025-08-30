@@ -1,115 +1,119 @@
-import React from "react";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import TokenStats from "./components/TokenStats";
-import TokenTrading from "./components/TokenTrading";
-import Marketplace from "./components/Marketplace";
-import Footer from "./components/Footer";
-import NotificationSystem, { useNotifications } from "./components/NotificationSystem";
-import UserProfile from "./components/UserProfile";
-import NFTMinting from "./components/NFTMinting";
+
+import React, { useState, useEffect } from 'react'
+import Header from './components/Header'
+import Hero from './components/Hero'
+import TokenStats from './components/TokenStats'
+import FeaturedNFTs from './components/FeaturedNFTs'
+import Marketplace from './components/Marketplace'
+import NFTMinting from './components/NFTMinting'
+import Footer from './components/Footer'
+import NotificationSystem from './components/NotificationSystem'
+import SecurityCheck from './components/SecurityCheck'
+import './polyfills'
 
 function App() {
-  console.log("🎨 App component rendering…");
+  const [loading, setLoading] = useState(true)
+  const [notifications, setNotifications] = useState<Array<{
+    id: string
+    type: 'success' | 'error' | 'warning' | 'info'
+    title: string
+    message: string
+    timestamp: Date
+  }>>([])
 
-  const { notifications, addNotification, removeNotification } = useNotifications();
-  const [isLoading, setIsLoading] = React.useState(true);
+  useEffect(() => {
+    console.log('🎉 Adding welcome notification')
+    
+    // Add welcome notification
+    const welcomeNotification = {
+      id: 'welcome-' + Date.now(),
+      type: 'success' as const,
+      title: 'Welcome to Bonkeez Exchange!',
+      message: 'Your gateway to exclusive Solana NFTs and $BNKZ trading',
+      timestamp: new Date()
+    }
+    
+    setNotifications([welcomeNotification])
+    
+    // Set loading to false after brief delay
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 1000)
+    
+    return () => clearTimeout(timer)
+  }, [])
 
-  // Add welcome notification and handle loading
-  React.useEffect(() => {
-    console.log("⏰ Setting up timers…");
-
-    // Set loading to false after a short delay to ensure everything is rendered
-    const loadingTimer = setTimeout(() => {
-      console.log("✅ Setting isLoading to false");
-      setIsLoading(false);
-    }, 1000);
-
-    const welcomeTimer = setTimeout(() => {
-      console.log("🎉 Adding welcome notification");
-      addNotification(
-        "info",
-        "Welcome to Bonkeez Exchange!",
-        "All systems are now fully functional"
-      );
-    }, 2000);
-
+  useEffect(() => {
+    console.log('🎨 App component rendering…')
+    console.log('🔍 Current loading state:', loading)
+    
+    if (!loading) {
+      console.log('🎨 Rendering main app content…')
+    }
+    
     return () => {
-      console.log("🧹 Cleaning up timers");
-      clearTimeout(loadingTimer);
-      clearTimeout(welcomeTimer);
-    };
-  }, [addNotification]); // Add dependency
+      console.log('🧹 Cleaning up timers')
+    }
+  }, [loading])
 
-  console.log("🔍 Current loading state:", isLoading);
+  useEffect(() => {
+    console.log('⏰ Setting up timers…')
+    
+    const intervalId = setInterval(() => {
+      // Clean up old notifications (older than 10 seconds)
+      setNotifications(prev => 
+        prev.filter(notif => Date.now() - notif.timestamp.getTime() < 10000)
+      )
+    }, 1000)
+    
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
 
-  if (isLoading) {
-    console.log("⏳ Showing loading screen…");
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-blue-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white mx-auto"></div>
-          <p className="text-white text-xl mt-4">Loading Bonkeez Exchange…</p>
-          <p className="text-white text-sm mt-2">
-            Debug: isLoading = {isLoading.toString()}
-          </p>
-        </div>
-      </div>
-    );
+  const addNotification = (notification: Omit<typeof notifications[0], 'id' | 'timestamp'>) => {
+    const newNotification = {
+      ...notification,
+      id: Date.now().toString(),
+      timestamp: new Date()
+    }
+    setNotifications(prev => [...prev, newNotification])
   }
 
-  console.log("🎨 Rendering main app content…");
+  const removeNotification = (id: string) => {
+    setNotifications(prev => prev.filter(notif => notif.id !== id))
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-emerald-400 mx-auto mb-4"></div>
+          <h2 className="text-white text-xl font-bold">Loading Bonkeez Exchange...</h2>
+          <p className="text-slate-400 mt-2">Preparing your NFT marketplace experience</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-blue-900">
-      <NotificationSystem notifications={notifications} onRemove={removeNotification} />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <SecurityCheck />
+      <NotificationSystem 
+        notifications={notifications} 
+        onRemove={removeNotification}
+      />
       <Header />
-      <Hero />
-      <TokenStats />
-
-      {/* Profile Section */}
-      <section
-        id="profile"
-        className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-900/20 to-pink-900/20"
-      >
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-              Your Bonkeez Profile
-            </h2>
-            <p className="text-lg text-slate-300">
-              Connect your wallet to view your collection and $BNKZ balance
-            </p>
-          </div>
-          <div className="max-w-2xl mx-auto">
-            <UserProfile />
-          </div>
-        </div>
-      </section>
-
-      <TokenTrading />
-      <Marketplace />
-
-      {/* NFT Minting Section */}
-      <section id="minting" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-              Mint Your Bonkeez
-            </h2>
-            <p className="text-xl text-slate-300">
-              Mint unique Bonkeez NFTs directly from the collection
-            </p>
-          </div>
-          <div className="max-w-md mx-auto">
-            <NFTMinting />
-          </div>
-        </div>
-      </section>
-
+      <main>
+        <Hero onNotify={addNotification} />
+        <TokenStats />
+        <FeaturedNFTs />
+        <Marketplace onNotify={addNotification} />
+        <NFTMinting onNotify={addNotification} />
+      </main>
       <Footer />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
