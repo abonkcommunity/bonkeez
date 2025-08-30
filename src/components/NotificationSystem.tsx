@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { X, Bell, CheckCircle, AlertCircle, Info } from 'lucide-react'
 
@@ -36,9 +35,9 @@ const NotificationSystem: React.FC<NotificationSystemProps> = ({ notifications, 
 
   return (
     <div className="fixed top-4 right-4 z-50 space-y-2 max-w-sm">
-      {notifications.map((notification) => (
+      {notifications.map((notification, index) => (
         <div
-          key={notification.id}
+          key={`${notification.id}-${index}-${Date.now()}`}
           className={`${getColors(notification.type)} border rounded-lg p-4 backdrop-blur-sm animate-slide-in`}
         >
           <div className="flex items-start space-x-3">
@@ -73,9 +72,9 @@ export const useNotifications = () => {
       message,
       timestamp: new Date()
     }
-    
+
     setNotifications(prev => [...prev, notification])
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
       removeNotification(id)
