@@ -8,15 +8,31 @@ const TokenStats = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true)
-      const data = await getTokenDataSafe()
-      setTokenData(data)
-      setLoading(false)
+      try {
+        setLoading(true)
+        const data = await getTokenDataSafe()
+        if (data) {
+          setTokenData(data)
+        }
+      } catch (error) {
+        console.warn('Failed to fetch token data:', error)
+        // Set fallback data if API fails
+        setTokenData({
+          price: '$0.000001',
+          marketCap: 'N/A',
+          volume24h: 'N/A',
+          holders: 'N/A',
+          totalSupply: '1B',
+          change24h: 0
+        })
+      } finally {
+        setLoading(false)
+      }
     }
     
     fetchData()
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchData, 30000)
+    // Refresh every 60 seconds to reduce API load
+    const interval = setInterval(fetchData, 60000)
     return () => clearInterval(interval)
   }, [])
 
