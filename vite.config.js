@@ -41,11 +41,18 @@ export default defineConfig({
     ],
   },
   build: {
+    outDir: "dist",
+    sourcemap: false,
     rollupOptions: {
       external: [],
+      output: {
+        manualChunks: undefined,
+      },
     },
     commonjsOptions: {
       transformMixedEsModules: true,
     },
+    target: "esnext",
+    assetsDir: "assets",
   },
 });
