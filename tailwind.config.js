@@ -1,40 +1,36 @@
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{html,js,ts,jsx,tsx}",
+    "./public/**/*.html"
   ],
   theme: {
     extend: {
       colors: {
-        'bonkee-blue': '#3b82f6',
-        'bonkee-yellow': '#eab308',
-        'bonkee-red': '#ef4444',
-        'bonkee-pink': '#ec4899',
-        'bonkee-purple': '#8b5cf6',
-        'bonkee-green': '#10b981',
-      },
-      fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'bonkee-blue': '#4A90E2',
+        'bonkee-yellow': '#F5D800',
+        'bonkee-red': '#E74C3C',
+        'bonkee-purple': '#9B59B6',
+        'bonkee-green': '#2ECC71',
       },
       animation: {
-        'float': 'float 3s ease-in-out infinite',
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'glow': 'glow 2s ease-in-out infinite alternate',
       },
-      backdropBlur: {
-        'xs': '2px',
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        glow: {
+          '0%': { boxShadow: '0 0 5px rgba(139, 69, 19, 0.5)' },
+          '100%': { boxShadow: '0 0 20px rgba(139, 69, 19, 0.8)' },
+        },
       },
-      boxShadow: {
-        'glow': '0 0 20px rgba(16, 185, 129, 0.3)',
-        'glow-lg': '0 0 40px rgba(16, 185, 129, 0.4)',
-      }
     },
   },
   plugins: [],
-  // WordPress compatibility
-  important: false,
-  prefix: '',
-  corePlugins: {
-    preflight: true,
-  }
 }
