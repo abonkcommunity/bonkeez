@@ -1,24 +1,17 @@
+
 modules = ["nodejs-20", "web"]
-run = "npm run dev"
 
 [nix]
 channel = "stable-25_05"
 
 [deployment]
-run = ["sh", "-c", "npm run preview -- --host 0.0.0.0 --port 5000"]
-build = ["sh", "-c", "npm run build"]
+build = ["npm", "run", "build"]
+deploymentTarget = "static"
+publicDir = "dist"
 
-[[ports]]
-localPort = 5173
-externalPort = 3000
-
-[[ports]]
-localPort = 5174
-externalPort = 80
-
-[[ports]]
-localPort = 5175
-externalPort = 3001
+[[deployment.rewrites]]
+from = "/*"
+to = "/index.html"
 
 [workflows]
 runButton = "Development Server"
@@ -34,3 +27,11 @@ args = "npm run dev"
 
 [agent]
 expertMode = true
+
+[[ports]]
+localPort = 5173
+externalPort = 80
+
+[[ports]]
+localPort = 5174
+externalPort = 3000
