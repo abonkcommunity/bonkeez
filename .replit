@@ -1,6 +1,4 @@
 modules = ["nodejs-20", "web"]
-run = "npm run dev"
-
 [nix]
 channel = "stable-25_05"
 
@@ -8,8 +6,6 @@ channel = "stable-25_05"
 build = ["npm", "run", "build"]
 deploymentTarget = "static"
 publicDir = "dist"
-
-
 
 [workflows]
 runButton = "Development Server"
@@ -25,7 +21,3 @@ args = "npm run dev"
 
 [agent]
 expertMode = true
-
-[[ports]]
-localPort = 5173
-externalPort = 80
