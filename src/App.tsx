@@ -6,6 +6,7 @@ import TokenStats from './components/TokenStats'
 import FeaturedNFTs from './components/FeaturedNFTs'
 import Marketplace from './components/Marketplace'
 import NFTMinting from './components/NFTMinting'
+import UserProfile from './components/UserProfile'
 import Footer from './components/Footer'
 import NotificationSystem from './components/NotificationSystem'
 import SecurityCheck from './components/SecurityCheck'
@@ -110,6 +111,19 @@ function App() {
         <FeaturedNFTs />
         <Marketplace onNotify={addNotification} />
         <NFTMinting onNotify={addNotification} />
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+                Your Profile
+              </h2>
+              <p className="text-xl text-slate-300">
+                Connect your wallet to view your NFTs, $BNKZ balance, and portfolio stats
+              </p>
+            </div>
+            <UserProfile />
+          </div>
+        </section>
       </main>
       <Footer />
     </div>
