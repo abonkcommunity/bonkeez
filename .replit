@@ -5,21 +5,11 @@ run = "npm run dev"
 channel = "stable-25_05"
 
 [deployment]
-build = ["sh", "-c", "npm run build"]
+build = ["npm", "run", "build"]
 deploymentTarget = "static"
 publicDir = "dist"
 
-[[ports]]
-localPort = 5173
-externalPort = 3000
 
-[[ports]]
-localPort = 5174
-externalPort = 80
-
-[[ports]]
-localPort = 5175
-externalPort = 3001
 
 [workflows]
 runButton = "Development Server"
