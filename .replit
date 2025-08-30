@@ -5,7 +5,7 @@ modules = ["nodejs-20", "web"]
 channel = "stable-25_05"
 
 [deployment]
-build = ["npm", "run", "build"]
+build = ["sh", "-c", "npm run build"]
 deploymentTarget = "static"
 publicDir = "dist"
 
