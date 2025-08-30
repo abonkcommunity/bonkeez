@@ -25,3 +25,7 @@ args = "npm run dev"
 
 [agent]
 expertMode = true
+
+[[ports]]
+localPort = 5173
+externalPort = 80
