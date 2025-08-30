@@ -1,5 +1,3 @@
-
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -12,13 +10,10 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis',
-    process: {
-      env: {},
-      version: '"v16.0.0"',
-      platform: '"browser"',
-      browser: true
-    },
-    Buffer: ['buffer', 'Buffer'],
+    'process.env': '{}',
+    'process.version': '"v16.0.0"',
+    'process.platform': '"browser"',
+    'process.browser': 'true',
   },
   resolve: {
     alias: {
@@ -35,7 +30,7 @@ export default defineConfig({
     include: [
       'buffer',
       'stream-browserify',
-      'stream-http', 
+      'stream-http',
       'https-browserify',
       'url',
       'crypto-browserify',
@@ -44,20 +39,10 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      define: {
-        global: 'globalThis',
-        process: {
-          env: {},
-          version: '"v16.0.0"',
-          platform: '"browser"',
-          browser: true
-        },
-        Buffer: ['buffer', 'Buffer'],
-      },
+      external: [],
     },
     commonjsOptions: {
-      transformMixedEsModules: true
-    }
+      transformMixedEsModules: true,
+    },
   },
-})
-
+});
