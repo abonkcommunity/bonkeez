@@ -7,6 +7,10 @@ build = ["npm", "run", "build"]
 deploymentTarget = "static"
 publicDir = "dist"
 
+[[deployment.rewrites]]
+from = "/*"
+to = "/index.html"
+
 [workflows]
 runButton = "Development Server"
 
