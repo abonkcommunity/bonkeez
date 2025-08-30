@@ -6,7 +6,6 @@ import TokenStats from './components/TokenStats'
 import FeaturedNFTs from './components/FeaturedNFTs'
 import Marketplace from './components/Marketplace'
 import NFTMinting from './components/NFTMinting'
-import Staking from './components/Staking'
 import Footer from './components/Footer'
 import NotificationSystem from './components/NotificationSystem'
 import SecurityCheck from './components/SecurityCheck'
@@ -111,7 +110,6 @@ function App() {
         <FeaturedNFTs />
         <Marketplace onNotify={addNotification} />
         <NFTMinting onNotify={addNotification} />
-        <Staking onNotify={addNotification} />
       </main>
       <Footer />
     </div>
