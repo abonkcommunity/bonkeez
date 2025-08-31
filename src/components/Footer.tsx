@@ -1,10 +1,11 @@
 import React from 'react'
-import { Twitter, Github, MessageCircle, ExternalLink, Mail, Users } from 'lucide-react'
+import { Twitter, Github, MessageCircle, ExternalLink, Mail, Users, Send } from 'lucide-react'
 
 const Footer = () => {
   const handleSocialClick = (platform: string) => {
     const urls = {
-      twitter: 'https://twitter.com/bonkeez_nft',
+      twitter: 'https://x.com/abonkcommunity?s=21',
+      telegram: 'https://t.me/+Mh9YQsnnRcZlNWFh',
       discord: 'https://discord.gg/bonkeez',
       github: 'https://github.com/bonkeez',
       email: 'mailto:hello@bonkeez.io'
@@ -62,25 +63,36 @@ const Footer = () => {
             <div className="flex space-x-4">
               <button 
                 onClick={() => handleSocialClick('twitter')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-400 hover:text-blue-400 transition-colors"
+                title="Follow us on X"
               >
                 <Twitter className="w-5 h-5" />
               </button>
               <button 
+                onClick={() => handleSocialClick('telegram')}
+                className="text-slate-400 hover:text-cyan-400 transition-colors"
+                title="Join our Telegram"
+              >
+                <Send className="w-5 h-5" />
+              </button>
+              <button 
                 onClick={() => handleSocialClick('discord')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-400 hover:text-purple-400 transition-colors"
+                title="Join our Discord"
               >
                 <MessageCircle className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('github')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-400 hover:text-gray-400 transition-colors"
+                title="View on GitHub"
               >
                 <Github className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('email')}
                 className="text-slate-400 hover:text-emerald-400 transition-colors"
+                title="Contact us"
               >
                 <Mail className="w-5 h-5" />
               </button>
@@ -162,10 +174,17 @@ const Footer = () => {
               </button>
               <button 
                 onClick={() => handleSocialClick('twitter')}
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="flex items-center space-x-2 text-slate-400 hover:text-blue-400 transition-colors text-sm"
               >
                 <Twitter className="w-4 h-4" />
-                <span>Follow Twitter</span>
+                <span>Follow on X</span>
+              </button>
+              <button 
+                onClick={() => handleSocialClick('telegram')}
+                className="flex items-center space-x-2 text-slate-400 hover:text-cyan-400 transition-colors text-sm"
+              >
+                <Send className="w-4 h-4" />
+                <span>Join Telegram</span>
               </button>
               <button 
                 onClick={() => alert('Blog coming soon!')}

@@ -29,7 +29,7 @@ const TokenStats = () => {
         setLoading(false)
       }
     }
-    
+
     fetchData()
     // Refresh every 60 seconds to reduce API load
     const interval = setInterval(fetchData, 60000)
@@ -168,6 +168,31 @@ const TokenStats = () => {
             >
               Add to Wallet
             </button>
+          </div>
+        </div>
+
+        {/* Community Engagement Section */}
+        <div className="mt-8 text-center">
+          <h3 className="text-white font-bold text-xl mb-4">Join the Community</h3>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a 
+              href="https://x.com/abonkcommunity?s=21" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gradient-to-r from-blue-500/20 to-blue-600/20 border border-blue-400/30 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-500/30 hover:to-blue-600/30 transition-all flex items-center justify-center space-x-2"
+            >
+              <span>𝕏</span>
+              <span>Latest Updates</span>
+            </a>
+            <a 
+              href="https://t.me/+Mh9YQsnnRcZlNWFh" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gradient-to-r from-cyan-500/20 to-cyan-600/20 border border-cyan-400/30 text-white px-6 py-3 rounded-lg font-medium hover:from-cyan-500/30 hover:to-cyan-600/30 transition-all flex items-center justify-center space-x-2"
+            >
+              <span>📱</span>
+              <span>Live Chat</span>
+            </a>
           </div>
         </div>
       </div>

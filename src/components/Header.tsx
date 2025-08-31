@@ -87,6 +87,22 @@ const Header = () => {
               <FileText className="w-4 h-4" />
               <span>Whitepaper</span>
             </a>
+            <a 
+              href="https://x.com/abonkcommunity?s=21" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium text-sm"
+            >
+              <span>𝕏</span>
+            </a>
+            <a 
+              href="https://t.me/+Mh9YQsnnRcZlNWFh" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-cyan-400 transition-colors flex items-center space-x-1 font-medium text-sm"
+            >
+              <span>📱</span>
+            </a>
           </nav>
 
           {/* Right Section */}
@@ -168,6 +184,24 @@ const Header = () => {
               >
                 <FileText className="w-4 h-4" />
                 <span>Whitepaper</span>
+              </a>
+              <a 
+                href="https://x.com/abonkcommunity?s=21" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium"
+              >
+                <span>𝕏</span>
+                <span>Follow on X</span>
+              </a>
+              <a 
+                href="https://t.me/+Mh9YQsnnRcZlNWFh" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-cyan-400 transition-colors flex items-center space-x-1 font-medium"
+              >
+                <span>📱</span>
+                <span>Join Telegram</span>
               </a>
 
               {/* Token Data + Wallet */}
