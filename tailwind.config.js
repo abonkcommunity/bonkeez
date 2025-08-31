@@ -15,6 +15,10 @@ export default {
         'bonkee-red': '#E74C3C',
         'bonkee-purple': '#9B59B6',
         'bonkee-green': '#2ECC71',
+        'bonkee-pink': '#E91E63',
+        'bonkee-magenta': '#AD1457',
+        'bonkee-lavender': '#CE93D8',
+        'bonkee-fuchsia': '#AB47BC',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

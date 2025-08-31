@@ -3,11 +3,10 @@ import React, { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import TokenStats from './components/TokenStats'
-import FeaturedNFTs from './components/FeaturedNFTs'
 import Marketplace from './components/Marketplace'
 import NFTMinting from './components/NFTMinting'
+import UserProfile from './components/UserProfile'
 import Footer from './components/Footer'
-import NotificationSystem from './components/NotificationSystem'
 import SecurityCheck from './components/SecurityCheck'
 import './polyfills'
 
@@ -22,18 +21,10 @@ function App() {
   }>>([])
 
   useEffect(() => {
-    console.log('🎉 Adding welcome notification')
+   
     
-    // Add welcome notification
-    const welcomeNotification = {
-      id: 'welcome-' + Date.now(),
-      type: 'success' as const,
-      title: 'Welcome to Bonkeez Exchange!',
-      message: 'Your gateway to exclusive Solana NFTs and $BNKZ trading',
-      timestamp: new Date()
-    }
     
-    setNotifications([welcomeNotification])
+  
     
     // Set loading to false after brief delay
     const timer = setTimeout(() => {
@@ -97,19 +88,28 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-purple-950/90 via-fuchsia-900/80 to-pink-900/90">
       <SecurityCheck />
-      <NotificationSystem 
-        notifications={notifications} 
-        onRemove={removeNotification}
-      />
+      
       <Header />
       <main>
-        <Hero onNotify={addNotification} />
+        <Hero  />
         <TokenStats />
-        <FeaturedNFTs />
-        <Marketplace onNotify={addNotification} />
-        <NFTMinting onNotify={addNotification} />
+        <Marketplace />
+        <NFTMinting  />
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+                Your Profile
+              </h2>
+              <p className="text-xl text-slate-300">
+                Connect your wallet to view your NFTs, $BNKZ balance, and portfolio stats
+              </p>
+            </div>
+            <UserProfile />
+          </div>
+        </section>
       </main>
       <Footer />
     </div>
