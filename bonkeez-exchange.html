@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonkeez Exchange - Premium NFT Marketplace</title>
+    <meta property="og:title" content="Bonkeez Exchange - Built with ChatAndBuild" />
+    <meta property="og:description" content="Premium NFT marketplace for Bonkeez collection on Solana with integrated $BNKZ token" />
+    <meta property="og:image" content="https://cdn.chatandbuild.com/images/preview.png" />
+    <meta property="keywords" content="no-code, app builder, conversation-driven development, NFT marketplace, React TypeScript Solana" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Bonkeez Exchange - Built with ChatAndBuild" />
+    <meta property="twitter:description" content="Premium NFT marketplace for Bonkeez collection on Solana with integrated $BNKZ token" />
+    <meta property="twitter:image" content="https://cdn.chatandbuild.com/images/preview.png" />
+    <meta property="twitter:site" content="@chatandbuild" />
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5CF6',
+                        secondary: '#06B6D4',
+                        accent: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Mock data for demonstration
+        const mockNFTs = [
+            {
+                id: 1,
+                name: "Bloo #001",
+                character: "Bloo",
+                price: 2.5,
+                bnkzPrice: 1250,
+                image: "https://images.pexels.com/photos/7567443/pexels-photo-7567443.jpeg?auto=compress&cs=tinysrgb&w=400",
+                rarity: "Legendary"
+            },
+            {
+                id: 2,
+                name: "Yelloo #042",
+                character: "Yelloo",
+                price: 1.8,
+                bnkzPrice: 900,
+                image: "https://images.pexels.com/photos/7567528/pexels-photo-7567528.jpeg?auto=compress&cs=tinysrgb&w=400",
+                rarity: "Rare"
+            },
+            {
+                id: 3,
+                name: "Redz #123",
+                character: "Redz",
+                price: 3.2,
+                bnkzPrice: 1600,
+                image: "https://images.pexels.com/photos/7567465/pexels-photo-7567465.jpeg?auto=compress&cs=tinysrgb&w=400",
+                rarity: "Epic"
+            },
+            {
+                id: 4,
+                name: "Pinko #089",
+                character: "Pinko",
+                price: 2.1,
+                bnkzPrice: 1050,
+                image: "https://images.pexels.com/photos/7567492/pexels-photo-7567492.jpeg?auto=compress&cs=tinysrgb&w=400",
+                rarity: "Rare"
+            },
+            {
+                id: 5,
+                name: "Purpo #156",
+                character: "Purpo",
+                price: 4.5,
+                bnkzPrice: 2250,
+                image: "https://images.pexels.com/photos/7567511/pexels-photo-7567511.jpeg?auto=compress&cs=tinysrgb&w=400",
+                rarity: "Mythic"
+            },
+            {
+                id: 6,
+                name: "Greeno #234",
+                character: "Greeno",
+                price: 1.9,
+                bnkzPrice: 950,
+                image: "https://images.pexels.com/photos/7567478/pexels-photo-7567478.jpeg?auto=compress&cs=tinysrgb&w=400",
+                rarity: "Common"
+            }
+        ];
+
+        const Header = () => {
+            const [bnkzPrice, setBnkzPrice] = useState(0.002);
+            
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    setBnkzPrice(prev => prev + (Math.random() - 0.5) * 0.0001);
+                }, 3000);
+                return () => clearInterval(interval);
+            }, []);
+
+            return (
+                <header className="bg-gradient-to-r from-purple-900 via-blue-900 to-purple-900 text-white shadow-2xl">
+                    <div className="container mx-auto px-6 py-4">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center font-bold text-xl">
+                                    B
+                                </div>
+                                <div>
+                                    <h1 className="text-2xl font-bold">Bonkeez Exchange</h1>
+                                    <p className="text-purple-200 text-sm">Premium NFT Marketplace</p>
+                                </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-6">
+                                <div className="bg-black/20 px-4 py-2 rounded-lg">
+                                    <div className="text-sm text-purple-200">$BNKZ Price</div>
+                                    <div className="font-bold text-green-400">${bnkzPrice.toFixed(6)}</div>
+                                </div>
+                                <button className="bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all">
+                                    Connect Wallet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            );
+        };
+
+        const NFTCard = ({ nft }) => {
+            const [paymentMethod, setPaymentMethod] = useState('SOL');
+            
+            return (
+                <div className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div className="relative">
+                        <img 
+                            src={nft.image} 
+                            alt={nft.name}
+                            className="w-full h-64 object-cover"
+                        />
+                        <div className="absolute top-4 right-4">
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                nft.rarity === 'Mythic' ? 'bg-purple-600 text-white' :
+                                nft.rarity === 'Legendary' ? 'bg-yellow-500 text-black' :
+                                nft.rarity === 'Epic' ? 'bg-orange-500 text-white' :
+                                nft.rarity === 'Rare' ? 'bg-blue-500 text-white' :
+                                'bg-gray-500 text-white'
+                            }`}>
+                                {nft.rarity}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div className="p-6">
+                        <h3 className="text-xl font-bold text-gray-800 mb-2">{nft.name}</h3>
+                        <p className="text-gray-600 mb-4">Character: {nft.character}</p>
+                        
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex space-x-2">
+                                <button
+                                    onClick={() => setPaymentMethod('SOL')}
+                                    className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${
+                                        paymentMethod === 'SOL' 
+                                            ? 'bg-purple-600 text-white' 
+                                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                    }`}
+                                >
+                                    SOL
+                                </button>
+                                <button
+                                    onClick={() => setPaymentMethod('BNKZ')}
+                                    className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${
+                                        paymentMethod === 'BNKZ' 
+                                            ? 'bg-yellow-500 text-black' 
+                                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                    }`}
+                                >
+                                    $BNKZ
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div className="mb-4">
+                            <div className="text-2xl font-bold text-gray-800">
+                                {paymentMethod === 'SOL' ? `${nft.price} SOL` : `${nft.bnkzPrice} $BNKZ`}
+                            </div>
+                            {paymentMethod === 'BNKZ' && (
+                                <div className="text-sm text-green-600 font-semibold">20% Discount with $BNKZ!</div>
+                            )}
+                        </div>
+                        
+                        <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const TokenStats = () => {
+            return (
+                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black py-16">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-12">
+                            <h2 className="text-4xl font-bold mb-4">$BNKZ Token</h2>
+                            <p className="text-xl opacity-90">The official currency of Bonkeez Exchange</p>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-3 gap-8 mb-12">
+                            <div className="bg-black/10 rounded-2xl p-6 text-center">
+                                <div className="text-3xl font-bold mb-2">1,000,000,000</div>
+                                <div className="text-lg opacity-80">Total Supply</div>
+                            </div>
+                            <div className="bg-black/10 rounded-2xl p-6 text-center">
+                                <div className="text-3xl font-bold mb-2">$2.1M</div>
+                                <div className="text-lg opacity-80">Market Cap</div>
+                            </div>
+                            <div className="bg-black/10 rounded-2xl p-6 text-center">
+                                <div className="text-3xl font-bold mb-2">24/7</div>
+                                <div className="text-lg opacity-80">Trading</div>
+                            </div>
+                        </div>
+                        
+                        <div className="text-center space-x-4">
+                            <a 
+                                href="https://pump.fun/coin/Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="bg-black text-yellow-400 px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all inline-block"
+                            >
+                                Trade on Pump.fun
+                            </a>
+                            <a 
+                                href="https://solscan.io/token/Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="bg-black text-yellow-400 px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all inline-block"
+                            >
+                                View on Solscan
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <Header />
+                    
+                    <main className="container mx-auto px-6 py-12">
+                        <div className="text-center mb-12">
+                            <h2 className="text-4xl font-bold text-gray-800 mb-4">Featured Bonkeez NFTs</h2>
+                            <p className="text-xl text-gray-600">Discover unique digital collectibles from the Bonkeez universe</p>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                            {mockNFTs.map(nft => (
+                                <NFTCard key={nft.id} nft={nft} />
+                            ))}
+                        </div>
+                    </main>
+                    
+                    <TokenStats />
+                    
+                    <footer className="bg-gray-900 text-white py-12">
+                        <div className="container mx-auto px-6 text-center">
+                            <div className="mb-8">
+                                <h3 className="text-2xl font-bold mb-4">Bonkeez Exchange</h3>
+                                <p className="text-gray-400">The premier destination for Bonkeez NFTs on Solana</p>
+                            </div>
+                            
+                            <div className="border-t border-gray-800 pt-8">
+                                <p className="text-gray-400">© 2024 Bonkeez Exchange. All rights reserved.</p>
+                                <p className="text-sm text-gray-500 mt-2">Contract: Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -1,6 +1,5 @@
-
 import React from 'react'
-import { FaTwitter, FaGithub, FaDiscord, FaEnvelope, FaExternalLinkAlt, FaUsers } from 'react-icons/fa'
+import { Twitter, Github, MessageCircle, ExternalLink, Mail, Users } from 'lucide-react'
 
 const Footer = () => {
   const handleSocialClick = (platform: string) => {
@@ -46,7 +45,7 @@ const Footer = () => {
           <div className="space-y-4">
             <button 
               onClick={scrollToTop}
-              className="flex items-center space-x-2 hover:opacity-80 transition-opacity duration-150"
+              className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
             >
               <div className="w-10 h-10 bg-gradient-to-r from-slate-700 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-lg">B</span>
@@ -63,27 +62,27 @@ const Footer = () => {
             <div className="flex space-x-4">
               <button 
                 onClick={() => handleSocialClick('twitter')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
+                className="text-slate-400 hover:text-emerald-400 transition-colors"
               >
-                <FaTwitter className="w-5 h-5" />
+                <Twitter className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('discord')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
+                className="text-slate-400 hover:text-emerald-400 transition-colors"
               >
-                <FaDiscord className="w-5 h-5" />
+                <MessageCircle className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('github')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
+                className="text-slate-400 hover:text-emerald-400 transition-colors"
               >
-                <FaGithub className="w-5 h-5" />
+                <Github className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('email')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
+                className="text-slate-400 hover:text-emerald-400 transition-colors"
               >
-                <FaEnvelope className="w-5 h-5" />
+                <Mail className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -94,25 +93,25 @@ const Footer = () => {
             <nav className="space-y-2">
               <button 
                 onClick={() => handleLinkClick('marketplace')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Browse Collection
               </button>
               <button 
                 onClick={() => handleLinkClick('marketplace')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Rarity Guide
               </button>
               <button 
                 onClick={() => handleLinkClick('marketplace')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Launch Schedule
               </button>
               <button 
                 onClick={() => alert('Trading guide coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Trading Guide
               </button>
@@ -125,25 +124,25 @@ const Footer = () => {
             <nav className="space-y-2">
               <button 
                 onClick={() => handleLinkClick('token')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Buy $BNKZ
               </button>
               <button 
                 onClick={() => handleLinkClick('stats')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Token Stats
               </button>
               <button 
                 onClick={() => alert('Staking guide coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Staking Guide
               </button>
               <button 
                 onClick={() => alert('Tokenomics page coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Tokenomics
               </button>
@@ -156,38 +155,30 @@ const Footer = () => {
             <nav className="space-y-2">
               <button 
                 onClick={() => handleSocialClick('discord')}
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
-                <FaUsers className="w-4 h-4" />
+                <Users className="w-4 h-4" />
                 <span>Join Discord</span>
               </button>
               <button 
                 onClick={() => handleSocialClick('twitter')}
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
-                <FaTwitter className="w-4 h-4" />
+                <Twitter className="w-4 h-4" />
                 <span>Follow Twitter</span>
               </button>
               <button 
                 onClick={() => alert('Blog coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Blog
               </button>
               <button 
                 onClick={() => alert('Help center coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
                 Help Center
               </button>
-              <a 
-                href="/Bonkeez Whitepaper (1).pdf" 
-                download 
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
-              >
-                <FaExternalLinkAlt className="w-4 h-4" />
-                <span>Whitepaper</span>
-              </a>
             </nav>
           </div>
         </div>
@@ -199,13 +190,13 @@ const Footer = () => {
               <span>© 2024 Bonkeez NFT Exchange</span>
               <button 
                 onClick={() => handleLinkClick('privacy')}
-                className="hover:text-emerald-400 transition-colors duration-150"
+                className="hover:text-emerald-400 transition-colors"
               >
                 Privacy Policy
               </button>
               <button 
                 onClick={() => handleLinkClick('terms')}
-                className="hover:text-emerald-400 transition-colors duration-150"
+                className="hover:text-emerald-400 transition-colors"
               >
                 Terms of Service
               </button>
