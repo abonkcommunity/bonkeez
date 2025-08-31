@@ -40,7 +40,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-black/60 backdrop-blur-md border-b border-white/20 sticky top-0 z-50"></header>
+      <header className="bg-black/60 backdrop-blur-md border-b border-white/20 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -112,7 +112,7 @@ const Header = () => {
 
       {/* Full-Screen Mobile Overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-[60] md:hidden flex flex-col bg-purple-500 bg-opacity-95 backdrop-blur-xl pt-20">
+        <div className="fixed inset-0 z-[60] md:hidden flex flex-col bg-black/60 backdrop-blur-xl pt-20">
           {/* Close Button */}
           <button 
             onClick={() => setIsMenuOpen(false)}
