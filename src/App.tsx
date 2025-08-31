@@ -4,8 +4,7 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import TokenStats from './components/TokenStats'
 import Marketplace from './components/Marketplace'
-import NFTMinting from './components/NFTMinting'
-import UserProfile from './components/UserProfile'
+//import NFTMinting from './components/NFTMinting'
 import Footer from './components/Footer'
 import SecurityCheck from './components/SecurityCheck'
 import './polyfills'
@@ -96,7 +95,7 @@ function App() {
         <Hero  />
         <TokenStats />
         <Marketplace />
-        <NFTMinting  />
+       
         <section className="py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -107,7 +106,7 @@ function App() {
                 Connect your wallet to view your NFTs, $BNKZ balance, and portfolio stats
               </p>
             </div>
-            <UserProfile />
+            
           </div>
         </section>
       </main>
