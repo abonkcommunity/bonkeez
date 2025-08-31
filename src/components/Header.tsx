@@ -158,121 +158,171 @@ const Header = () => {
         >
           {/* Semi-transparent background */}
           <div 
-            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            className="absolute inset-0 bg-black/90 backdrop-blur-md"
             onClick={() => setIsMenuOpen(false)}
           />
           
           {/* Overlay Content */}
-          <div className={`relative h-full flex flex-col justify-center items-center px-8 transform transition-transform duration-300 ${
+          <div className={`relative h-full flex flex-col transform transition-transform duration-300 ${
             isMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}>
             
-            {/* Close Button */}
-            <button 
-              onClick={() => setIsMenuOpen(false)}
-              className="absolute top-6 right-6 text-white p-2 rounded-lg hover:bg-white/10 transition-colors duration-150"
-            >
-              <HiX className="w-8 h-8" />
-            </button>
-
-            {/* Main Navigation Links - Centered */}
-            <nav className="flex flex-col items-center space-y-8 mb-16">
-              <button 
-                onClick={() => scrollToSection('marketplace')} 
-                className="text-white hover:text-pink-400 transition-colors duration-150 font-bold text-2xl"
-              >
-                Marketplace
-              </button>
-              <button 
-                onClick={() => scrollToSection('stats')} 
-                className="text-white hover:text-yellow-400 transition-colors duration-150 font-bold text-2xl"
-              >
-                Stats
-              </button>
-              <button 
-                onClick={() => scrollToSection('minting')} 
-                className="text-white hover:text-purple-400 transition-colors duration-150 font-bold text-2xl"
-              >
-                NFT Minting
-              </button>
-              <button 
-                onClick={() => scrollToSection('token')} 
-                className="text-white hover:text-blue-400 transition-colors duration-150 flex items-center space-x-2 font-bold text-2xl"
-              >
-                <HiCurrencyDollar className="w-7 h-7" />
-                <span>$BNKZ Trading</span>
-              </button>
-              <button 
-                onClick={() => scrollToSection('profile')} 
-                className="text-white hover:text-green-400 transition-colors duration-150 flex items-center space-x-2 font-bold text-2xl"
-              >
-                <HiUser className="w-7 h-7" />
-                <span>Profile</span>
-              </button>
-              <a 
-                href="/Bonkeez Whitepaper (1).pdf" 
-                download 
-                onClick={() => setIsMenuOpen(false)}
-                className="text-white hover:text-red-400 transition-colors duration-150 flex items-center space-x-2 font-bold text-2xl"
-              >
-                <HiDocumentText className="w-7 h-7" />
-                <span>Whitepaper</span>
-              </a>
-            </nav>
-
-            {/* Token Data */}
-            <div className="flex items-center justify-center bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-400/30 rounded-xl p-4 backdrop-blur-sm mb-8">
+            {/* Header with Logo and Close Button */}
+            <div className="flex items-center justify-between p-6 border-b border-white/10">
               <div className="flex items-center space-x-3">
                 <img 
                   src="/bonk.JPG" 
-                  alt="Bonk" 
-                  className="w-8 h-8 rounded-full object-cover"
+                  alt="Bonkeez Logo" 
+                  className="w-10 h-10 rounded-full object-cover border-2 border-pink-500/30"
                 />
                 <div>
-                  <p className="text-pink-300 font-bold text-lg">
-                    {tokenData?.price || '$0.0001'}
-                  </p>
-                  <p className={`text-sm ${
-                    (tokenData?.change24h || 0) >= 0 ? 'text-green-400' : 'text-red-400'
-                  }`}>
-                    {tokenData?.change24h ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` : '+0.0%'}
-                  </p>
+                  <h3 className="text-white font-bold text-lg">Bonkeez</h3>
+                  <p className="text-pink-300 text-xs">NFT Exchange</p>
                 </div>
               </div>
+              <button 
+                onClick={() => setIsMenuOpen(false)}
+                className="text-white p-2 rounded-lg hover:bg-white/10 transition-colors duration-150"
+              >
+                <HiX className="w-6 h-6" />
+              </button>
             </div>
 
-            {/* Wallet Connection */}
-            <div className="mb-12">
-              <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-6 py-3 rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all duration-150 flex items-center space-x-2 justify-center shadow-lg border border-pink-400/30 font-bold" />
-            </div>
+            {/* Main Content Area - Scrollable */}
+            <div className="flex-1 overflow-y-auto px-6 py-6">
+              
+              {/* Token Price Card */}
+              <div className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-400/30 rounded-xl p-4 backdrop-blur-sm mb-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <img 
+                      src="/bonk.JPG" 
+                      alt="Bonk" 
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="text-white font-bold text-sm">$BNKZ</p>
+                      <p className="text-slate-400 text-xs">Bonkeez Token</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-pink-300 font-bold text-lg">
+                      {tokenData?.price || '$0.0001'}
+                    </p>
+                    <p className={`text-sm ${
+                      (tokenData?.change24h || 0) >= 0 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {tokenData?.change24h ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` : '+0.0%'}
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-            {/* Social Media Icons Row - Bottom */}
-            <div className="absolute bottom-8 left-0 right-0">
-              <div className="flex justify-center space-x-8">
+              {/* Wallet Connection */}
+              <div className="mb-8">
+                <WalletMultiButton className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-6 py-4 rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all duration-150 flex items-center justify-center space-x-2 shadow-lg border border-pink-400/30 font-bold" />
+              </div>
+
+              {/* Navigation Menu */}
+              <nav className="space-y-1 mb-8">
+                <h4 className="text-slate-400 text-sm font-medium uppercase tracking-wider mb-3">Navigation</h4>
+                
                 <button 
-                  onClick={() => handleSocialClick('twitter')}
-                  className="text-slate-400 hover:text-emerald-400 transition-colors duration-150 p-3 rounded-full hover:bg-white/10"
+                  onClick={() => scrollToSection('marketplace')} 
+                  className="w-full flex items-center space-x-3 text-white hover:bg-white/10 p-3 rounded-lg transition-colors duration-150 text-left"
                 >
-                  <FaTwitter className="w-8 h-8" />
+                  <div className="w-8 h-8 bg-pink-500/20 rounded-lg flex items-center justify-center">
+                    <span className="text-pink-400 text-sm">🏪</span>
+                  </div>
+                  <span className="font-medium">Marketplace</span>
                 </button>
+                
                 <button 
-                  onClick={() => handleSocialClick('discord')}
-                  className="text-slate-400 hover:text-emerald-400 transition-colors duration-150 p-3 rounded-full hover:bg-white/10"
+                  onClick={() => scrollToSection('stats')} 
+                  className="w-full flex items-center space-x-3 text-white hover:bg-white/10 p-3 rounded-lg transition-colors duration-150 text-left"
                 >
-                  <FaDiscord className="w-8 h-8" />
+                  <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                    <span className="text-yellow-400 text-sm">📊</span>
+                  </div>
+                  <span className="font-medium">Stats</span>
                 </button>
+                
                 <button 
-                  onClick={() => handleSocialClick('github')}
-                  className="text-slate-400 hover:text-emerald-400 transition-colors duration-150 p-3 rounded-full hover:bg-white/10"
+                  onClick={() => scrollToSection('minting')} 
+                  className="w-full flex items-center space-x-3 text-white hover:bg-white/10 p-3 rounded-lg transition-colors duration-150 text-left"
                 >
-                  <FaGithub className="w-8 h-8" />
+                  <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                    <span className="text-purple-400 text-sm">🎨</span>
+                  </div>
+                  <span className="font-medium">NFT Minting</span>
                 </button>
+                
                 <button 
-                  onClick={() => handleSocialClick('email')}
-                  className="text-slate-400 hover:text-emerald-400 transition-colors duration-150 p-3 rounded-full hover:bg-white/10"
+                  onClick={() => scrollToSection('token')} 
+                  className="w-full flex items-center space-x-3 text-white hover:bg-white/10 p-3 rounded-lg transition-colors duration-150 text-left"
                 >
-                  <FaEnvelope className="w-8 h-8" />
+                  <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <HiCurrencyDollar className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <span className="font-medium">$BNKZ Trading</span>
                 </button>
+                
+                <button 
+                  onClick={() => scrollToSection('profile')} 
+                  className="w-full flex items-center space-x-3 text-white hover:bg-white/10 p-3 rounded-lg transition-colors duration-150 text-left"
+                >
+                  <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                    <HiUser className="w-5 h-5 text-green-400" />
+                  </div>
+                  <span className="font-medium">Profile</span>
+                </button>
+                
+                <a 
+                  href="/Bonkeez Whitepaper (1).pdf" 
+                  download 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full flex items-center space-x-3 text-white hover:bg-white/10 p-3 rounded-lg transition-colors duration-150 text-left"
+                >
+                  <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
+                    <HiDocumentText className="w-5 h-5 text-red-400" />
+                  </div>
+                  <span className="font-medium">Whitepaper</span>
+                </a>
+              </nav>
+
+              {/* Social Links */}
+              <div className="border-t border-white/10 pt-6">
+                <h4 className="text-slate-400 text-sm font-medium uppercase tracking-wider mb-3">Connect</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  <button 
+                    onClick={() => handleSocialClick('twitter')}
+                    className="flex items-center space-x-2 text-slate-300 hover:text-blue-400 hover:bg-white/5 p-3 rounded-lg transition-all duration-150"
+                  >
+                    <FaTwitter className="w-5 h-5" />
+                    <span className="text-sm font-medium">Twitter</span>
+                  </button>
+                  <button 
+                    onClick={() => handleSocialClick('discord')}
+                    className="flex items-center space-x-2 text-slate-300 hover:text-indigo-400 hover:bg-white/5 p-3 rounded-lg transition-all duration-150"
+                  >
+                    <FaDiscord className="w-5 h-5" />
+                    <span className="text-sm font-medium">Discord</span>
+                  </button>
+                  <button 
+                    onClick={() => handleSocialClick('github')}
+                    className="flex items-center space-x-2 text-slate-300 hover:text-gray-400 hover:bg-white/5 p-3 rounded-lg transition-all duration-150"
+                  >
+                    <FaGithub className="w-5 h-5" />
+                    <span className="text-sm font-medium">GitHub</span>
+                  </button>
+                  <button 
+                    onClick={() => handleSocialClick('email')}
+                    className="flex items-center space-x-2 text-slate-300 hover:text-emerald-400 hover:bg-white/5 p-3 rounded-lg transition-all duration-150"
+                  >
+                    <FaEnvelope className="w-5 h-5" />
+                    <span className="text-sm font-medium">Email</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
