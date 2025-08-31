@@ -25,16 +25,8 @@ function App() {
   useEffect(() => {
     console.log('🎉 Adding welcome notification')
     
-    // Add welcome notification
-    const welcomeNotification = {
-      id: 'welcome-' + Date.now(),
-      type: 'success' as const,
-      title: 'Welcome to Bonkeez Exchange!',
-      message: 'Your gateway to exclusive Solana NFTs and $BNKZ trading',
-      timestamp: new Date()
-    }
     
-    setNotifications([welcomeNotification])
+  
     
     // Set loading to false after brief delay
     const timer = setTimeout(() => {
@@ -106,11 +98,10 @@ function App() {
       />
       <Header />
       <main>
-        <Hero onNotify={addNotification} />
+        <Hero  />
         <TokenStats />
-        <FeaturedNFTs />
-        <Marketplace onNotify={addNotification} />
-        <NFTMinting onNotify={addNotification} />
+        <Marketplace />
+        <NFTMinting  />
         <section className="py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
