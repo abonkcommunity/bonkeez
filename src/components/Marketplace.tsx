@@ -120,7 +120,7 @@ const Marketplace = () => {
   )
 
   return (
-    <section id="marketplace" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-900/20 via-fuchsia-900/15 to-pink-900/20">
+    <section id="marketplace" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/10 to-emerald-900/10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
