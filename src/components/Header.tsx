@@ -54,7 +54,7 @@ const Header = () => {
             {/* Logo */}
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+              className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-150"
             >
               <img 
                 src="/bonk.JPG" 
@@ -71,32 +71,32 @@ const Header = () => {
             <nav className="hidden xl:flex items-center space-x-6">
               <button 
                 onClick={() => scrollToSection('marketplace')} 
-                className="text-white hover:text-pink-400 transition-colors font-medium text-sm"
+                className="text-white hover:text-pink-400 transition-colors duration-150 font-medium text-sm"
               >
                 Marketplace
               </button>
               <button 
                 onClick={() => scrollToSection('stats')} 
-                className="text-white hover:text-yellow-400 transition-colors font-medium text-sm"
+                className="text-white hover:text-yellow-400 transition-colors duration-150 font-medium text-sm"
               >
                 Stats
               </button>
               <button 
                 onClick={() => scrollToSection('minting')} 
-                className="text-white hover:text-purple-400 transition-colors font-medium text-sm"
+                className="text-white hover:text-purple-400 transition-colors duration-150 font-medium text-sm"
               >
                 NFT Minting
               </button>
               <button 
                 onClick={() => scrollToSection('token')} 
-                className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium text-sm"
+                className="text-white hover:text-blue-400 transition-colors duration-150 flex items-center space-x-1 font-medium text-sm"
               >
                 <HiCurrencyDollar className="w-4 h-4" />
                 <span>$BNKZ Trading</span>
               </button>
               <button 
                 onClick={() => scrollToSection('profile')} 
-                className="text-white hover:text-green-400 transition-colors flex items-center space-x-1 font-medium text-sm"
+                className="text-white hover:text-green-400 transition-colors duration-150 flex items-center space-x-1 font-medium text-sm"
               >
                 <HiUser className="w-4 h-4" />
                 <span>Profile</span>
@@ -104,7 +104,7 @@ const Header = () => {
               <a 
                 href="/Bonkeez Whitepaper (1).pdf" 
                 download 
-                className="text-white hover:text-red-400 transition-colors flex items-center space-x-1 font-medium text-sm"
+                className="text-white hover:text-red-400 transition-colors duration-150 flex items-center space-x-1 font-medium text-sm"
               >
                 <HiDocumentText className="w-4 h-4" />
                 <span>Whitepaper</span>
@@ -134,12 +134,12 @@ const Header = () => {
 
               {/* Wallet Connection */}
               <div className="hidden md:flex items-center space-x-3">
-                <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 shadow-lg hover:shadow-pink-500/25 border border-pink-400/30 font-medium text-sm" />
+                <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all duration-150 flex items-center space-x-2 shadow-lg hover:shadow-pink-500/25 border border-pink-400/30 font-medium text-sm" />
               </div>
 
               {/* Mobile Menu Button */}
               <button 
-                className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors z-50 relative"
+                className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors duration-150 z-50 relative"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? <HiX className="w-6 h-6" /> : <HiMenu className="w-6 h-6" />}
@@ -170,7 +170,7 @@ const Header = () => {
             {/* Close Button */}
             <button 
               onClick={() => setIsMenuOpen(false)}
-              className="absolute top-6 right-6 text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
+              className="absolute top-6 right-6 text-white p-2 rounded-lg hover:bg-white/10 transition-colors duration-150"
             >
               <HiX className="w-8 h-8" />
             </button>
@@ -179,32 +179,32 @@ const Header = () => {
             <nav className="flex flex-col items-center space-y-8 mb-16">
               <button 
                 onClick={() => scrollToSection('marketplace')} 
-                className="text-white hover:text-pink-400 transition-colors font-bold text-2xl"
+                className="text-white hover:text-pink-400 transition-colors duration-150 font-bold text-2xl"
               >
                 Marketplace
               </button>
               <button 
                 onClick={() => scrollToSection('stats')} 
-                className="text-white hover:text-yellow-400 transition-colors font-bold text-2xl"
+                className="text-white hover:text-yellow-400 transition-colors duration-150 font-bold text-2xl"
               >
                 Stats
               </button>
               <button 
                 onClick={() => scrollToSection('minting')} 
-                className="text-white hover:text-purple-400 transition-colors font-bold text-2xl"
+                className="text-white hover:text-purple-400 transition-colors duration-150 font-bold text-2xl"
               >
                 NFT Minting
               </button>
               <button 
                 onClick={() => scrollToSection('token')} 
-                className="text-white hover:text-blue-400 transition-colors flex items-center space-x-2 font-bold text-2xl"
+                className="text-white hover:text-blue-400 transition-colors duration-150 flex items-center space-x-2 font-bold text-2xl"
               >
                 <HiCurrencyDollar className="w-7 h-7" />
                 <span>$BNKZ Trading</span>
               </button>
               <button 
                 onClick={() => scrollToSection('profile')} 
-                className="text-white hover:text-green-400 transition-colors flex items-center space-x-2 font-bold text-2xl"
+                className="text-white hover:text-green-400 transition-colors duration-150 flex items-center space-x-2 font-bold text-2xl"
               >
                 <HiUser className="w-7 h-7" />
                 <span>Profile</span>
@@ -213,7 +213,7 @@ const Header = () => {
                 href="/Bonkeez Whitepaper (1).pdf" 
                 download 
                 onClick={() => setIsMenuOpen(false)}
-                className="text-white hover:text-red-400 transition-colors flex items-center space-x-2 font-bold text-2xl"
+                className="text-white hover:text-red-400 transition-colors duration-150 flex items-center space-x-2 font-bold text-2xl"
               >
                 <HiDocumentText className="w-7 h-7" />
                 <span>Whitepaper</span>
@@ -243,7 +243,7 @@ const Header = () => {
 
             {/* Wallet Connection */}
             <div className="mb-12">
-              <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-6 py-3 rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 justify-center shadow-lg border border-pink-400/30 font-bold" />
+              <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-6 py-3 rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all duration-150 flex items-center space-x-2 justify-center shadow-lg border border-pink-400/30 font-bold" />
             </div>
 
             {/* Social Media Icons Row - Bottom */}
@@ -251,25 +251,25 @@ const Header = () => {
               <div className="flex justify-center space-x-8">
                 <button 
                   onClick={() => handleSocialClick('twitter')}
-                  className="text-slate-400 hover:text-emerald-400 transition-colors p-3 rounded-full hover:bg-white/10"
+                  className="text-slate-400 hover:text-emerald-400 transition-colors duration-150 p-3 rounded-full hover:bg-white/10"
                 >
                   <FaTwitter className="w-8 h-8" />
                 </button>
                 <button 
                   onClick={() => handleSocialClick('discord')}
-                  className="text-slate-400 hover:text-emerald-400 transition-colors p-3 rounded-full hover:bg-white/10"
+                  className="text-slate-400 hover:text-emerald-400 transition-colors duration-150 p-3 rounded-full hover:bg-white/10"
                 >
                   <FaDiscord className="w-8 h-8" />
                 </button>
                 <button 
                   onClick={() => handleSocialClick('github')}
-                  className="text-slate-400 hover:text-emerald-400 transition-colors p-3 rounded-full hover:bg-white/10"
+                  className="text-slate-400 hover:text-emerald-400 transition-colors duration-150 p-3 rounded-full hover:bg-white/10"
                 >
                   <FaGithub className="w-8 h-8" />
                 </button>
                 <button 
                   onClick={() => handleSocialClick('email')}
-                  className="text-slate-400 hover:text-emerald-400 transition-colors p-3 rounded-full hover:bg-white/10"
+                  className="text-slate-400 hover:text-emerald-400 transition-colors duration-150 p-3 rounded-full hover:bg-white/10"
                 >
                   <FaEnvelope className="w-8 h-8" />
                 </button>

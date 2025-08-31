@@ -46,7 +46,7 @@ const Footer = () => {
           <div className="space-y-4">
             <button 
               onClick={scrollToTop}
-              className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+              className="flex items-center space-x-2 hover:opacity-80 transition-opacity duration-150"
             >
               <div className="w-10 h-10 bg-gradient-to-r from-slate-700 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-lg">B</span>
@@ -63,25 +63,25 @@ const Footer = () => {
             <div className="flex space-x-4">
               <button 
                 onClick={() => handleSocialClick('twitter')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
               >
                 <FaTwitter className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('discord')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
               >
                 <FaDiscord className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('github')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
               >
                 <FaGithub className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('email')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
               >
                 <FaEnvelope className="w-5 h-5" />
               </button>
@@ -94,25 +94,25 @@ const Footer = () => {
             <nav className="space-y-2">
               <button 
                 onClick={() => handleLinkClick('marketplace')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Browse Collection
               </button>
               <button 
                 onClick={() => handleLinkClick('marketplace')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Rarity Guide
               </button>
               <button 
                 onClick={() => handleLinkClick('marketplace')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Launch Schedule
               </button>
               <button 
                 onClick={() => alert('Trading guide coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Trading Guide
               </button>
@@ -125,25 +125,25 @@ const Footer = () => {
             <nav className="space-y-2">
               <button 
                 onClick={() => handleLinkClick('token')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Buy $BNKZ
               </button>
               <button 
                 onClick={() => handleLinkClick('stats')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Token Stats
               </button>
               <button 
                 onClick={() => alert('Staking guide coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Staking Guide
               </button>
               <button 
                 onClick={() => alert('Tokenomics page coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Tokenomics
               </button>
@@ -156,34 +156,34 @@ const Footer = () => {
             <nav className="space-y-2">
               <button 
                 onClick={() => handleSocialClick('discord')}
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 <FaUsers className="w-4 h-4" />
                 <span>Join Discord</span>
               </button>
               <button 
                 onClick={() => handleSocialClick('twitter')}
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 <FaTwitter className="w-4 h-4" />
                 <span>Follow Twitter</span>
               </button>
               <button 
                 onClick={() => alert('Blog coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Blog
               </button>
               <button 
                 onClick={() => alert('Help center coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 Help Center
               </button>
               <a 
                 href="/Bonkeez Whitepaper (1).pdf" 
                 download 
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
+                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
                 <FaExternalLinkAlt className="w-4 h-4" />
                 <span>Whitepaper</span>
@@ -199,13 +199,13 @@ const Footer = () => {
               <span>© 2024 Bonkeez NFT Exchange</span>
               <button 
                 onClick={() => handleLinkClick('privacy')}
-                className="hover:text-emerald-400 transition-colors"
+                className="hover:text-emerald-400 transition-colors duration-150"
               >
                 Privacy Policy
               </button>
               <button 
                 onClick={() => handleLinkClick('terms')}
-                className="hover:text-emerald-400 transition-colors"
+                className="hover:text-emerald-400 transition-colors duration-150"
               >
                 Terms of Service
               </button>
