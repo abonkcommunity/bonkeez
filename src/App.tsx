@@ -107,9 +107,23 @@ function App() {
       <main>
         <Hero onNotify={addNotification} />
         <TokenStats />
+        <Marketplace />
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+                Your Profile
+              </h2>
+              <p className="text-xl text-slate-300">
+                Connect your wallet to view your NFTs, $BNKZ balance, and portfolio stats
+              </p>
+            </div>
+            
+          </div>
+        </section>
         <FeaturedNFTs />
-        <Marketplace onNotify={addNotification} />
-        <NFTMinting onNotify={addNotification} />
+        <Marketplace />
+        <NFTMinting  />
       </main>
       <Footer />
     </div>

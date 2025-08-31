@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { ArrowRight, Zap, Star, Users, TrendingUp } from 'lucide-react'
 
@@ -53,21 +54,21 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
             <button 
               onClick={scrollToMarketplace}
-              className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-8 py-4 rounded-xl font-bold hover:from-purple-700 hover:to-purple-800 transition-all flex items-center justify-center space-x-2 shadow-lg hover:shadow-purple-500/25 text-lg"
+              className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-8 py-4 rounded-xl font-bold hover:from-purple-700 hover:to-purple-800 transition-all duration-150 flex items-center justify-center space-x-2 shadow-lg hover:shadow-purple-500/25 text-lg"
             >
               <span>Explore Collection</span>
               <ArrowRight className="w-5 h-5" />
             </button>
             <button 
               onClick={scrollToToken}
-              className="border-2 border-slate-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-slate-800/50 transition-all text-lg"
+              className="border-2 border-slate-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-slate-800/50 transition-all duration-150 text-lg"
             >
               Get $BNKZ Token
             </button>
           </div>
         </div>
 
-        {/* Stats Grid */}
+        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 text-center">
             <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -78,7 +79,7 @@ const Hero = () => {
             <p className="text-purple-400 text-sm mt-1">Ready for Launch</p>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 text-center">
+          {/* <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 text-center">
             <div className="w-16 h-16 bg-gradient-to-r from-slate-600 to-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
               <Users className="w-8 h-8 text-white" />
             </div>
@@ -94,7 +95,7 @@ const Hero = () => {
             <h3 className="text-3xl font-bold text-white mb-2">0.4 SOL</h3>
             <p className="text-slate-400">Launch Price</p>
             <p className="text-blue-400 text-sm mt-1">Mint Price</p>
-          </div>
+          </div>*/}
         </div>
 
         {/* Featured Preview */}
@@ -120,7 +121,7 @@ const Hero = () => {
                     alt={bonkee.name}
                     className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
                 </div>
                 <h4 className="text-white font-bold text-center">{bonkee.name}</h4>
                 <p className="text-purple-400 text-sm text-center">{bonkee.rarity}</p>
@@ -131,7 +132,7 @@ const Hero = () => {
           <div className="text-center mt-8">
             <button 
               onClick={scrollToMarketplace}
-              className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-8 py-3 rounded-xl font-bold hover:from-slate-600 hover:to-slate-700 transition-all"
+              className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-8 py-3 rounded-xl font-bold hover:from-slate-600 hover:to-slate-700 transition-all duration-150"
             >
               View Full Collection
             </button>
@@ -142,7 +143,7 @@ const Hero = () => {
         <div className="text-center mt-16">
           <button 
             onClick={handleLearnMore}
-            className="text-slate-400 hover:text-purple-400 transition-colors flex items-center space-x-2 mx-auto"
+            className="text-slate-400 hover:text-purple-400 transition-colors duration-150 flex items-center space-x-2 mx-auto"
           >
             <span>Learn more about Bonkeez</span>
             <ArrowRight className="w-4 h-4" />
