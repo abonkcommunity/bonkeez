@@ -28,8 +28,8 @@ const Header = () => {
 
   const handleSocialClick = (platform: string) => {
     const urls = {
-      twitter: 'https://twitter.com/bonkeez_nft',
-      telegram: 'https://t.me/bonkeez_nft'
+      twitter: 'https://x.com/abonkcommunity?s=21',
+      telegram: 'https://t.me/+Mh9YQsnnRcZlNWFh'
     }
     const url = urls[platform as keyof typeof urls]
     if (url) {
