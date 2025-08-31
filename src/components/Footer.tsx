@@ -180,6 +180,7 @@ const Footer = () => {
               >
                 Help Center
               </button>
+
               <a 
                 href="/Bonkeez Whitepaper (1).pdf" 
                 download 
