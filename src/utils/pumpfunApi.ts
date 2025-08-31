@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Configuration - Update this with your actual token address
-const TOKEN_ADDRESS = "Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F"; 
+const TOKEN_ADDRESS = "Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F"; // Updated to match your contract
 const API_URL = `https://frontend-api.pump.fun/coins/${TOKEN_ADDRESS}`;
 const WEBSOCKET_URL = 'wss://pumpportal.fun/api/data';
 

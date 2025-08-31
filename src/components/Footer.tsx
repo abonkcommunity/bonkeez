@@ -179,14 +179,6 @@ const Footer = () => {
               >
                 Help Center
               </button>
-              <a 
-                href="/Bonkeez Whitepaper (1).pdf" 
-                download 
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
-              >
-                <ExternalLink className="w-4 h-4" />
-                <span>Whitepaper</span>
-              </a>
             </nav>
           </div>
         </div>

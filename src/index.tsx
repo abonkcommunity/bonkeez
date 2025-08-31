@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-
 // WordPress compatibility check
 const isWordPress = typeof window !== 'undefined' && 
   (window.location.pathname.includes('/wp-') || 
