@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import TokenStats from './components/TokenStats'
-import FeaturedNFTs from './components/FeaturedNFTs'
 import Marketplace from './components/Marketplace'
 import NFTMinting from './components/NFTMinting'
 import Footer from './components/Footer'
@@ -53,7 +52,6 @@ function App() {
             </div>
           </div>
         </section>
-        <FeaturedNFTs />
         <Marketplace />
         <NFTMinting />
       </main>
