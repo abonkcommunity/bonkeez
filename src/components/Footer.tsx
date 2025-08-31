@@ -1,5 +1,6 @@
+
 import React from 'react'
-import { Twitter, Github, MessageCircle, ExternalLink, Mail, Users } from 'lucide-react'
+import { FaTwitter, FaGithub, FaDiscord, FaEnvelope, FaExternalLinkAlt, FaUsers } from 'react-icons/fa'
 
 const Footer = () => {
   const handleSocialClick = (platform: string) => {
@@ -64,25 +65,25 @@ const Footer = () => {
                 onClick={() => handleSocialClick('twitter')}
                 className="text-slate-400 hover:text-emerald-400 transition-colors"
               >
-                <Twitter className="w-5 h-5" />
+                <FaTwitter className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('discord')}
                 className="text-slate-400 hover:text-emerald-400 transition-colors"
               >
-                <MessageCircle className="w-5 h-5" />
+                <FaDiscord className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('github')}
                 className="text-slate-400 hover:text-emerald-400 transition-colors"
               >
-                <Github className="w-5 h-5" />
+                <FaGithub className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('email')}
                 className="text-slate-400 hover:text-emerald-400 transition-colors"
               >
-                <Mail className="w-5 h-5" />
+                <FaEnvelope className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -157,14 +158,14 @@ const Footer = () => {
                 onClick={() => handleSocialClick('discord')}
                 className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
-                <Users className="w-4 h-4" />
+                <FaUsers className="w-4 h-4" />
                 <span>Join Discord</span>
               </button>
               <button 
                 onClick={() => handleSocialClick('twitter')}
                 className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
-                <Twitter className="w-4 h-4" />
+                <FaTwitter className="w-4 h-4" />
                 <span>Follow Twitter</span>
               </button>
               <button 
@@ -184,7 +185,7 @@ const Footer = () => {
                 download 
                 className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm"
               >
-                <ExternalLink className="w-4 h-4" />
+                <FaExternalLinkAlt className="w-4 h-4" />
                 <span>Whitepaper</span>
               </a>
             </nav>
