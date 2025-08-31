@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Menu, X, Wallet, User, Search, Coins } from 'lucide-react'
+import { Menu, X, Wallet, User, Coins, FileText } from 'lucide-react'
 import { getTokenDataSafe, type TokenData } from '../utils/pumpfunApi'
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
@@ -12,9 +12,7 @@ const Header = () => {
       const data = await getTokenDataSafe()
       setTokenData(data)
     }
-    
     fetchData()
-    // Refresh every 30 seconds
     const interval = setInterval(fetchData, 30000)
     return () => clearInterval(interval)
   }, [])
@@ -26,8 +24,6 @@ const Header = () => {
       setIsMenuOpen(false)
     }
   }
-
- 
 
   return (
     <header className="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -64,6 +60,12 @@ const Header = () => {
               Stats
             </button>
             <button 
+              onClick={() => scrollToSection('minting')} 
+              className="text-white hover:text-purple-400 transition-colors font-medium text-sm"
+            >
+              NFT Minting
+            </button>
+            <button 
               onClick={() => scrollToSection('token')} 
               className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium text-sm"
             >
@@ -77,14 +79,17 @@ const Header = () => {
               <User className="w-4 h-4" />
               <span>Profile</span>
             </button>
-            <button 
-              onClick={() => scrollToSection('minting')} 
-              className="text-white hover:text-purple-400 transition-colors font-medium text-sm"
+            <a 
+              href="/Bonkeez Whitepaper (1).pdf" 
+              download 
+              className="text-white hover:text-red-400 transition-colors flex items-center space-x-1 font-medium text-sm"
             >
-              NFT Minting
-            </button>
+              <FileText className="w-4 h-4" />
+              <span>Whitepaper</span>
+            </a>
           </nav>
 
+          {/* Right Section */}
           <div className="flex items-center space-x-4">
             {/* Live Token Price Display */}
             <div className="hidden lg:flex items-center bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-400/30 rounded-lg px-3 py-2 backdrop-blur-sm">
@@ -105,34 +110,19 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Search Bar */}
-            <div className="hidden lg:flex items-center bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 w-48 border border-white/10">
-              <Search className="w-4 h-4 text-slate-400 mr-2" />
-              <input 
-                type="text" 
-                placeholder="Search..." 
-                className="bg-transparent text-white placeholder-slate-400 outline-none flex-1 text-sm"
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    scrollToSection('marketplace')
-                  }
-                }}
-              />
+            {/* Wallet Connection */}
+            <div className="hidden md:flex items-center space-x-3">
+              <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 shadow-lg hover:shadow-pink-500/25 border border-pink-400/30 font-medium text-sm" />
             </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
-
-          {/* Wallet Connection */}
-         <div className="hidden md:flex items-center space-x-3">
-  <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 shadow-lg hover:shadow-pink-500/25 border border-pink-400/30 font-medium text-sm" />
-</div>
-
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
 
         {/* Mobile Menu */}
@@ -152,6 +142,12 @@ const Header = () => {
                 Stats
               </button>
               <button 
+                onClick={() => scrollToSection('minting')} 
+                className="text-white hover:text-purple-400 transition-colors font-medium text-left"
+              >
+                NFT Minting
+              </button>
+              <button 
                 onClick={() => scrollToSection('token')} 
                 className="text-white hover:text-blue-400 transition-colors flex items-center space-x-1 font-medium"
               >
@@ -165,12 +161,16 @@ const Header = () => {
                 <User className="w-4 h-4" />
                 <span>Profile</span>
               </button>
-              <button 
-                onClick={() => scrollToSection('minting')} 
-                className="text-white hover:text-purple-400 transition-colors font-medium text-left"
+              <a 
+                href="/Bonkeez Whitepaper (1).pdf" 
+                download 
+                className="text-white hover:text-red-400 transition-colors flex items-center space-x-1 font-medium"
               >
-                NFT Minting
-              </button>
+                <FileText className="w-4 h-4" />
+                <span>Whitepaper</span>
+              </a>
+
+              {/* Token Data + Wallet */}
               <div className="flex items-center justify-between bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-400/30 rounded-full p-3 backdrop-blur-sm">
                 <div className="flex items-center space-x-2">
                   <img 
@@ -191,6 +191,7 @@ const Header = () => {
                   </p>
                 </div>
               </div>
+
               <WalletMultiButton className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-4 py-2 rounded-full hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all flex items-center space-x-2 justify-center shadow-lg border border-pink-400/30" />
             </nav>
           </div>
