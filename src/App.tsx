@@ -23,10 +23,11 @@ function App() {
   }>>([])
 
   useEffect(() => {
-   
+    console.log('🎉 Adding welcome notification')
+    
     
   
-
+    
     // Set loading to false after brief delay
     const timer = setTimeout(() => {
       setLoading(false)
@@ -89,7 +90,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-bonkee-pink/90 via-bonkee-purple/80 to-bonkee-blue/90">
+    <div className="min-h-screen bg-gradient-to-br from-purple-950/90 via-fuchsia-900/80 to-pink-900/90">
       <SecurityCheck />
       <NotificationSystem 
         notifications={notifications} 
