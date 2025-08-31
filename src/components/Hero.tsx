@@ -65,28 +65,6 @@ const Hero = () => {
               Get $BNKZ Token
             </button>
           </div>
-
-            {/* Social CTAs */}
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-              <a 
-                href="https://x.com/abonkcommunity?s=21" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-full font-medium text-sm hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg border border-blue-400/30 flex items-center justify-center space-x-2"
-              >
-                <span>𝕏</span>
-                <span>Follow for Updates</span>
-              </a>
-              <a 
-                href="https://t.me/+Mh9YQsnnRcZlNWFh" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white px-6 py-3 rounded-full font-medium text-sm hover:from-cyan-600 hover:to-cyan-700 transition-all shadow-lg border border-cyan-400/30 flex items-center justify-center space-x-2"
-              >
-                <span>📱</span>
-                <span>Join Community</span>
-              </a>
-            </div>
         </div>
 
         {/* Stats Grid */}
