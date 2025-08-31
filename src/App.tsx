@@ -3,12 +3,10 @@ import React, { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import TokenStats from './components/TokenStats'
-import FeaturedNFTs from './components/FeaturedNFTs'
 import Marketplace from './components/Marketplace'
 import NFTMinting from './components/NFTMinting'
 import UserProfile from './components/UserProfile'
 import Footer from './components/Footer'
-import NotificationSystem from './components/NotificationSystem'
 import SecurityCheck from './components/SecurityCheck'
 import './polyfills'
 
@@ -23,7 +21,7 @@ function App() {
   }>>([])
 
   useEffect(() => {
-    console.log('🎉 Adding welcome notification')
+   
     
     
   
@@ -92,10 +90,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-950/90 via-fuchsia-900/80 to-pink-900/90">
       <SecurityCheck />
-      <NotificationSystem 
-        notifications={notifications} 
-        onRemove={removeNotification}
-      />
+      
       <Header />
       <main>
         <Hero  />
