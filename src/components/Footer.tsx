@@ -40,9 +40,11 @@ const Footer = () => {
               onClick={scrollToTop}
               className="flex items-center space-x-2 hover:opacity-80 transition-opacity duration-150"
             >
-              <div className="w-10 h-10 bg-gradient-to-r from-slate-700 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">B</span>
-              </div>
+              <img 
+                src="/bonk.JPG" 
+                alt="Bonkeez Logo" 
+                className="w-10 h-10 rounded-full object-cover shadow-lg border-2 border-emerald-500/30"
+              />
               <div>
                 <h3 className="text-white font-bold text-xl">Bonkeez</h3>
                 <p className="text-slate-400 text-xs">NFT Exchange</p>
