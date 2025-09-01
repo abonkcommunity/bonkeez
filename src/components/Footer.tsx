@@ -148,7 +148,7 @@ const Footer = () => {
         <div className="border-t border-white/10 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-6 text-sm text-slate-400">
-              <span>© 2024 Bonkeez NFT Exchange</span>
+              <span>© 2025 Bonkeez NFT Exchange</span>
               <button 
                 onClick={() => handleLinkClick('privacy')}
                 className="hover:text-emerald-400 transition-colors duration-150"
