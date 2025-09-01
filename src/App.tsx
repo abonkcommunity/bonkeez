@@ -6,7 +6,9 @@ import Marketplace from './components/Marketplace'
 import NFTMinting from './components/NFTMinting'
 import Footer from './components/Footer'
 import SecurityCheck from './components/SecurityCheck'
+import TokenTrading  from './components/TokenTrading'
 import './polyfills'
+ 
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -39,9 +41,9 @@ function App() {
       <main>
         <Hero />
         <TokenStats />
-              <Marketplace />
-        <NFTMinting />
-        <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <TokenTrading /> 
+           <Marketplace />
+        <section id="profile" className="py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
