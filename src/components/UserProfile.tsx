@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { User, Settings, Star, TrendingUp, Wallet, Edit2, ExternalLink, Loader } from 'lucide-react'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -27,12 +26,12 @@ const UserProfile = () => {
 
   const loadUserProfile = async () => {
     if (!publicKey) return
-    
+
     setLoading(true)
     try {
       const solanaProfile = await createUserProfile(publicKey.toString())
       setProfile(solanaProfile)
-      
+
       // Auto-generate username if not set
       if (!userInfo.username) {
         setUserInfo(prev => ({
@@ -179,7 +178,7 @@ const UserProfile = () => {
           <p className="text-white font-bold text-2xl">{profile.nftsOwned.length}</p>
           <p className="text-slate-300 text-xs">Verified on-chain</p>
         </div>
-        
+
         <div className="bg-gradient-to-br from-emerald-500/20 to-blue-500/20 rounded-lg p-4 border border-emerald-400/30">
           <div className="flex items-center space-x-2 mb-2">
             <TrendingUp className="w-5 h-5 text-green-400" />
@@ -188,7 +187,7 @@ const UserProfile = () => {
           <p className="text-white font-bold text-2xl">{profile.solBalance.toFixed(2)} SOL</p>
           <p className="text-slate-300 text-xs">+ {profile.totalNFTValue.toFixed(1)} SOL (NFTs)</p>
         </div>
-        
+
         <div className="bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-lg p-4 border border-pink-400/30">
           <div className="flex items-center space-x-2 mb-2">
             <Wallet className="w-5 h-5 text-pink-400" />
@@ -197,7 +196,7 @@ const UserProfile = () => {
           <p className="text-white font-bold text-2xl">{profile.bnkzBalance.toLocaleString()}</p>
           <p className="text-slate-300 text-xs">Live from blockchain</p>
         </div>
-        
+
         <div className="bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-lg p-4 border border-blue-400/30">
           <div className="flex items-center space-x-2 mb-2">
             <User className="w-5 h-5 text-blue-400" />
