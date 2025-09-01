@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { TrendingUp, DollarSign, Users, Zap, ExternalLink } from 'lucide-react'
-import { getTokenDataSafe, getPumpfunUrl, getSolscanUrl, type TokenData } from '../utils/pumpfunApi'
+import { 
+  getTokenDataSafe, 
+  getPumpfunUrl, 
+  getSolscanUrl,   // add this
+  type TokenData 
+} from '../utils/pumpfunApi'
 
 const TokenStats = () => {
   const [tokenData, setTokenData] = useState<TokenData | null>(null)
