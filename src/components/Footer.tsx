@@ -1,23 +1,17 @@
 
 import React from 'react'
-import { FaTwitter, FaGithub, FaDiscord, FaEnvelope, FaExternalLinkAlt, FaUsers } from 'react-icons/fa'
+import { FaTwitter, FaTelegramPlane, FaExternalLinkAlt, FaUsers } from 'react-icons/fa'
 
 const Footer = () => {
   const handleSocialClick = (platform: string) => {
     const urls = {
-      twitter: 'https://twitter.com/bonkeez_nft',
-      discord: 'https://discord.gg/bonkeez',
-      github: 'https://github.com/bonkeez',
-      email: 'mailto:hello@bonkeez.io'
+      twitter: 'https://x.com/abonkcommunity?s=21',
+      telegram: 'https://t.me/+Mh9YQsnnRcZlNWFh'
     }
     
     const url = urls[platform as keyof typeof urls]
     if (url) {
-      if (platform === 'email') {
-        window.location.href = url
-      } else {
-        window.open(url, '_blank', 'noopener,noreferrer')
-      }
+      window.open(url, '_blank', 'noopener,noreferrer')
     } else {
       alert(`${platform.charAt(0).toUpperCase() + platform.slice(1)} coming soon!`)
     }
@@ -68,53 +62,41 @@ const Footer = () => {
                 <FaTwitter className="w-5 h-5" />
               </button>
               <button 
-                onClick={() => handleSocialClick('discord')}
+                onClick={() => handleSocialClick('telegram')}
                 className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
               >
-                <FaDiscord className="w-5 h-5" />
-              </button>
-              <button 
-                onClick={() => handleSocialClick('github')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
-              >
-                <FaGithub className="w-5 h-5" />
-              </button>
-              <button 
-                onClick={() => handleSocialClick('email')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
-              >
-                <FaEnvelope className="w-5 h-5" />
+                <FaTelegramPlane className="w-5 h-5" />
               </button>
             </div>
           </div>
 
-          {/* Marketplace */}
+          {/* Navigation */}
           <div className="space-y-4">
-            <h4 className="text-white font-bold text-lg">Marketplace</h4>
+            <h4 className="text-white font-bold text-lg">Navigation</h4>
             <nav className="space-y-2">
               <button 
                 onClick={() => handleLinkClick('marketplace')}
                 className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
-                Browse Collection
+                Marketplace
               </button>
               <button 
-                onClick={() => handleLinkClick('marketplace')}
+                onClick={() => handleLinkClick('stats')}
                 className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
-                Rarity Guide
+                Stats
               </button>
               <button 
-                onClick={() => handleLinkClick('marketplace')}
+                onClick={() => handleLinkClick('minting')}
                 className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
-                Launch Schedule
+                NFT Minting
               </button>
               <button 
-                onClick={() => alert('Trading guide coming soon!')}
+                onClick={() => handleLinkClick('profile')}
                 className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
-                Trading Guide
+                Profile
               </button>
             </nav>
           </div>
@@ -127,13 +109,7 @@ const Footer = () => {
                 onClick={() => handleLinkClick('token')}
                 className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
-                Buy $BNKZ
-              </button>
-              <button 
-                onClick={() => handleLinkClick('stats')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
-              >
-                Token Stats
+                $BNKZ Trading
               </button>
               <button 
                 onClick={() => alert('Staking guide coming soon!')}
@@ -147,6 +123,14 @@ const Footer = () => {
               >
                 Tokenomics
               </button>
+              <a 
+                href="/Bonkeez Whitepaper (1).pdf" 
+                download 
+                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+              >
+                <FaExternalLinkAlt className="w-4 h-4" />
+                <span>Whitepaper</span>
+              </a>
             </nav>
           </div>
 
@@ -155,11 +139,11 @@ const Footer = () => {
             <h4 className="text-white font-bold text-lg">Community</h4>
             <nav className="space-y-2">
               <button 
-                onClick={() => handleSocialClick('discord')}
+                onClick={() => handleSocialClick('telegram')}
                 className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
               >
-                <FaUsers className="w-4 h-4" />
-                <span>Join Discord</span>
+                <FaTelegramPlane className="w-4 h-4" />
+                <span>Join Telegram</span>
               </button>
               <button 
                 onClick={() => handleSocialClick('twitter')}
@@ -180,15 +164,6 @@ const Footer = () => {
               >
                 Help Center
               </button>
-
-              <a 
-                href="/Bonkeez Whitepaper (1).pdf" 
-                download 
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
-              >
-                <FaExternalLinkAlt className="w-4 h-4" />
-                <span>Whitepaper</span>
-              </a>
             </nav>
           </div>
         </div>
