@@ -12,8 +12,6 @@ const Footer = () => {
     const url = urls[platform as keyof typeof urls]
     if (url) {
       window.open(url, '_blank', 'noopener,noreferrer')
-    } else {
-      alert(`${platform.charAt(0).toUpperCase() + platform.slice(1)} coming soon!`)
     }
   }
 
@@ -111,18 +109,6 @@ const Footer = () => {
               >
                 $BNKZ Trading
               </button>
-              <button 
-                onClick={() => alert('Staking guide coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
-              >
-                Staking Guide
-              </button>
-              <button 
-                onClick={() => alert('Tokenomics page coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
-              >
-                Tokenomics
-              </button>
               <a 
                 href="/Bonkeez Whitepaper (1).pdf" 
                 download 
@@ -151,18 +137,6 @@ const Footer = () => {
               >
                 <FaTwitter className="w-4 h-4" />
                 <span>Follow Twitter</span>
-              </button>
-              <button 
-                onClick={() => alert('Blog coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
-              >
-                Blog
-              </button>
-              <button 
-                onClick={() => alert('Help center coming soon!')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
-              >
-                Help Center
               </button>
             </nav>
           </div>
