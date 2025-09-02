@@ -21,6 +21,7 @@
     "@solana/wallet-adapter-solflare": "^0.6.32",
     "@solana/wallet-adapter-torus": "^0.11.32",
     "@solana/web3.js": "^1.98.4",
+    "@vercel/node": "^5.3.17",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
     "globals": "^16.3.0",
