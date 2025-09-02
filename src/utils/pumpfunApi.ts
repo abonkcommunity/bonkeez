@@ -12,15 +12,30 @@ export type TokenData = {
 // ✅ Your token contract address (BNKZ)
 const CA = "Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F"
 
-// Fetch token data safely
-export async function getTokenDataSafe(): Promise<TokenData | null> {
+// Fetch token data safely with fallback
+export async function getTokenDataSafe(): Promise<TokenData> {
   try {
-    const res = await fetch(`/api/pumpfun/${CA}`)
-    if (!res.ok) throw new Error("Failed to fetch BNKZ token data")
-    return await res.json()
+    // Use absolute URL on server-side, relative on client-side
+    const baseUrl = typeof window === "undefined"
+      ? process.env.NEXT_PUBLIC_SITE_URL || "https://bonkeez.com"
+      : ""
+    
+    const res = await fetch(`${baseUrl}/api/pumpfun/${CA}`)
+
+    if (!res.ok) throw new Error(`Failed to fetch BNKZ token data (status ${res.status})`)
+
+    return (await res.json()) as TokenData
   } catch (err) {
     console.error("Error fetching BNKZ token data:", err)
-    return null
+    // Fallback data in case API fails
+    return {
+      price: "$0.000001",
+      marketCap: "N/A",
+      volume24h: "N/A",
+      holders: "N/A",
+      totalSupply: "1B",
+      change24h: 0
+    }
   }
 }
 
