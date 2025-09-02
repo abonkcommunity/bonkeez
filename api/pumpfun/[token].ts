@@ -9,9 +9,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const response = await fetch(`https://frontend-api.pump.fun/coins/${token}`)
+    const response = await fetch(`https://frontend-api.pump.fun/coins/${token}`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Accept': 'application/json'
+      }
+    })
 
     if (!response.ok) {
+      console.error('Pumpfun API returned status:', response.status)
       return res.status(response.status).json({ error: 'Failed to fetch token data' })
     }
 
