@@ -15,9 +15,11 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({
   console.log("🔗 WalletContextProvider initializing…");
 
   const endpoint = useMemo(() => {
-    return (
-      import.meta.env.VITE_SOLANA_RPC_URL || "https://api.devnet.solana.com"
-    );
+    const url = import.meta.env?.VITE_SOLANA_RPC_URL;
+    if (!url) {
+      console.warn("⚠️ VITE_SOLANA_RPC_URL not set. Falling back to Devnet.");
+    }
+    return url || "https://api.devnet.solana.com";
   }, []);
 
   const wallets = useMemo(
@@ -28,6 +30,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     []
   );
+
+  console.log("✅ Using Solana endpoint:", endpoint);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
