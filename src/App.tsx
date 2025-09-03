@@ -11,7 +11,6 @@ import './polyfills'
 
 function App() {
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     // Set loading to false after brief delay
@@ -19,36 +18,8 @@ function App() {
       setLoading(false)
     }, 1000)
 
-    // Global error handler
-    const handleError = (event: ErrorEvent) => {
-      console.error('Global error:', event.error)
-      setError('An unexpected error occurred. Please refresh the page.')
-    }
-
-    window.addEventListener('error', handleError)
-
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener('error', handleError)
-    }
+    return () => clearTimeout(timer)
   }, [])
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600 flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto p-6">
-          <h2 className="text-white text-xl font-bold mb-4">Something went wrong</h2>
-          <p className="text-slate-300 mb-4">{error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition"
-          >
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    )
-  }
 
   if (loading) {
     return (

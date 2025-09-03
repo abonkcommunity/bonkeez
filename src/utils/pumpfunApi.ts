@@ -19,7 +19,7 @@ export async function getTokenDataSafe(): Promise<TokenData> {
     const baseUrl = typeof window === "undefined"
       ? process.env.NEXT_PUBLIC_SITE_URL || "https://bonkeez.com"
       : ""
-
+    
     const res = await fetch(`${baseUrl}/api/pumpfun/${CA}`)
 
     if (!res.ok) throw new Error(`Failed to fetch BNKZ token data (status ${res.status})`)
