@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Search, Filter, Grid, List, Clock, Star, Users, Bell } from 'lucide-react'
+import NotifyModal from './NotifyModal'
 
 const Marketplace = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
@@ -105,9 +106,11 @@ const Marketplace = () => {
     }
   }
 
-  const handleNotifyLaunch = () => {
-    alert('Launch notification signup coming soon! Get notified when the collection goes live.')
-  }
+  const [isNotifyOpen, setIsNotifyOpen] = useState(false)
+
+const handleNotifyLaunch = () => {
+  setIsNotifyOpen(true)
+}
 
   const handleComingSoon = () => {
     alert('This NFT will be available for minting at launch. Stay tuned!')
@@ -345,12 +348,16 @@ const Marketplace = () => {
               Be ready to secure your favorite characters!
             </p>
             <button 
-              onClick={handleNotifyLaunch}
+              onClick={() => setIsNotifyOpen(true)}
               className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-8 py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center justify-center space-x-2 mx-auto"
             >
               <Bell className="w-5 h-5" />
               <span>Get Notified at Launch</span>
             </button>
+            <NotifyModal
+        isOpen={isNotifyOpen}
+        onClose={() => setIsNotifyOpen(false)}
+      />
           </div>
         </div>
       </div>
