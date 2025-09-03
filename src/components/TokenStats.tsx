@@ -68,10 +68,10 @@ const TokenStats = () => {
   }
 
   return (
-    <section id="stats" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r f">
+    <section id="stats" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-900/50 to-purple-900/50">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center bg-purple-800 text-purple-00 px-6 py-3 rounded-full text-lg font-bold mb-6">
+          <div className="inline-flex items-center bg-purple-800 text-purple-200 px-6 py-3 rounded-full text-lg font-bold mb-6">
             <Zap className="w-5 h-5 mr-2" />
             $BNKZ Token Live on Pumpfun
           </div>
