@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Header from './components/Header'
-import Hero from './components/Hero'
-import TokenStats from './components/TokenStats'
-import Marketplace from './components/Marketplace'
-import Footer from './components/Footer'
-import SecurityCheck from './components/SecurityCheck'
-import TokenTrading  from './components/TokenTrading'
 import './polyfills'
- 
 
-function App() {
+function AppMinimal() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -35,29 +27,29 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600">
-      <SecurityCheck />
-      <Header />
       <main>
-        <Hero />
-        <TokenStats />
-        <TokenTrading /> 
-        <Marketplace />
-        <section id="profile" className="py-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-                Your Profile
-              </h2>
-              <p className="text-xl text-slate-300">
-                Connect your wallet to view your NFTs, $BNKZ balance, and portfolio stats
+        <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          <div className="relative max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h1 className="text-4xl font-bold text-white mb-6">
+                Welcome to
+                <span className="block bg-gradient-to-r from-purple-400 to-slate-300 bg-clip-text text-transparent">
+                  Bonkeez Exchange
+                </span>
+              </h1>
+              <p className="text-xl text-slate-300 mb-8">
+                The premier NFT marketplace for the Bonkeez collection on Solana.
               </p>
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 max-w-md mx-auto">
+                <h3 className="text-emerald-400 font-bold text-lg mb-2">App is Loading Successfully!</h3>
+                <p className="text-slate-300">All components will be added step by step</p>
+              </div>
             </div>
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   )
 }
 
-export default App
+export default AppMinimal
