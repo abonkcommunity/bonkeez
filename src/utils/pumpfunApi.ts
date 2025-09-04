@@ -16,12 +16,12 @@ const CA = "Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F"
 export async function getTokenDataSafe(): Promise<TokenData> {
   // Return realistic demo data immediately to avoid API errors
   return {
-    price: "$0.000026",
-    marketCap: "$25.8M", 
-    volume24h: "$2.1M",
-    holders: "12,847",
+    price: "$0.0000002",
+    marketCap: "$5.8k", 
+    volume24h: "0",
+    holders: "7",
     totalSupply: "1B",
-    change24h: 15.7
+    change24h: 0
   }
 }
 
