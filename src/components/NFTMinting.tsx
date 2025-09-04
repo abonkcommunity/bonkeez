@@ -32,7 +32,7 @@ const NFTMinting = () => {
   return (
     <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
       <div className="text-center mb-6">
-        <div className="inline-flex items-center bg-green-400/20 text-green-400 px-4 py-2 rounded-full text-sm font-bold mb-4">
+        <div className="inline-flex items-center bg-purple-700/20 text-purple-300 px-4 py-2 rounded-full text-sm font-bold mb-4">
           <Zap className="w-4 h-4 mr-2" />
           Live Minting
         </div>
@@ -85,14 +85,14 @@ const NFTMinting = () => {
             onClick={() => setPaymentMethod('BNKZ')}
             className={`p-4 rounded-lg border transition-all ${
               paymentMethod === 'BNKZ'
-                ? 'border-green-500 bg-green-500/20 text-white'
+                ? 'border-purple-700 bg-purple-700/20 text-white'
                 : 'border-white/20 bg-white/5 text-slate-300 hover:bg-white/10'
             }`}
           >
             <div className="text-center">
               <div className="font-bold">$BNKZ</div>
               <div className="text-sm">{mintPrice.BNKZ} BNKZ each</div>
-              <div className="text-xs text-green-400">10% Discount</div>
+              <div className="text-xs text-purple-300">10% Discount</div>
             </div>
           </button>
         </div>
@@ -110,8 +110,8 @@ const NFTMinting = () => {
         </div>
         {paymentMethod === 'BNKZ' && (
           <div className="flex justify-between items-center mb-2">
-            <span className="text-green-400 text-sm">Discount applied</span>
-            <span className="text-green-400 text-sm">-10%</span>
+            <span className="text-purple-300 text-sm">Discount applied</span>
+            <span className="text-purple-300 text-sm">-10%</span>
           </div>
         )}
         <hr className="border-white/20 my-3" />

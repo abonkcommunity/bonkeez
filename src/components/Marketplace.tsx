@@ -74,7 +74,7 @@ const Marketplace = () => {
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
       case 'Common': return 'text-slate-400 bg-slate-400/20'
-      case 'Uncommon': return 'text-green-400 bg-green-400/20'
+      case 'Uncommon': return 'text-purple-300 bg-purple-700/20'
       case 'Rare': return 'text-blue-400 bg-blue-400/20'
       case 'Ultra Rare': return 'text-purple-400 bg-purple-400/20'
       case 'Legendary': return 'text-yellow-400 bg-yellow-400/20'
@@ -123,7 +123,7 @@ const handleNotifyLaunch = () => {
   )
 
   return (
-    <section id="marketplace" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/10 to-emerald-900/10">
+    <section id="marketplace" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/10 to-purple-900/10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
@@ -135,8 +135,8 @@ const handleNotifyLaunch = () => {
         </div>
 
         {/* Pre-launch Notice */}
-        <div className="bg-emerald-400/10 border border-emerald-400/20 rounded-2xl p-6 mb-8 text-center">
-          <div className="inline-flex items-center bg-emerald-400/20 text-emerald-400 px-4 py-2 rounded-full text-sm font-bold mb-4">
+        <div className="bg-purple-300/10 border border-purple-300/20 rounded-2xl p-6 mb-8 text-center">
+          <div className="inline-flex items-center bg-purple-300/20 text-purple-300 px-4 py-2 rounded-full text-sm font-bold mb-4">
             <Clock className="w-4 h-4 mr-2" />
             Pre-Launch Preview
           </div>
@@ -187,7 +187,7 @@ const handleNotifyLaunch = () => {
                 <button
                   onClick={() => setViewMode('grid')}
                   className={`p-2 rounded-md transition-colors ${
-                    viewMode === 'grid' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'
+                    viewMode === 'grid' ? 'bg-purple-700 text-white' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <Grid className="w-5 h-5" />
@@ -195,7 +195,7 @@ const handleNotifyLaunch = () => {
                 <button
                   onClick={() => setViewMode('list')}
                   className={`p-2 rounded-md transition-colors ${
-                    viewMode === 'list' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'
+                    viewMode === 'list' ? 'bg-purple-700 text-white' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <List className="w-5 h-5" />
@@ -230,7 +230,7 @@ const handleNotifyLaunch = () => {
                   <span className={`px-2 py-1 rounded-full text-xs font-bold ${getRarityColor(listing.rarity)}`}>
                     {listing.rarity}
                   </span>
-                  <span className="px-2 py-1 rounded-full text-xs font-bold bg-emerald-400/20 text-emerald-400">
+                  <span className="px-2 py-1 rounded-full text-xs font-bold bg-purple-300/20 text-purple-300">
                     {listing.status}
                   </span>
                 </div>
@@ -245,7 +245,7 @@ const handleNotifyLaunch = () => {
                     {viewMode === 'grid' && (
                       <div className="flex items-center space-x-2 mt-2">
                         <Users className="w-3 h-3 text-slate-400" />
-                        <span className="text-xs text-emerald-400">Full Supply Available</span>
+                        <span className="text-xs text-purple-300">Full Supply Available</span>
                       </div>
                     )}
                   </div>
@@ -254,15 +254,15 @@ const handleNotifyLaunch = () => {
                     <div className="flex items-center space-x-6">
                       <div className="text-right">
                         <p className="text-white font-bold">{listing.price}</p>
-                        <p className="text-emerald-400 text-sm">{listing.bnkzPrice}</p>
+                        <p className="text-purple-300 text-sm">{listing.bnkzPrice}</p>
                       </div>
                       <div className="text-right">
                         <p className="text-slate-400 text-sm">Supply</p>
-                        <p className="text-emerald-400 font-medium">{listing.totalSupply.toLocaleString()}</p>
+                        <p className="text-purple-300 font-medium">{listing.totalSupply.toLocaleString()}</p>
                       </div>
                       <div className="text-right">
                         <p className="text-slate-400 text-sm">Status</p>
-                        <p className="text-emerald-400 font-medium">{listing.status}</p>
+                        <p className="text-purple-300 font-medium">{listing.status}</p>
                       </div>
                       <button 
                         onClick={(e) => {
@@ -283,11 +283,11 @@ const handleNotifyLaunch = () => {
                     <div className="bg-white/5 rounded-xl p-3 mb-4 border border-white/10">
                       <div className="flex justify-between items-center mb-2">
                         <span className="text-slate-400 text-sm">Total Supply</span>
-                        <span className="text-emerald-400 text-sm font-medium">Full Supply Available</span>
+                        <span className="text-purple-300 text-sm font-medium">Full Supply Available</span>
                       </div>
                       <div className="flex justify-between items-center text-xs">
                         <span className="text-slate-400">0 minted</span>
-                        <span className="text-emerald-400">{listing.totalSupply.toLocaleString()} available</span>
+                        <span className="text-purple-300">{listing.totalSupply.toLocaleString()} available</span>
                       </div>
                     </div>
 
@@ -295,7 +295,7 @@ const handleNotifyLaunch = () => {
                     <div className="bg-white/5 rounded-xl p-4 mb-4 border border-white/10">
                       <div className="flex justify-between items-center mb-2">
                         <span className="text-slate-400 text-sm">Launch Price</span>
-                        <span className="text-emerald-400 text-sm">10% off with $BNKZ</span>
+                        <span className="text-purple-300 text-sm">10% off with $BNKZ</span>
                       </div>
                       <div className="space-y-1">
                         <div className="flex justify-between items-center">
@@ -303,8 +303,8 @@ const handleNotifyLaunch = () => {
                           <span className="text-slate-400 text-sm">SOL</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-emerald-400 font-bold">{listing.bnkzPrice}</span>
-                          <span className="text-emerald-400 text-sm">$BNKZ</span>
+                          <span className="text-purple-300 font-bold">{listing.bnkzPrice}</span>
+                          <span className="text-purple-300 text-sm">$BNKZ</span>
                         </div>
                       </div>
                     </div>
@@ -332,7 +332,7 @@ const handleNotifyLaunch = () => {
             <p className="text-slate-400 text-lg mb-4">No Bonkeez found matching your search.</p>
             <button 
               onClick={() => setSearchTerm('')}
-              className="text-emerald-400 hover:text-emerald-300 transition-colors"
+              className="text-purple-300 hover:text-emerald-300 transition-colors"
             >
               Clear search
             </button>
@@ -349,7 +349,7 @@ const handleNotifyLaunch = () => {
             </p>
             <button 
               onClick={() => setIsNotifyOpen(true)}
-              className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-8 py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center justify-center space-x-2 mx-auto"
+              className="bg-gradient-to-r from-purple-700 to-purple-800 text-white px-8 py-4 rounded-xl font-bold hover:from-purple-800 hover:to-purple-900 transition-all shadow-lg hover:shadow-purple-700/25 flex items-center justify-center space-x-2 mx-auto"
             >
               <Bell className="w-5 h-5" />
               <span>Get Notified at Launch</span>

@@ -64,10 +64,10 @@ const TokenTrading = () => {
   }, [fromAmount, fromToken, toToken])
 
   return (
-    <section id="token" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/20 to-emerald-900/20">
+    <section id="token" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-800/20 to-purple-900/20">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center bg-emerald-400/20 text-emerald-400 px-6 py-3 rounded-full text-lg font-bold mb-6">
+          <div className="inline-flex items-center bg-purple-700/20 text-purple-300 px-6 py-3 rounded-full text-lg font-bold mb-6">
             <Zap className="w-5 h-5 mr-2" />
             $BNKZ Token Trading
           </div>
@@ -86,7 +86,7 @@ const TokenTrading = () => {
               <h3 className="text-2xl font-bold text-white">Swap Tokens</h3>
               <button 
                 onClick={handleSettings}
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-400 hover:text-purple-300 transition-colors"
               >
                 <Settings className="w-6 h-6" />
               </button>
@@ -98,7 +98,7 @@ const TokenTrading = () => {
                 <span className="text-slate-400 text-sm">From</span>
                 <button 
                   onClick={handleConnectWallet}
-                  className="text-slate-400 text-sm hover:text-emerald-400 transition-colors text-left sm:text-right"
+                  className="text-slate-400 text-sm hover:text-purple-300 transition-colors text-left sm:text-right"
                 >
                   Balance: Connect Wallet
                 </button>
@@ -136,7 +136,7 @@ const TokenTrading = () => {
                 <span className="text-slate-400 text-sm">To</span>
                 <button 
                   onClick={handleConnectWallet}
-                  className="text-slate-400 text-sm hover:text-emerald-400 transition-colors text-left sm:text-right"
+                  className="text-slate-400 text-sm hover:text-purple-300 transition-colors text-left sm:text-right"
                 >
                   Balance: Connect Wallet
                 </button>
@@ -149,11 +149,11 @@ const TokenTrading = () => {
                   placeholder="0.0"
                   className="bg-transparent text-white text-xl sm:text-2xl font-bold outline-none flex-1 min-w-0"
                 />
-                <div className="flex items-center bg-emerald-400/20 rounded-lg px-3 sm:px-4 py-2 space-x-2 shrink-0">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-full flex items-center justify-center">
+                <div className="flex items-center bg-purple-700/20 rounded-lg px-3 sm:px-4 py-2 space-x-2 shrink-0">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-purple-700 to-purple-800 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-xs">B</span>
                   </div>
-                  <span className="text-emerald-400 font-bold text-sm sm:text-base">{toToken}</span>
+                  <span className="text-purple-300 font-bold text-sm sm:text-base">{toToken}</span>
                 </div>
               </div>
             </div>
@@ -169,7 +169,7 @@ const TokenTrading = () => {
                       onClick={() => setSlippage(value)}
                       className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                         slippage === value
-                          ? 'bg-emerald-600 text-white'
+                          ? 'bg-purple-700 text-white'
                           : 'bg-white/10 text-slate-400 hover:text-white'
                       }`}
                     >
@@ -182,7 +182,7 @@ const TokenTrading = () => {
                 <span className="text-slate-400">Price Impact</span>
                 <button 
                   onClick={handleConnectWallet}
-                  className="text-emerald-400 hover:text-emerald-300 transition-colors text-left sm:text-right"
+                  className="text-purple-300 hover:text-purple-200 transition-colors text-left sm:text-right"
                 >
                   Connect wallet to see
                 </button>
@@ -200,7 +200,7 @@ const TokenTrading = () => {
                   alert('Swap executed successfully! (Demo mode)')
                 }
               }}
-              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3 sm:py-4 rounded-xl font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25 mb-2 text-sm sm:text-base"
+              className="w-full bg-gradient-to-r from-purple-700 to-purple-800 text-white py-3 sm:py-4 rounded-xl font-bold hover:from-purple-800 hover:to-purple-900 transition-all shadow-lg hover:shadow-purple-700/25 mb-2 text-sm sm:text-base"
             >
               Execute Swap
             </button>
@@ -221,7 +221,7 @@ const TokenTrading = () => {
           <div className="space-y-4 sm:space-y-6 mt-8 lg:mt-0">
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-lg flex items-center justify-center shadow-lg">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-700 to-purple-800 rounded-lg flex items-center justify-center shadow-lg">
                   <DollarSign className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -266,11 +266,11 @@ const TokenTrading = () => {
 
             {/* Live Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              <div className="bg-gradient-to-br from-emerald-500/10 to-slate-600/10 rounded-xl p-3 sm:p-4 border border-emerald-400/20">
-                <p className="text-emerald-400 text-xs sm:text-sm font-medium">Current Price</p>
+              <div className="bg-gradient-to-br from-purple-700/10 to-slate-600/10 rounded-xl p-3 sm:p-4 border border-purple-700/20">
+                <p className="text-purple-300 text-xs sm:text-sm font-medium">Current Price</p>
                 <p className="text-white text-lg sm:text-xl font-bold">{tokenData?.price || '$0.0001'}</p>
                 <p className={`text-xs ${
-                  (tokenData?.change24h || 0) >= 0 ? 'text-emerald-400' : 'text-red-400'
+                  (tokenData?.change24h || 0) >= 0 ? 'text-purple-300' : 'text-red-400'
                 }`}>
                   {tokenData?.change24h ? `${tokenData.change24h >= 0 ? '+' : ''}${tokenData.change24h.toFixed(1)}%` : '+0.0%'} (24h)
                 </p>
