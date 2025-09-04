@@ -68,10 +68,10 @@ const FeaturedCollection = () => {
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
       case 'Common': return 'text-slate-400 bg-slate-400/20'
-      case 'Uncommon': return 'text-emerald-400 bg-emerald-400/20'
-      case 'Rare': return 'text-emerald-300 bg-emerald-300/20'
-      case 'Ultra Rare': return 'text-emerald-200 bg-emerald-200/20'
-      case 'Legendary': return 'text-emerald-100 bg-emerald-100/20'
+      case 'Uncommon': return 'text-purple-300 bg-purple-700/20'
+      case 'Rare': return 'text-purple-200 bg-purple-800/20'
+      case 'Ultra Rare': return 'text-purple-100 bg-purple-900/20'
+      case 'Legendary': return 'text-purple-50 bg-purple-900/30'
       default: return 'text-slate-400 bg-slate-400/20'
     }
   }
@@ -81,7 +81,7 @@ const FeaturedCollection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-            Meet the <span className="bg-gradient-to-r from-emerald-400 to-slate-300 bg-clip-text text-transparent">Bonkeez</span>
+            Meet the <span className="bg-gradient-to-r from-purple-300 to-slate-300 bg-clip-text text-transparent">Bonkeez</span>
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto mb-8">
             Each Bonkee is a unique digital collectible with its own personality and rarity. 
@@ -100,11 +100,11 @@ const FeaturedCollection = () => {
                 <p className="text-slate-400 text-sm">Minted</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-emerald-400">5,350</p>
+                <p className="text-3xl font-bold text-purple-300">5,350</p>
                 <p className="text-slate-400 text-sm">Available</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-emerald-400">Pre-Launch</p>
+                <p className="text-3xl font-bold text-purple-300">Pre-Launch</p>
                 <p className="text-slate-400 text-sm">Status</p>
               </div>
             </div>
@@ -144,7 +144,7 @@ const FeaturedCollection = () => {
                   </div>
 
                   {/* Supply Status */}
-                  <div className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-black/50 backdrop-blur-sm text-emerald-400">
+                  <div className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-black/50 backdrop-blur-sm text-purple-300">
                     Full Supply Available
                   </div>
                 </div>
@@ -155,10 +155,10 @@ const FeaturedCollection = () => {
                     <h3 className="text-xl font-bold text-white mb-2">{bonkee.name}</h3>
                     <div className="flex items-center space-x-2">
                       <div className="flex items-center space-x-1">
-                        <Star className="w-4 h-4 text-emerald-400 fill-current" />
-                        <Star className="w-4 h-4 text-emerald-400 fill-current" />
-                        <Star className="w-4 h-4 text-emerald-400 fill-current" />
-                        <Star className="w-4 h-4 text-emerald-400 fill-current" />
+                        <Star className="w-4 h-4 text-purple-300 fill-current" />
+                        <Star className="w-4 h-4 text-purple-300 fill-current" />
+                        <Star className="w-4 h-4 text-purple-300 fill-current" />
+                        <Star className="w-4 h-4 text-purple-300 fill-current" />
                         <Star className="w-4 h-4 text-slate-400" />
                       </div>
                       <span className="text-slate-400 text-sm">(Pre-Launch)</span>
@@ -180,13 +180,13 @@ const FeaturedCollection = () => {
                     {/* Progress Bar */}
                     <div className="w-full bg-slate-700 rounded-full h-2 mb-2">
                       <div 
-                        className="bg-gradient-to-r from-emerald-500 to-emerald-600 h-2 rounded-full transition-all duration-300"
+                        className="bg-gradient-to-r from-purple-700 to-purple-800 h-2 rounded-full transition-all duration-300"
                         style={{ width: `${progressPercentage}%` }}
                       ></div>
                     </div>
 
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-emerald-400">{remaining.toLocaleString()} available</span>
+                      <span className="text-purple-300">{remaining.toLocaleString()} available</span>
                       <span className="text-slate-400 font-medium">Ready to mint</span>
                     </div>
                   </div>
@@ -219,7 +219,7 @@ const FeaturedCollection = () => {
               </div>
               <p className="text-3xl font-bold text-white mb-2">4,000</p>
               <p className="text-slate-400 text-sm mb-2">Total Supply</p>
-              <p className="text-emerald-400 font-medium">0.4 - 0.5 SOL</p>
+              <p className="text-purple-300 font-medium">0.4 - 0.5 SOL</p>
             </div>
 
             <div className="text-center p-6 bg-white/5 rounded-2xl border border-white/10">
@@ -228,7 +228,7 @@ const FeaturedCollection = () => {
               </div>
               <p className="text-3xl font-bold text-white mb-2">1,000</p>
               <p className="text-slate-400 text-sm mb-2">Total Supply</p>
-              <p className="text-emerald-400 font-medium">0.7 - 0.8 SOL</p>
+              <p className="text-purple-300 font-medium">0.7 - 0.8 SOL</p>
             </div>
 
             <div className="text-center p-6 bg-white/5 rounded-2xl border border-white/10">
@@ -237,7 +237,7 @@ const FeaturedCollection = () => {
               </div>
               <p className="text-3xl font-bold text-white mb-2">250</p>
               <p className="text-slate-400 text-sm mb-2">Total Supply</p>
-              <p className="text-emerald-400 font-medium">0.9 SOL</p>
+              <p className="text-purple-300 font-medium">0.9 SOL</p>
             </div>
 
             <div className="text-center p-6 bg-white/5 rounded-2xl border border-white/10">
@@ -246,13 +246,13 @@ const FeaturedCollection = () => {
               </div>
               <p className="text-3xl font-bold text-white mb-2">100</p>
               <p className="text-slate-400 text-sm mb-2">Total Supply</p>
-              <p className="text-emerald-400 font-medium">1.2 SOL</p>
+              <p className="text-purple-300 font-medium">1.2 SOL</p>
             </div>
           </div>
         </div>
 
         <div className="text-center mt-12">
-          <button className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-8 py-4 rounded-lg font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-lg hover:shadow-emerald-500/25">
+          <button className="bg-gradient-to-r from-purple-700 to-purple-800 text-white px-8 py-4 rounded-lg font-bold hover:from-purple-800 hover:to-purple-900 transition-all shadow-lg hover:shadow-purple-700/25">
             View Full Collection
           </button>
         </div>

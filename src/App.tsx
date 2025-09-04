@@ -25,7 +25,7 @@ function App() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-emerald-400 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-300 mx-auto mb-4"></div>
           <h2 className="text-white text-xl font-bold">Loading Bonkeez Exchange...</h2>
           <p className="text-slate-400 mt-2">Preparing your NFT marketplace experience</p>
         </div>

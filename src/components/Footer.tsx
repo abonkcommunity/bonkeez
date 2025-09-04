@@ -43,7 +43,7 @@ const Footer = () => {
               <img 
                 src="/bonk.JPG" 
                 alt="Bonkeez Logo" 
-                className="w-10 h-10 rounded-full object-cover shadow-lg border-2 border-emerald-500/30"
+                className="w-10 h-10 rounded-full object-cover shadow-lg border-2 border-purple-700/30"
               />
               <div>
                 <h3 className="text-white font-bold text-xl">Bonkeez</h3>
@@ -57,13 +57,13 @@ const Footer = () => {
             <div className="flex space-x-4">
               <button 
                 onClick={() => handleSocialClick('twitter')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
+                className="text-slate-400 hover:text-purple-300 transition-colors duration-150"
               >
                 <FaTwitter className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => handleSocialClick('telegram')}
-                className="text-slate-400 hover:text-emerald-400 transition-colors duration-150"
+                className="text-slate-400 hover:text-purple-300 transition-colors duration-150"
               >
                 <FaTelegramPlane className="w-5 h-5" />
               </button>
@@ -76,25 +76,25 @@ const Footer = () => {
             <nav className="space-y-2">
               <button 
                 onClick={() => handleLinkClick('marketplace')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-purple-300 transition-colors duration-150 text-sm"
               >
                 Marketplace
               </button>
               <button 
                 onClick={() => handleLinkClick('stats')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-purple-300 transition-colors duration-150 text-sm"
               >
                 Stats
               </button>
               <button 
                 onClick={() => handleLinkClick('minting')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-purple-300 transition-colors duration-150 text-sm"
               >
                 NFT Minting
               </button>
               <button 
                 onClick={() => handleLinkClick('profile')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-purple-300 transition-colors duration-150 text-sm"
               >
                 Profile
               </button>
@@ -107,14 +107,14 @@ const Footer = () => {
             <nav className="space-y-2">
               <button 
                 onClick={() => handleLinkClick('token')}
-                className="block text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="block text-slate-400 hover:text-purple-300 transition-colors duration-150 text-sm"
               >
                 $BNKZ Trading
               </button>
               <a 
                 href="/Bonkeez Whitepaper (1).pdf" 
                 download 
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="flex items-center space-x-2 text-slate-400 hover:text-purple-300 transition-colors duration-150 text-sm"
               >
                 <FaExternalLinkAlt className="w-4 h-4" />
                 <span>Whitepaper</span>
@@ -128,14 +128,14 @@ const Footer = () => {
             <nav className="space-y-2">
               <button 
                 onClick={() => handleSocialClick('telegram')}
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="flex items-center space-x-2 text-slate-400 hover:text-purple-300 transition-colors duration-150 text-sm"
               >
                 <FaTelegramPlane className="w-4 h-4" />
                 <span>Join Telegram</span>
               </button>
               <button 
                 onClick={() => handleSocialClick('twitter')}
-                className="flex items-center space-x-2 text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-sm"
+                className="flex items-center space-x-2 text-slate-400 hover:text-purple-300 transition-colors duration-150 text-sm"
               >
                 <FaTwitter className="w-4 h-4" />
                 <span>Follow Twitter</span>
@@ -151,13 +151,13 @@ const Footer = () => {
               <span>© 2025 Bonkeez NFT Exchange</span>
               <button 
                 onClick={() => handleLinkClick('privacy')}
-                className="hover:text-emerald-400 transition-colors duration-150"
+                className="hover:text-purple-300 transition-colors duration-150"
               >
                 Privacy Policy
               </button>
               <button 
                 onClick={() => handleLinkClick('terms')}
-                className="hover:text-emerald-400 transition-colors duration-150"
+                className="hover:text-purple-300 transition-colors duration-150"
               >
                 Terms of Service
               </button>
@@ -169,7 +169,7 @@ const Footer = () => {
                 <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-xs">S</span>
                 </div>
-                <span className="text-emerald-400 font-medium">Solana</span>
+                <span className="text-purple-300 font-medium">Solana</span>
               </div>
             </div>
           </div>

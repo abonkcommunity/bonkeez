@@ -87,8 +87,8 @@ const Collection = () => {
       rarity: 'Rare',
       color: 'Green',
       personality: 'Protective and nurturing, cares for all living things',
-      gradient: 'from-green-500 to-green-600',
-      bgGradient: 'from-green-500/10 to-green-600/10',
+      gradient: 'from-purple-700 to-purple-800',
+      bgGradient: 'from-purple-700/10 to-purple-800/10',
       totalSupply: 500,
       minted: 289,
       holders: 201
@@ -98,7 +98,7 @@ const Collection = () => {
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
       case 'Common': return 'text-slate-400 bg-slate-400/20'
-      case 'Uncommon': return 'text-green-400 bg-green-400/20'
+      case 'Uncommon': return 'text-purple-300 bg-purple-700/20'
       case 'Rare': return 'text-blue-400 bg-blue-400/20'
       case 'Ultra Rare': return 'text-purple-400 bg-purple-400/20'
       case 'Legendary': return 'text-yellow-400 bg-yellow-400/20'
@@ -111,7 +111,7 @@ const Collection = () => {
     if (percentage >= 90) return { level: 'Extremely Rare', color: 'text-red-400' }
     if (percentage >= 70) return { level: 'Very Scarce', color: 'text-orange-400' }
     if (percentage >= 40) return { level: 'Limited', color: 'text-yellow-400' }
-    return { level: 'Available', color: 'text-emerald-400' }
+    return { level: 'Available', color: 'text-purple-300' }
   }
 
   return (
@@ -190,8 +190,8 @@ const Collection = () => {
                       </div>
                       <div className="text-center">
                         <div className="flex items-center justify-center space-x-1 mb-1">
-                          <Clock className="w-3 h-3 text-emerald-400" />
-                          <span className="text-emerald-400 text-xs">Minted</span>
+                          <Clock className="w-3 h-3 text-purple-300" />
+                          <span className="text-purple-300 text-xs">Minted</span>
                         </div>
                         <p className="text-white font-bold text-sm">{bonkee.minted.toLocaleString()}</p>
                       </div>
@@ -214,7 +214,7 @@ const Collection = () => {
                     
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-slate-400">{remaining.toLocaleString()} left</span>
-                      <span className="text-emerald-400 font-medium">{progressPercentage.toFixed(1)}% sold</span>
+                      <span className="text-purple-300 font-medium">{progressPercentage.toFixed(1)}% sold</span>
                     </div>
                   </div>
 
@@ -222,7 +222,7 @@ const Collection = () => {
                   <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
                     <div className="flex justify-between items-center mb-3">
                       <span className="text-slate-400 text-sm">Launch Price</span>
-                      <span className="text-emerald-400 text-sm font-medium">10% off with $BNKZ</span>
+                      <span className="text-purple-300 text-sm font-medium">10% off with $BNKZ</span>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
@@ -230,8 +230,8 @@ const Collection = () => {
                         <span className="text-slate-400 text-sm">SOL</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-emerald-400 font-bold">{bonkee.bnkzPrice}</span>
-                        <span className="text-emerald-400 text-sm">$BNKZ</span>
+                        <span className="text-purple-300 font-bold">{bonkee.bnkzPrice}</span>
+                        <span className="text-purple-300 text-sm">$BNKZ</span>
                       </div>
                     </div>
                   </div>

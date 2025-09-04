@@ -56,7 +56,7 @@ const TokenStats = () => {
 
   if (loading || !tokenData) {
     return (
-      <section id="stats" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-emerald-500/5 to-slate-600/5">
+      <section id="stats" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-700/5 to-slate-600/5">
         <div className="max-w-7xl mx-auto text-center">
           <div className="animate-pulse">
             <div className="h-8 bg-white/10 rounded-lg w-64 mx-auto mb-4"></div>
@@ -68,10 +68,10 @@ const TokenStats = () => {
   }
 
   return (
-    <section id="stats" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-emerald-500/5 to-slate-600/5">
+    <section id="stats" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-700/5 to-slate-600/5">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center bg-emerald-400/20 text-emerald-400 px-6 py-3 rounded-full text-lg font-bold mb-6">
+          <div className="inline-flex items-center bg-purple-700/20 text-purple-300 px-6 py-3 rounded-full text-lg font-bold mb-6">
             <Zap className="w-5 h-5 mr-2" />
             $BNKZ Token Live on Pumpfun
           </div>
@@ -85,7 +85,7 @@ const TokenStats = () => {
             <span className="font-mono text-sm">Contract: Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F</span>
             <button 
               onClick={handleSolscanClick}
-              className="flex items-center space-x-1 text-emerald-400 hover:text-emerald-300 transition-colors"
+              className="flex items-center space-x-1 text-purple-300 hover:text-purple-200 transition-colors"
             >
               <ExternalLink className="w-4 h-4" />
               <span>View on Solscan</span>
@@ -94,14 +94,14 @@ const TokenStats = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
-          <div className="bg-gradient-to-br from-emerald-500/10 to-slate-600/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-emerald-400/20">
+          <div className="bg-gradient-to-br from-emerald-500/10 to-slate-600/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-purple-700/20">
             <div className="flex items-center justify-between mb-3 sm:mb-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-lg flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-700 to-purple-800 rounded-lg flex items-center justify-center shadow-lg">
                 <DollarSign className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold ${
                 tokenData.change24h >= 0
-                  ? 'text-emerald-400 bg-emerald-400/20' 
+                  ? 'text-purple-300 bg-emerald-400/20' 
                   : 'text-red-400 bg-red-400/20'
               }`}>
                 {tokenData.change24h >= 0 ? '+' : ''}{tokenData.change24h.toFixed(1)}%
@@ -127,7 +127,7 @@ const TokenStats = () => {
 
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10 sm:col-span-2 lg:col-span-1">
             <div className="flex items-center justify-between mb-3 sm:mb-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-emerald-600 to-slate-600 rounded-lg flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-700 to-slate-600 rounded-lg flex items-center justify-center shadow-lg">
                 <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
             </div>
@@ -150,7 +150,7 @@ const TokenStats = () => {
 
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10">
             <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
-              <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
+              <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-purple-300" />
               <h3 className="text-white text-lg sm:text-xl font-bold">Total Supply</h3>
             </div>
             <p className="text-2xl sm:text-3xl font-bold text-white mb-2">{tokenData.totalSupply}</p>
@@ -162,7 +162,7 @@ const TokenStats = () => {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-md sm:max-w-none mx-auto">
             <button 
               onClick={handlePumpfunClick}
-              className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all flex items-center justify-center space-x-2 shadow-lg hover:shadow-emerald-500/25 text-sm sm:text-base"
+              className="bg-gradient-to-r from-purple-700 to-purple-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold hover:from-purple-800 hover:to-purple-900 transition-all flex items-center justify-center space-x-2 shadow-lg hover:shadow-purple-700/25 text-sm sm:text-base"
             >
               <span>Buy $BNKZ on Pumpfun</span>
               <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
