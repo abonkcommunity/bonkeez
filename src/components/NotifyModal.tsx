@@ -1,32 +1,7 @@
-import React, { useState } from 'react'
-import { supabase } from '../utils/supabaseClient'
-import { Bell, X } from 'lucide-react'
+import React from 'react'
+import { X } from 'lucide-react'
 
 const NotifyModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<string | null>(null)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setMessage(null)
-
-    const { error } = await supabase
-      .from('launch_signups')
-      .insert([{ name, email }])
-
-    if (error) {
-      setMessage('❌ ' + error.message)
-    } else {
-      setMessage('✅ You’re signed up! We’ll notify you at launch 🚀')
-      setName('')
-      setEmail('')
-    }
-    setLoading(false)
-  }
-
   if (!isOpen) return null
 
   return (
@@ -45,34 +20,17 @@ const NotifyModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
           Enter your details and be the first to know when Bonkeez NFTs go live.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Your Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-slate-400 focus:outline-none"
-          />
-          <input
-            type="email"
-            placeholder="Your Email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-slate-400 focus:outline-none"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3 rounded-lg font-bold hover:from-emerald-700 hover:to-emerald-800 transition"
-          >
-            {loading ? 'Saving...' : 'Notify Me'}
-          </button>
-        </form>
-
-        {message && (
-          <p className="mt-4 text-center text-sm text-emerald-400">{message}</p>
-        )}
+        {/* Tally Form Embed */}
+        <div className="mt-4">
+          <iframe
+            src="https://tally.so/r/wAEgZk"
+            width="100%"
+            height="450"
+            frameBorder="0"
+            className="rounded-lg"
+            title="Notify Me Form"
+          ></iframe>
+        </div>
       </div>
     </div>
   )
