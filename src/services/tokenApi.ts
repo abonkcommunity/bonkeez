@@ -22,151 +22,59 @@ interface PumpfunResponse {
 
 class TokenApiService {
   private readonly CONTRACT_ADDRESS = 'Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F'
-  private readonly PROXY_SERVER_URL = 'undefined'
-  private readonly ACCESS_TOKEN = import.meta.env.VITE_PROXY_SERVER_ACCESS_TOKEN || 'undefined'
+  private readonly API_BASE_URL = window.location.origin + '/api'
 
   async fetchPumpfunData(): Promise<TokenData> {
     try {
-      const response = await fetch(this.PROXY_SERVER_URL, {
-        method: 'POST',
+      const response = await fetch(`${this.API_BASE_URL}/pumpfun/${this.CONTRACT_ADDRESS}`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.ACCESS_TOKEN}`
-        },
-        body: JSON.stringify({
-          url: `https://frontend-api.pump.fun/coins/${this.CONTRACT_ADDRESS}`,
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-          },
-          body: {}
-        })
+          'Accept': 'application/json'
+        }
       })
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      const data: PumpfunResponse = await response.json()
+      const data = await response.json()
       
       return {
-        price: data.price || 0,
-        change24h: data.price_change_24h || 0,
-        marketCap: data.market_cap || 0,
-        volume24h: data.volume_24h || 0,
-        holders: data.holder_count || 0,
-        totalSupply: this.formatSupply(data.total_supply || 1000000000),
-        liquidity: data.liquidity_usd,
-        transactions24h: data.txns_24h
+        price: parseFloat(data.price?.replace('$', '')) || 0,
+        change24h: data.change24h || 0,
+        marketCap: this.parseFormattedNumber(data.marketCap) || 0,
+        volume24h: this.parseFormattedNumber(data.volume24h) || 0,
+        holders: parseInt(data.holders) || 0,
+        totalSupply: data.totalSupply || '1.0B BNKZ'
       }
     } catch (error) {
       console.error('Error fetching Pumpfun data:', error)
-      // Fallback to Solana RPC for basic data
-      return this.fetchSolanaRpcData()
-    }
-  }
-
-  async fetchSolanaRpcData(): Promise<TokenData> {
-    try {
-      const response = await fetch(this.PROXY_SERVER_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.ACCESS_TOKEN}`
-        },
-        body: JSON.stringify({
-          url: 'https://api.mainnet-beta.solana.com',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: {
-            jsonrpc: '2.0',
-            id: 1,
-            method: 'getTokenSupply',
-            params: [this.CONTRACT_ADDRESS]
-          }
-        })
-      })
-
-      const data = await response.json()
-      const supply = data.result?.value?.uiAmount || 1000000000
-
-      return {
-        price: 0.00001847, // Fallback price
-        change24h: 2.3,
-        marketCap: supply * 0.00001847,
-        volume24h: 2100,
-        holders: 127,
-        totalSupply: this.formatSupply(supply)
-      }
-    } catch (error) {
-      console.error('Error fetching Solana RPC data:', error)
+      // Return fallback data if API fails
       return this.getFallbackData()
-    }
-  }
-
-  async fetchDexScreenerData(): Promise<Partial<TokenData>> {
-    try {
-      const response = await fetch(this.PROXY_SERVER_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.ACCESS_TOKEN}`
-        },
-        body: JSON.stringify({
-          url: `https://api.dexscreener.com/latest/dex/tokens/${this.CONTRACT_ADDRESS}`,
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
-          },
-          body: {}
-        })
-      })
-
-      const data = await response.json()
-      const pair = data.pairs?.[0]
-
-      if (pair) {
-        return {
-          price: parseFloat(pair.priceUsd) || 0,
-          change24h: parseFloat(pair.priceChange?.h24) || 0,
-          volume24h: parseFloat(pair.volume?.h24) || 0,
-          liquidity: parseFloat(pair.liquidity?.usd) || 0
-        }
-      }
-
-      return {}
-    } catch (error) {
-      console.error('Error fetching DexScreener data:', error)
-      return {}
     }
   }
 
   async fetchCombinedData(): Promise<TokenData> {
-    try {
-      // Try multiple sources and combine the best data
-      const [pumpfunData, dexScreenerData] = await Promise.allSettled([
-        this.fetchPumpfunData(),
-        this.fetchDexScreenerData()
-      ])
+    // Since we're using our own API endpoint, just return the pumpfun data
+    return this.fetchPumpfunData()
+  }
 
-      let combinedData = this.getFallbackData()
-
-      if (pumpfunData.status === 'fulfilled') {
-        combinedData = { ...combinedData, ...pumpfunData.value }
-      }
-
-      if (dexScreenerData.status === 'fulfilled') {
-        combinedData = { ...combinedData, ...dexScreenerData.value }
-      }
-
-      return combinedData
-    } catch (error) {
-      console.error('Error fetching combined data:', error)
-      return this.getFallbackData()
+  private parseFormattedNumber(value: string): number {
+    if (!value || value === 'N/A') return 0
+    
+    // Remove $ and other currency symbols
+    const cleaned = value.replace(/[\$,]/g, '')
+    
+    // Handle M (millions) and B (billions) suffixes
+    if (cleaned.includes('M')) {
+      return parseFloat(cleaned.replace('M', '')) * 1000000
+    } else if (cleaned.includes('B')) {
+      return parseFloat(cleaned.replace('B', '')) * 1000000000
+    } else if (cleaned.includes('K')) {
+      return parseFloat(cleaned.replace('K', '')) * 1000
     }
+    
+    return parseFloat(cleaned) || 0
   }
 
   private formatSupply(supply: number): string {
