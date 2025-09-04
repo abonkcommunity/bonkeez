@@ -8,7 +8,6 @@ channel = "stable-25_05"
 build = ["sh", "-c", "npm run build"]
 deploymentTarget = "static"
 publicDir = "dist"
-run = ["sh", "-c", ""]
 
 [[deployment.rewrites]]
 from = "/*"
@@ -52,6 +51,10 @@ expertMode = true
 
 [[ports]]
 localPort = 3001
+
+[[ports]]
+localPort = 4173
+externalPort = 3000
 
 [[ports]]
 localPort = 5000
