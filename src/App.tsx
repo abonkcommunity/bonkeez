@@ -6,7 +6,7 @@ import Marketplace from './components/Marketplace'
 import Footer from './components/Footer'
 import SecurityCheck from './components/SecurityCheck'
 import TokenTrading  from './components/TokenTrading'
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 import './polyfills'
  
 
