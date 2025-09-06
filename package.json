@@ -24,6 +24,7 @@
     "@solana/wallet-adapter-torus": "^0.11.32",
     "@solana/web3.js": "^1.98.4",
     "@supabase/supabase-js": "^2.57.0",
+    "@vercel/analytics": "^1.5.0",
     "@vercel/node": "^5.3.17",
     "buffer": "^6.0.3",
     "concurrently": "^9.2.1",
