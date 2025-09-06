@@ -31,7 +31,7 @@ const NotifyModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
 
         {/* Basin Form */}
         <form
-          action="https://usebasin.com/f/0203a63d9e46"
+          action="https://usebasin.com/f/3e4df5558353"
           method="POST"
           className="space-y-5"
         >
