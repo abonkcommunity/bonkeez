@@ -41,7 +41,6 @@ function App() {
       <Header />
       <main>
         <Hero />
-        <PumpWidget />
         <TokenStats />
         <TokenTrading /> 
         <Marketplace />
