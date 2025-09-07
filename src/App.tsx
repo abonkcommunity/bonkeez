@@ -7,6 +7,7 @@ import Footer from './components/Footer'
 import SecurityCheck from './components/SecurityCheck'
 import TokenTrading  from './components/TokenTrading'
 import { Analytics } from "@vercel/analytics/react"
+import UserProfile from "./components/UserProfile"
 import PumpWidget from "./components/PumpWidget"
 import './polyfills'
  
@@ -53,11 +54,12 @@ function App() {
               <p className="text-xl text-slate-300">
                 Connect your wallet to view your NFTs, $BNKZ balance, and portfolio stats
               </p>
+              <UserProfile/>
             </div>
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer/>
       <Analytics/>
     </div>
   )

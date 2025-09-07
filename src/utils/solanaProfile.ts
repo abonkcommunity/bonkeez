@@ -1,130 +1,84 @@
+import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js"
+import { Metaplex } from "@metaplex-foundation/js"
 
-import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js'
-import { Metaplex } from '@metaplex-foundation/js'
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token'
-
-// BNKZ Token Contract Address
-export const BNKZ_TOKEN_MINT = new PublicKey('Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F')
-
-// Solana Connection
-export const connection = new Connection(clusterApiUrl('mainnet-beta'), 'confirmed')
-
-// Metaplex SDK for NFT fetching
-export const metaplex = Metaplex.make(connection)
-
+// NFT metadata type
 export interface NFTMetadata {
   name: string
   image: string
   mint: string
-  collection?: string
 }
 
+// User profile type
 export interface UserProfile {
   walletAddress: string
-  username?: string
-  bio?: string
-  avatar?: string
-  nftsOwned: NFTMetadata[]
-  bnkzBalance: number
   solBalance: number
+  bnkzBalance: number
+  nftsOwned: NFTMetadata[]
   totalNFTValue: number
-  rank: string
+  rank: number
   joinDate: string
 }
 
-export async function fetchUserNFTs(walletAddress: string): Promise<NFTMetadata[]> {
-  try {
-    const publicKey = new PublicKey(walletAddress)
-    const nfts = await metaplex.nfts().findAllByOwner({ owner: publicKey })
-    
-    const nftMetadata: NFTMetadata[] = []
-    
-    for (const nft of nfts) {
-      try {
-        if (nft.model === 'metadata') {
-          const metadata = await metaplex.nfts().load({ metadata: nft })
-          
-          nftMetadata.push({
-            name: metadata.name || 'Unknown NFT',
-            image: metadata.json?.image || '/bonk.JPG',
-            mint: metadata.address.toString(),
-            collection: metadata.collection?.address.toString()
-          })
-        }
-      } catch (error) {
-        console.warn('Failed to load NFT metadata:', error)
-      }
-    }
-    
-    return nftMetadata
-  } catch (error) {
-    console.error('Error fetching NFTs:', error)
-    return []
-  }
-}
+// Setup Solana connection (mainnet)
+const connection = new Connection(clusterApiUrl("mainnet-beta"))
 
-export async function fetchBNKZBalance(walletAddress: string): Promise<number> {
-  try {
-    const publicKey = new PublicKey(walletAddress)
-    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
-      publicKey,
-      { mint: BNKZ_TOKEN_MINT }
-    )
-    
-    if (tokenAccounts.value.length === 0) {
-      return 0
-    }
-    
-    const balance = tokenAccounts.value[0].account.data.parsed.info.tokenAmount.uiAmount
-    return balance || 0
-  } catch (error) {
-    console.error('Error fetching BNKZ balance:', error)
-    return 0
-  }
-}
-
-export async function fetchSOLBalance(walletAddress: string): Promise<number> {
-  try {
-    const publicKey = new PublicKey(walletAddress)
-    const balance = await connection.getBalance(publicKey)
-    return balance / 1e9 // Convert lamports to SOL
-  } catch (error) {
-    console.error('Error fetching SOL balance:', error)
-    return 0
-  }
-}
+// Replace this with your BNKZ token mint address
+const BNKZ_TOKEN_MINT = "BNKZ_TOKEN_MINT_ADDRESS"
 
 export async function createUserProfile(walletAddress: string): Promise<UserProfile> {
-  const [nfts, bnkzBalance, solBalance] = await Promise.all([
-    fetchUserNFTs(walletAddress),
-    fetchBNKZBalance(walletAddress),
-    fetchSOLBalance(walletAddress)
-  ])
-  
-  // Calculate total NFT value (estimated)
-  const totalNFTValue = nfts.length * 0.5 // Placeholder calculation
-  
-  // Calculate user rank based on holdings
-  const totalValue = bnkzBalance * 0.0001 + solBalance + totalNFTValue
-  let rank = 'Newcomer'
-  
-  if (totalValue > 100) rank = 'Top 1%'
-  else if (totalValue > 50) rank = 'Top 5%'
-  else if (totalValue > 20) rank = 'Top 10%'
-  else if (totalValue > 5) rank = 'Top 25%'
-  
+  const publicKey = new PublicKey(walletAddress)
+
+  // --- 1. Get SOL balance
+  const solBalanceLamports = await connection.getBalance(publicKey)
+  const solBalance = solBalanceLamports / 1e9
+
+  // --- 2. Get BNKZ token balance
+  let bnkzBalance = 0
+  try {
+    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(publicKey, {
+      programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
+    })
+
+    tokenAccounts.value.forEach((acc) => {
+      const info = acc.account.data.parsed.info
+      if (info.mint === BNKZ_TOKEN_MINT) {
+        bnkzBalance = parseInt(info.tokenAmount.amount) / Math.pow(10, info.tokenAmount.decimals)
+      }
+    })
+  } catch (err) {
+    console.error("BNKZ fetch error:", err)
+  }
+
+  // --- 3. Get NFTs
+  const metaplex = Metaplex.make(connection)
+  const nftsOwned: NFTMetadata[] = []
+
+  try {
+    const nfts = await metaplex.nfts().findAllByOwner({ owner: publicKey })
+    for (const nft of nfts.slice(0, 10)) {
+      if ("uri" in nft) {
+        const metadata = await fetch(nft.uri).then((res) => res.json())
+        nftsOwned.push({
+          name: metadata.name,
+          image: metadata.image,
+          mint: nft.mintAddress.toBase58(),
+        })
+      }
+    }
+  } catch (err) {
+    console.error("NFT fetch error:", err)
+  }
+
+  // --- 4. Calculate NFT value (stub for now)
+  const totalNFTValue = nftsOwned.length * 0.1
+
   return {
     walletAddress,
-    nftsOwned: nfts,
-    bnkzBalance,
     solBalance,
+    bnkzBalance,
+    nftsOwned,
     totalNFTValue,
-    rank,
-    joinDate: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+    rank: 1,
+    joinDate: new Date().toLocaleDateString(),
   }
-}
-
-export function generateUsername(walletAddress: string): string {
-  const shortAddress = `${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}`
-  return `Bonkeez_${shortAddress}`
 }
