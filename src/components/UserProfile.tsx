@@ -90,7 +90,7 @@ const UserProfile: React.FC = () => {
           {/* NFTs */}
           <div>
             <h3 className="text-xl font-semibold text-gray-800 mb-4">NFTs Owned</h3>
-            {profile.nftsOwned && profile.nftsOwned.length > 0 ? (
+            {profile?.nftsOwned && profile.nftsOwned.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {profile.nftsOwned.map((nft, index) => (
                   <div key={index} className="bg-gray-50 rounded-xl shadow p-2 text-center">
