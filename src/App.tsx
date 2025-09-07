@@ -54,7 +54,6 @@ function App() {
               <p className="text-xl text-slate-300">
                 Connect your wallet to view your NFTs, $BNKZ balance, and portfolio stats
               </p>
-              <UserProfile/>
             </div>
           </div>
         </section>
