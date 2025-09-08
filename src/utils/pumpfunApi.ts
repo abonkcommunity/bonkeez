@@ -1,118 +1,65 @@
 export type TokenData = {
   price: string;
   marketCap: string;
-  volume24h: string;
-  holders: string;
   totalSupply: string;
-  change24h: number;
 };
 
 // ✅ Your token contract address (BNKZ)
 export const CA = "Gr1PWUXKBvEWN3d67d3FxvBmawjCtA5HWqfnJxSgDz1F";
 
-// Safe fallback data (mock)
+// Moralis API Key (free tier = limited calls)
+const API_KEY = process.env.REACT_APP_MORALIS_API_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjNjOGFhMjI3LWFhODMtNGYxNy05YTMzLTc1ZjI3ZGYwNGJjYiIsIm9yZ0lkIjoiNDY4NzIyIiwidXNlcklkIjoiNDgyMTk1IiwidHlwZUlkIjoiZWQxYTQxMDQtNmI4ZS00OGRiLWI1MmQtNDc3MWU0YjE4MGIzIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3NTY4MDM0NzUsImV4cCI6NDkxMjU2MzQ3NX0.tWWa9fiulK8pdX0h9Wy1j8vEMVq-F0aCmdAfwQPcIuE";
+const headers = {
+  accept: "application/json",
+  "X-API-Key": API_KEY,
+};
+
+// Local cache (last successful snapshot)
+let lastSnapshot: TokenData = {
+  price: "N/A",
+  marketCap: "N/A",
+  totalSupply: "1,000,000,000",
+};
+
+// 🔹 Fetch Token Snapshot
+export async function getTokenSnapshot(): Promise<TokenData> {
+  try {
+    const priceRes = await fetch(
+      `https://solana-gateway.moralis.io/token/mainnet/${CA}/price`,
+      { headers },
+    );
+    const priceData = await priceRes.json();
+
+    const price = priceData?.usdPrice || 0;
+    const totalSupply = 1_000_000_000; // Pump.fun always fixed
+    const marketCap = price ? price * totalSupply : 0;
+
+    const snapshot: TokenData = {
+      price: price ? `$${Number(price).toFixed(12)}` : "N/A", // more decimals
+      marketCap: marketCap ? `$${marketCap.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : "N/A",
+      totalSupply: totalSupply.toLocaleString(),
+    };
+
+    // Save for fallback
+    lastSnapshot = snapshot;
+    return snapshot;
+  } catch (e) {
+    console.warn("[Moralis] Snapshot failed, using last snapshot:", e);
+    return lastSnapshot;
+  }
+}
+
+// ✅ Safe alias
 export async function getTokenDataSafe(): Promise<TokenData> {
-  return {
-    price: "$0.0000002",
-    marketCap: "$5.8k",
-    volume24h: "0",
-    holders: "7",
-    totalSupply: "1B",
-    change24h: 0,
-  };
+  return await getTokenSnapshot();
 }
 
-// 🔹 PumpPortal WS connection for real-time trade data
-export function startPumpPortalWs(
-  onUpdate: (data: TokenData) => void,
-  { apiKey }: { apiKey?: string } = {}
-) {
-  const url = "wss://pumpportal.fun/api/data";
-  let ws: WebSocket | null = null;
-  let lastPrice: number | null = null;
-  let reconnectAttempts = 0;
-  let reconnectTimeout: NodeJS.Timeout | null = null;
-
-  const connect = () => {
-    ws = new WebSocket(url, apiKey ? [apiKey] : undefined);
-
-    ws.onopen = () => {
-      console.log("[PumpPortal] Connected");
-      reconnectAttempts = 0; // Reset reconnect attempts
-      // Subscribe to token trades for your CA
-      ws.send(
-        JSON.stringify({
-          method: "subscribeTokenTrade",
-          keys: [CA],
-        })
-      );
-    };
-
-    ws.onmessage = (msg) => {
-      try {
-        const data = JSON.parse(msg.data.toString());
-        console.log("[PumpPortal] Raw message:", data); // Debug log
-        if (data.message) {
-          console.log("[PumpPortal message]", data.message);
-          return;
-        }
-        if (data.mint === CA && data.solAmount && data.tokenAmount) {
-          // Calculate price (SOL per token, converted to USD assuming 1 SOL = $130)
-          const solPrice = 130; // Approximate SOL price, adjust as needed
-          const price = (data.solAmount / data.tokenAmount) * solPrice;
-          const priceChange = lastPrice ? ((price - lastPrice) / lastPrice) * 100 : 0;
-          lastPrice = price;
-
-          const tokenData: TokenData = {
-            price: `$${price.toFixed(8)}`,
-            marketCap: "N/A", // PumpPortal doesn't provide market cap
-            volume24h: data.solAmount ? `${(data.solAmount * solPrice).toFixed(2)}` : "N/A",
-            holders: "N/A", // Not provided by PumpPortal
-            totalSupply: "N/A", // Not provided by PumpPortal
-            change24h: Number(priceChange.toFixed(1)),
-          };
-          console.log("[PumpPortal] Trade data processed:", tokenData); // Debug log
-          onUpdate(tokenData);
-        }
-      } catch (e) {
-        console.warn("[PumpPortal parse failed]", e);
-      }
-    };
-
-    ws.onerror = (err) => {
-      console.error("[PumpPortal] Error:", err);
-      onUpdate(getTokenDataSafe());
-    };
-
-    ws.onclose = () => {
-      console.log("[PumpPortal] Disconnected");
-      reconnectAttempts++;
-      console.log(`[PumpPortal] Reconnecting (attempt ${reconnectAttempts})...`);
-      reconnectTimeout = setTimeout(connect, 5000 * Math.min(reconnectAttempts, 10)); // Cap backoff at 50s
-    };
-  };
-
-  connect();
-
-  return {
-    close: () => {
-      if (reconnectTimeout) clearTimeout(reconnectTimeout);
-      if (ws) ws.close();
-    },
-    reconnect: () => {
-      reconnectAttempts = 0;
-      if (ws) ws.close();
-      connect();
-    },
-  };
-}
-
-// Pump.fun URL for BNKZ
+// Pump.fun URL
 export function getPumpfunUrl() {
   return `https://pump.fun/${CA}`;
 }
 
-// Solscan URL for BNKZ
+// Solscan URL
 export function getSolscanUrl() {
   return `https://solscan.io/token/${CA}?cluster=mainnet-beta`;
 }
